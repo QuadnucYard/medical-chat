@@ -4,8 +4,8 @@
       <q-page class="flex flex-center bg-grey-2">
         <q-card class="q-pa-md shadow-2 my_card" bordered>
           <q-card-section class="text-center">
-            <div class="text-grey-9 text-h5 text-weight-bold">登录</div>
-            <div class="text-grey-8">登录以开启medtalk</div>
+            <div class="text-grey-9 text-h5 text-weight-bold">注册</div>
+            <div class="text-grey-8">注册以开启medtalk</div>
           </q-card-section>
           <q-card-section>
             <q-input
@@ -24,6 +24,7 @@
               label="密码"
               :rules="passwordRules"
             ></q-input>
+            <q-input dense outlined v-model="form.mail" label="邮箱" :rules="mailRules"></q-input>
           </q-card-section>
           <q-card-section>
             <q-btn
@@ -31,18 +32,10 @@
               color="dark"
               rounded
               size="md"
-              label="登录"
+              label="注册"
               no-caps
               class="full-width"
             ></q-btn>
-          </q-card-section>
-          <q-card-section class="text-center q-pt-none">
-            <div class="text-grey-8">
-              还没有账号?
-              <a href="#" class="text-dark text-weight-bold" style="text-decoration: none"
-                >点击注册.</a
-              >
-            </div>
           </q-card-section>
         </q-card>
       </q-page>
@@ -58,10 +51,11 @@ import { useUserStore } from "@/store/user";
 const $router = useRouter();
 const userStore = useUserStore();
 
-const form = reactive({ username: "", password: "" });
+const form = reactive({ username: "", password: "", mail: "" });
 
 const usernameRules = [(val: string) => val?.length > 0 || "请输入用户名"];
 const passwordRules = [(val: string) => val?.length > 0 || "请输入密码"];
+const mailRules = [(val: string) => val?.length > 0 || "请输入您的邮箱"];
 
 async function onSubmit() {
   Notify.create({ type: "info", message: "提交登录信息" });

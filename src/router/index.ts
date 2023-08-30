@@ -15,6 +15,18 @@ const routes: Array<RouteRecordRaw> = [
     component: () => import("@/views/login.vue"),
     meta: { keepalive: false },
   },
+  {
+    path: "/auth/register",
+    name: "register",
+    component: () => import("@/views/register.vue"),
+    meta: { keepalive: false },
+  },
+  {
+    path: "/auth/chat",
+    name: "chat",
+    component: () => import("@/views/chat.vue"),
+    meta: { keepalive: false },
+  },
 ];
 
 const router: Router = createRouter({
