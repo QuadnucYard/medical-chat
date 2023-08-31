@@ -22,9 +22,15 @@ const routes: Array<RouteRecordRaw> = [
     meta: { keepalive: false },
   },
   {
-    path: "/auth/chat",
+    path: "/chat",
     name: "chat",
     component: () => import("@/views/chat.vue"),
+    meta: { keepalive: false },
+  },
+  {
+    path: "/user/info",
+    name: "info",
+    component: () => import("@/views/info.vue"),
     meta: { keepalive: false },
   },
 ];

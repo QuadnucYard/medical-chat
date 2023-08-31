@@ -45,16 +45,10 @@
 
         <div class="chat-container" style="flex: 1; overflow-y: auto">
           <div class="chat-messages">
-            <q-chat-message
-              v-for="(message, index) in chatMessages"
-              :key="index"
-              :label="message.label"
-              :name="message.name"
-              :avatar="message.avatar"
-              :text="message.text"
-              :sent="message.sent"
-              :stamp="message.stamp"
-            />
+            <div v-for="(message, index) in selectedSession.messages" :key="index">
+              <p>{{ message.text }}</p>
+              <p class="message-time">{{ message.time }}</p>
+            </div>
           </div>
 
           <div class="input-field" style="margin-top: 10px">
