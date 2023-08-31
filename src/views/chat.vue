@@ -38,94 +38,31 @@
         </q-list>
       </div>
 
-      <div class="q-pa-md" v-if="selectedSession" style="margin-top: 60px; flex: 2">
-        <h1 class="text-h4">{{ selectedSession.title }}</h1>
-        <p>创建时间: {{ selectedSession.createTime }}</p>
-        <p>更新时间: {{ selectedSession.updateTime }}</p>
-
-        <div class="chat-container" style="flex: 1; overflow-y: auto">
-          <div class="chat-messages">
-            <div v-for="(message, index) in selectedSession.messages" :key="index">
-              <p>{{ message.text }}</p>
-              <p class="message-time">{{ message.time }}</p>
-            </div>
-          </div>
-
-          <div class="input-field" style="margin-top: 10px">
-            <q-input
-              v-model="newMessage"
-              rounded
-              filled
-              dense
-              placeholder="在此输入消息..."
-              @keyup.enter="sendMessage"
-            />
-          </div>
-        </div>
-      </div>
+      <chat-area
+        class="q-pa-md"
+        v-if="selectedSession"
+        style="margin-top: 60px; flex: 2"
+        :sessionId="selectedSession"
+      />
     </div>
   </div>
 </template>
 
-<script>
-export default {
-  data() {
-    return {
-      sessions: [
-        {
-          id: 1,
-          title: "会话1",
-          subject: "关于主题1的讨论",
-          createTime: "2023-08-01",
-          updateTime: "2023-08-15",
-          unread: true,
-          messages: [
-            { text: "你好！", time: "08:00 AM" },
-            { text: "有什么问题需要帮助吗？", time: "08:05 AM" },
-          ],
-        },
-        {
-          id: 2,
-          title: "会话2",
-          subject: "关于主题2的讨论",
-          createTime: "2023-08-05",
-          updateTime: "2023-08-20",
-          unread: false,
-          messages: [
-            { text: "Hi there!", time: "09:00 AM" },
-            { text: "How can I assist you today?", time: "09:05 AM" },
-          ],
-        },
-        {
-          id: 3,
-          title: "会话3",
-          subject: "关于主题3的讨论",
-          createTime: "2023-08-10",
-          updateTime: "2023-08-25",
-          unread: true,
-          messages: [],
-        },
-      ],
-      selectedSession: null,
-      newMessage: "",
-    };
-  },
-  methods: {
-    selectSession(sessionId) {
-      this.selectedSession = this.sessions.find((session) => session.id === sessionId);
-    },
-    sendMessage() {
-      if (this.newMessage.trim() !== "") {
-        const newMessage = {
-          text: this.newMessage.trim(),
-          time: new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }),
-        };
-        this.selectedSession.messages.push(newMessage);
-        this.newMessage = "";
-      }
-    },
-  },
-};
+<script setup lang="ts">
+import { ChatSession, getSessions } from "@/api/chat";
+import ChatArea from "@/views/components/ChatArea.vue";
+
+const sessions = ref<ChatSession[]>([]);
+
+const selectedSession = ref<int | undefined>(undefined);
+
+onMounted(async () => {
+  sessions.value = await getSessions();
+});
+
+function selectSession(sessionId: int) {
+  selectedSession.value = sessionId;
+}
 </script>
 
 <style scoped>
