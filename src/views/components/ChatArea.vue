@@ -7,8 +7,14 @@
     <div class="chat-container" style="flex: 1; overflow-y: auto">
       <div class="chat-messages">
         <div v-for="(message, index) in session.messages" :key="index">
-          <p>{{ message.text }}</p>
-          <p class="message-time">{{ message.time }}</p>
+          <!-- <p>{{ message.text }}</p>
+          <p class="message-time">{{ message.time }}</p> -->
+          <q-chat-message
+            name="Jane"
+            avatar="https://cdn.quasar.dev/img/avatar3.jpg"
+            :text="[message.text]"
+            :stamp="message.time"
+          />
         </div>
       </div>
 

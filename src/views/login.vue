@@ -27,6 +27,7 @@
           </q-card-section>
           <q-card-section>
             <q-btn
+              @click="onSubmit"
               style="border-radius: 8px"
               color="dark"
               rounded
@@ -39,8 +40,11 @@
           <q-card-section class="text-center q-pt-none">
             <div class="text-grey-8">
               还没有账号?
-              <a href="#" class="text-dark text-weight-bold" style="text-decoration: none"
-                >点击注册.</a
+              <router-link
+                to="/auth/register"
+                class="text-dark text-weight-bold"
+                style="text-decoration: none"
+                >点击注册.</router-link
               >
             </div>
           </q-card-section>
@@ -64,26 +68,27 @@ const usernameRules = [(val: string) => val?.length > 0 || "请输入用户名"]
 const passwordRules = [(val: string) => val?.length > 0 || "请输入密码"];
 
 async function onSubmit() {
-  Notify.create({ type: "info", message: "提交登录信息" });
-  const { access_token, token_type } = await visit(form.username);
-  const token = `${token_type} ${access_token}`;
-  userStore.login({ token });
+  const userStore = useUserStore();
+  try {
+    Notify.create({ type: "info", message: "提交登录信息" });
+    const response = await login(form.username, form.password);
+    console.log("登录成功", response);
 
-  const userData = await login(form.username, form.password);
-  if (!userData) {
-    Notify.create({ type: "negative", message: "认证失败" });
-    return;
+    const userData = response.data;
+    userStore.login(response);
+
+    Notify.create({
+      // color: "green-4",
+      // textColor: "white",
+      // icon: "cloud_done",
+      type: "positive",
+      message: `登录成功！欢迎 ${userData.username[0] + "*".repeat(userData.username.length - 1)}`,
+    });
+
+    $router.push({ name: "chat" });
+  } catch (error) {
+    console.log("登录失败", error);
   }
-
-  userStore.login({ token, data: userData });
-  Notify.create({
-    // color: "green-4",
-    // textColor: "white",
-    // icon: "cloud_done",
-    type: "positive",
-    message: `登录成功！欢迎 ${userData.userName[0] + "*".repeat(userData.userName.length - 1)}`,
-  });
-  $router.push({ name: "display" });
 }
 </script>
 

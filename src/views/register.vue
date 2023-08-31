@@ -28,6 +28,7 @@
           </q-card-section>
           <q-card-section>
             <q-btn
+              @click="onSubmit"
               style="border-radius: 8px"
               color="dark"
               rounded
@@ -44,7 +45,7 @@
 </template>
 
 <script setup lang="ts">
-import { login, visit } from "@/api/login";
+import { register } from "@/api/register";
 import { Notify } from "quasar";
 import { useUserStore } from "@/store/user";
 
@@ -58,26 +59,27 @@ const passwordRules = [(val: string) => val?.length > 0 || "请输入密码"];
 const mailRules = [(val: string) => val?.length > 0 || "请输入您的邮箱"];
 
 async function onSubmit() {
-  Notify.create({ type: "info", message: "提交登录信息" });
-  const { access_token, token_type } = await visit(form.username);
-  const token = `${token_type} ${access_token}`;
-  userStore.login({ token });
+  const userStore = useUserStore();
+  try {
+    Notify.create({ type: "info", message: "提交注册信息" });
+    const response = await register(form.username, form.password, form.mail);
+    console.log("注册成功", response);
 
-  const userData = await login(form.username, form.password);
-  if (!userData) {
-    Notify.create({ type: "negative", message: "认证失败" });
-    return;
+    const userData = response.data;
+    userStore.login(response);
+
+    Notify.create({
+      // color: "green-4",
+      // textColor: "white",
+      // icon: "cloud_done",
+      type: "positive",
+      message: `登录成功！欢迎 ${userData.username[0] + "*".repeat(userData.username.length - 1)}`,
+    });
+
+    $router.push({ name: "chat" });
+  } catch (error) {
+    console.log("注册失败", error);
   }
-
-  userStore.login({ token, data: userData });
-  Notify.create({
-    // color: "green-4",
-    // textColor: "white",
-    // icon: "cloud_done",
-    type: "positive",
-    message: `登录成功！欢迎 ${userData.userName[0] + "*".repeat(userData.userName.length - 1)}`,
-  });
-  $router.push({ name: "display" });
 }
 </script>
 
