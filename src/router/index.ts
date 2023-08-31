@@ -6,7 +6,7 @@ const routes: Array<RouteRecordRaw> = [
   {
     path: "/",
     name: "index",
-    component: () => import("@/views/index.vue"),
+    component: () => import("@/views/chat.vue"),
     meta: { keepalive: false },
   },
   {
