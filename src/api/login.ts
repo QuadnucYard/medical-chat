@@ -1,26 +1,36 @@
-import axios from "./request";
+import api from "./request";
 
-export async function visit(
-  username: string
-): Promise<{ access_token: string; token_type: string; encrypt_salt: string }> {
-  return (await axios.postForm("/auth/visit", { username })).data;
+export interface AccessToken {
+  access_token: string;
+  token_type: string;
 }
 
-export async function login(username: string, password: string): Promise<any> {
-  await new Promise(resolve => setTimeout(resolve,1000));
-
-  const response = {
-      status:"success",
-      message:"登录成功",
-      data:{username}
-  }
-  return response
+export interface User {
+  id: int;
+  username: string;
+  email: string;
+  phone: string;
+  name: string;
+  avatar_url: string;
+  create_time: any;
+  login_time: any;
+  update_time: any;
+  is_superuser: boolean;
+  valid: boolean;
 }
 
-export async function getUser(): Promise<any> {
-  return (await axios.get("/user/me")).data;
+export async function register(username: string, password: string): Promise<any> {
+  return (await api.postForm("/auth/register", { username, password })).data;
+}
+
+export async function login(username: string, password: string): Promise<AccessToken> {
+  return (await api.postForm("/auth/login", { username, password })).data;
+}
+
+export async function getUser(): Promise<User> {
+  return (await api.get("/users/me")).data;
 }
 
 export async function logout(): Promise<void> {
-  await axios.post("/auth/logout");
+  await api.post("/auth/logout");
 }

@@ -45,7 +45,7 @@
 </template>
 
 <script setup lang="ts">
-import { register } from "@/api/register";
+import { register } from "@/api/login";
 import { Notify } from "quasar";
 import { useUserStore } from "@/store/user";
 

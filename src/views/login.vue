@@ -8,34 +8,34 @@
             <div class="text-grey-8">登录以开启medtalk</div>
           </q-card-section>
           <q-card-section>
-            <q-input
-              dense
-              outlined
-              v-model="form.username"
-              label="用户名"
-              :rules="usernameRules"
-            ></q-input>
-            <q-input
-              dense
-              outlined
-              class="q-mt-md"
-              v-model="form.password"
-              type="password"
-              label="密码"
-              :rules="passwordRules"
-            ></q-input>
-          </q-card-section>
-          <q-card-section>
-            <q-btn
-              @click="onSubmit"
-              style="border-radius: 8px"
-              color="dark"
-              rounded
-              size="md"
-              label="登录"
-              no-caps
-              class="full-width"
-            ></q-btn>
+            <q-form @submit="onSubmit">
+              <q-input
+                dense
+                outlined
+                v-model="form.username"
+                label="用户名"
+                :rules="usernameRules"
+              />
+              <q-input
+                dense
+                outlined
+                class="q-mt-md"
+                v-model="form.password"
+                type="password"
+                label="密码"
+                :rules="passwordRules"
+              />
+              <q-btn
+                type="submit"
+                style="border-radius: 8px"
+                color="dark"
+                rounded
+                size="md"
+                label="登录"
+                no-caps
+                class="full-width"
+              />
+            </q-form>
           </q-card-section>
           <q-card-section class="text-center q-pt-none">
             <div class="text-grey-8">
@@ -44,8 +44,9 @@
                 to="/auth/register"
                 class="text-dark text-weight-bold"
                 style="text-decoration: none"
-                >点击注册.</router-link
               >
+                点击注册.
+              </router-link>
             </div>
           </q-card-section>
         </q-card>
@@ -55,12 +56,11 @@
 </template>
 
 <script setup lang="ts">
-import { login, visit } from "@/api/login";
+import { getUser, login } from "@/api/login";
 import { Notify } from "quasar";
 import { useUserStore } from "@/store/user";
 
 const $router = useRouter();
-const userStore = useUserStore();
 
 const form = reactive({ username: "", password: "" });
 
@@ -68,21 +68,25 @@ const usernameRules = [(val: string) => val?.length > 0 || "请输入用户名"]
 const passwordRules = [(val: string) => val?.length > 0 || "请输入密码"];
 
 async function onSubmit() {
+  console.log(arguments);
   const userStore = useUserStore();
   try {
     Notify.create({ type: "info", message: "提交登录信息" });
-    const response = await login(form.username, form.password);
-    console.log("登录成功", response);
-
-    const userData = response.data;
-    userStore.login(response);
-
+    // 获取token
+    const { access_token, token_type } = await login(form.username, form.password);
+    console.log("登录成功", access_token, token_type);
+    const token = `${token_type} ${access_token}`;
+    userStore.login({ token }); // 存token
+    // 获取用户
+    const user = await getUser();
+    console.log("获取用户", user);
+    userStore.login({ token, data: user });
     Notify.create({
       // color: "green-4",
       // textColor: "white",
       // icon: "cloud_done",
       type: "positive",
-      message: `登录成功！欢迎 ${userData.username[0] + "*".repeat(userData.username.length - 1)}`,
+      message: `登录成功！`,
     });
 
     $router.push({ name: "chat" });
