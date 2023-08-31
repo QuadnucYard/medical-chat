@@ -44,6 +44,11 @@
         style="margin-top: 60px; flex: 2"
         :sessionId="selectedSession"
       />
+      <div class="q-pa-md q-gutter-sm">
+        <q-btn color="black" label="登录" router-link to="/auth/login" />
+        <q-btn color="black" label="登出" />
+        <q-btn color="black" label="个人信息" router-link to="/user/info" />
+      </div>
     </div>
   </div>
 </template>
