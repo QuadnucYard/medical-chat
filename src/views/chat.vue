@@ -45,9 +45,39 @@
         :sessionId="selectedSession"
       />
       <div class="q-pa-md q-gutter-sm">
-        <q-btn color="black" label="登录" router-link to="/auth/login" />
-        <q-btn color="black" label="登出" />
+        <q-btn color="black" label="登出" router-link to="/auth/login" />
         <q-btn color="black" label="个人信息" router-link to="/user/info" />
+        <!-- <q-card>
+          <q-card-section>
+            <h4 class="text-h6">热门话题</h4>
+          </q-card-section>
+
+          <q-separator />
+
+          <q-card-section>
+            <q-list bordered>
+              <q-item
+                v-for="(topic, index) in hotTopics"
+                :key="index"
+                clickable
+                v-ripple
+                @click="selectTopic(topic.id)"
+                class="cursor-pointer"
+              >
+                <q-item-section>
+                  <q-item-label lines="1">
+                    <span class="text-weight-medium">{{ topic.title }}</span>
+                  </q-item-label>
+                  <q-item-label caption lines="1">{{ topic.description }}</q-item-label>
+                </q-item-section>
+
+                <q-item-section side v-if="topic.count">
+                  <q-badge color="primary" floating>{{ topic.count }}</q-badge>
+                </q-item-section>
+              </q-item>
+            </q-list>
+          </q-card-section>
+        </q-card> -->
       </div>
     </div>
   </div>
@@ -60,14 +90,20 @@ import ChatArea from "@/views/components/ChatArea.vue";
 const sessions = ref<ChatSession[]>([]);
 
 const selectedSession = ref<int | undefined>(undefined);
+// const selectedTopic = ref<int | undefined>(undefined);
 
 onMounted(async () => {
   sessions.value = await getSessions();
+  // hotTopics.value = await getTopics();
 });
 
 function selectSession(sessionId: int) {
   selectedSession.value = sessionId;
 }
+
+// function selectTopic(topicId: int) {
+//   selectedTopic.value = topicId;
+// }
 </script>
 
 <style scoped>
@@ -79,6 +115,10 @@ function selectSession(sessionId: int) {
   outline: none;
   padding: 5px;
   box-shadow: 0 1px 0 0 #fff;
+}
+.q-item-selected {
+  background-color: #f0f0f0; /* 修改选中项的背景颜色 */
+  font-weight: bold; /* 修改选中项的字体加粗 */
 }
 
 /* 其他样式规则 */

@@ -56,7 +56,8 @@
 </template>
 
 <script setup lang="ts">
-import { getUser, login } from "@/api/login";
+import { login } from "@/api/login";
+import { getUser } from "@/api/user";
 import { Notify } from "quasar";
 import { useUserStore } from "@/store/user";
 

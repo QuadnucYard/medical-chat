@@ -27,10 +27,8 @@ export async function login(username: string, password: string): Promise<AccessT
   return (await api.postForm("/auth/login", { username, password })).data;
 }
 
-export async function getUser(): Promise<User> {
-  return (await api.get("/users/me")).data;
-}
 
 export async function logout(): Promise<void> {
   await api.post("/auth/logout");
 }
+
