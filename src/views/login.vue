@@ -58,7 +58,7 @@
 <script setup lang="ts">
 import { login } from "@/api/login";
 import { getUser } from "@/api/user";
-import { Notify } from "quasar";
+import Message from "@/utils/message";
 import { useUserStore } from "@/store/user";
 
 const $router = useRouter();
@@ -72,7 +72,7 @@ async function onSubmit() {
   console.log(arguments);
   const userStore = useUserStore();
   try {
-    Notify.create({ type: "info", message: "提交登录信息" });
+    Message.info("提交登录信息");
     // 获取token
     const { access_token, token_type } = await login(form.username, form.password);
     console.log("登录成功", access_token, token_type);
@@ -82,14 +82,7 @@ async function onSubmit() {
     const user = await getUser();
     console.log("获取用户", user);
     userStore.login({ token, data: user });
-    Notify.create({
-      // color: "green-4",
-      // textColor: "white",
-      // icon: "cloud_done",
-      type: "positive",
-      message: `登录成功！`,
-    });
-
+    Message.success(`登录成功！`)
     $router.push({ name: "chat" });
   } catch (error) {
     console.log("登录失败", error);
