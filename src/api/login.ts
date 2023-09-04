@@ -5,20 +5,6 @@ export interface AccessToken {
   token_type: string;
 }
 
-export interface User {
-  id: int;
-  username: string;
-  email: string;
-  phone: string;
-  name: string;
-  avatar_url: string;
-  create_time: any;
-  login_time: any;
-  update_time: any;
-  is_superuser: boolean;
-  valid: boolean;
-}
-
 export async function register(username: string, password: string): Promise<any> {
   return (await api.postForm("/auth/register", { username, password })).data;
 }
