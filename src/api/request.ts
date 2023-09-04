@@ -54,12 +54,10 @@ service.interceptors.response.use(
       return Promise.reject(error);
     }
     if (code === 401) {
-      // const $store = useStore();
-      /* $store.dispatch("logout").then(() => {
-          // 用户登录界面提示
-          // Cookies.set("point", 401);
-          location.reload();
-        }); */
+      console.log("401 Unauthorized");
+      const userStore = useUserStore();
+      userStore.logout();
+      // location.reload();
       Notify.create({ type: "negative", message: error });
     } else if (code === 403) {
       /* const $router = useRouter();

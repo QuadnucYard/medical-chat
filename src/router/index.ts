@@ -1,5 +1,5 @@
 import { createRouter, createWebHistory, RouteRecordRaw, Router } from "vue-router";
-import axios from "@/api/request";
+import { auth } from "@/api/login";
 import { useUserStore } from "@/store/user";
 
 const routes: Array<RouteRecordRaw> = [
@@ -31,7 +31,7 @@ const routes: Array<RouteRecordRaw> = [
     path: "/user/info",
     name: "info",
     component: () => import("@/views/info.vue"),
-    meta: { keepalive: false },
+    meta: { keepalive: false, requireAuth: true },
   },
   {
     path: "/landing",
@@ -46,19 +46,17 @@ const router: Router = createRouter({
   routes,
 });
 
-router.beforeEach((to, from, next) => {
+router.beforeEach(async (to, from, next) => {
   console.log("beforeEach", to.meta.requireAuth);
   if (to.meta.requireAuth) {
     const userStore = useUserStore();
     if (userStore.user) {
-      axios
-        .get("/auth")
-        .then(resp => {
-          if (resp) next();
-        })
-        .catch(err => {
-          next({ name: "login", query: { redirect: to.fullPath } });
-        });
+      try {
+        await auth();
+        next();
+      } catch (err) {
+        next({ name: "login", query: { redirect: to.fullPath } });
+      }
     } else {
       next({ name: "login", query: { redirect: to.fullPath } });
     }
