@@ -82,7 +82,6 @@
 </template>
 
 <script setup lang="ts">
-import DeleteIcon from "@mui/icons-material/Delete";
 import { ChatSession, deleteSessions, getSessions, addSessions } from "@/api/chat";
 import ChatArea from "@/views/components/ChatArea.vue";
 

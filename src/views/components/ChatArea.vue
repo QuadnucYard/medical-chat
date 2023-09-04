@@ -44,7 +44,6 @@ import {
   getSessions,
   addSessions,
 } from "@/api/chat";
-import { ThumbDown } from "@mui/icons-material";
 const props = defineProps<{ sessionId: int }>();
 
 const session = ref<ChatSession | undefined>(undefined);
