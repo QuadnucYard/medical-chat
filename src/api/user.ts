@@ -20,5 +20,5 @@ export interface User {
   }
 
   export async function updateUser(user_id: int, user_data: any) {
-    return (await api.put(`/api/user/${user_id}`, user_data)).data
+    return (await api.put(`/users/${user_id}`, user_data)).data
   }

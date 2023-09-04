@@ -10,40 +10,38 @@
           />
           <!-- 使用 logo 文件夹中的 logo.svg 文件 -->
         </div>
-
-        <q-list bordered>
-          <q-item
-            v-for="(session, index) in sessions"
-            :key="index"
-            :class="{ 'q-item-selected': selectedSession === session.id }"
-            clickable
-            v-ripple
-            @click="selectSession(session.id)"
-          >
-            <q-item-section avatar>
-              <q-avatar
-                :color="session.unread ? 'primary' : 'grey-4'"
-                text-color="white"
-                :rounded="true"
+        <div class="main-content">
+          <div class="sidebar">
+            <q-list bordered>
+              <q-item
+                v-for="(session, index) in sessions"
+                :key="index"
+                :class="{ 'q-item-selected': selectedSession === session.id }"
+                clickable
+                v-ripple
+                @click="selectSession(session.id)"
               >
-                <q-icon name="account_circle" />
-              </q-avatar>
-            </q-item-section>
+                <q-item-section avatar>
+                  <q-avatar
+                    :color="session.unread ? 'primary' : 'grey-4'"
+                    text-color="white"
+                    :rounded="true"
+                    class="small-avatar"
+                  >
+                    <q-icon name="account_circle" />
+                  </q-avatar>
+                </q-item-section>
 
-            <q-item-section>
-              <q-item-label>{{ session.title }}</q-item-label>
-              <q-item-label caption>{{ session.subject }}</q-item-label>
-            </q-item-section>
-          </q-item>
-        </q-list>
+                <q-item-section class="grid-container">
+                  <q-item-label>{{ session.title }}</q-item-label>
+                  <q-item-label caption>{{ session.subject }}</q-item-label>
+                </q-item-section>
+              </q-item>
+            </q-list>
+            <q-btn push color="black" text-color="white" label="添加对话" @click="add()" />
+          </div>
+        </div>
       </div>
-
-      <chat-area
-        class="q-pa-md"
-        v-if="selectedSession"
-        style="margin-top: 60px; flex: 2"
-        :sessionId="selectedSession"
-      />
       <div class="q-pa-md q-gutter-sm">
         <q-btn color="black" label="登出" router-link to="/auth/login" />
         <q-btn color="black" label="个人信息" router-link to="/user/info" />
@@ -84,7 +82,8 @@
 </template>
 
 <script setup lang="ts">
-import { ChatSession, getSessions } from "@/api/chat";
+import DeleteIcon from "@mui/icons-material/Delete";
+import { ChatSession, deleteSessions, getSessions, addSessions } from "@/api/chat";
 import ChatArea from "@/views/components/ChatArea.vue";
 
 const sessions = ref<ChatSession[]>([]);
@@ -101,9 +100,14 @@ function selectSession(sessionId: int) {
   selectedSession.value = sessionId;
 }
 
-// function selectTopic(topicId: int) {
-//   selectedTopic.value = topicId;
-// }
+async function add() {
+  try {
+    const response = await addSessions("123");
+    sessions.value = await getSessions();
+  } catch (error) {
+    console.log("添加失败", error);
+  }
+}
 </script>
 
 <style scoped>
@@ -120,6 +124,24 @@ function selectSession(sessionId: int) {
   background-color: #f0f0f0; /* 修改选中项的背景颜色 */
   font-weight: bold; /* 修改选中项的字体加粗 */
 }
-
+.chat-area {
+  display: flex;
+  flex-direction: column;
+  height: 100vh; /* 设置容器高度为视口高度，以撑满整个屏幕 */
+  overflow: auto; /* 当聊天内容过多时，启用滚动条 */
+}
+.main-content {
+  display: flex; /* 使用 Flexbox 布局 */
+}
+.sidebar {
+  width: 40%; /* 设置容器宽度为屏幕的 1/4 */
+}
+.chat-area-container {
+  flex-grow: 1; /* 占据剩余空间 */
+  width: 60%; /* 设置容器宽度为屏幕的 3/4 */
+  height: 100vh;
+  padding: 16px; /* 添加内边距，可根据需要调整 */
+  box-sizing: border-box; /* 确保内边距不会影响容器的宽度 */
+}
 /* 其他样式规则 */
 </style>

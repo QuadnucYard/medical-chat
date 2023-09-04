@@ -33,6 +33,12 @@ const routes: Array<RouteRecordRaw> = [
     component: () => import("@/views/info.vue"),
     meta: { keepalive: false },
   },
+  {
+    path: "/landing",
+    name: "landing",
+    component: () => import("@/views/landing.vue"),
+    meta: { keepalive: false },
+  },
 ];
 
 const router: Router = createRouter({

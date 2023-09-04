@@ -20,6 +20,7 @@
     "vue-router": "^4.2.4"
   },
   "devDependencies": {
+    "@mui/icons-material": "^5.14.7",
     "@quasar/vite-plugin": "^1.4.1",
     "@types/js-cookie": "^3.0.3",
     "@types/lodash-es": "^4.17.8",
