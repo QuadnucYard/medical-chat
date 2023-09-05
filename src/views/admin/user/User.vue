@@ -40,22 +40,41 @@
 </template>
 
 <script setup lang="ts">
+import { ChatSession } from "@/api/chat";
 import { User, getUsers } from "@/api/user";
 import { TablePagination } from "@/typing/quasar";
 import { addSSP, makeRequester } from "@/utils/paginating";
-import { QTable } from "quasar";
+import { QTable, date } from "quasar";
 
 const columns = [
-  { name: "id", label: "ID", field: "id", sortable: true },
-  { name: "username", label: "用户名", field: "username", sortable: true },
-  { name: "email", label: "邮箱", field: "email", sortable: true },
-  { name: "phone", label: "电话", field: "phone", sortable: true },
-  { name: "name", label: "姓名", field: "name", sortable: true },
-  { name: "create_time", label: "注册时间", field: "create_time", sortable: true },
-  { name: "login_time", label: "登录时间", field: "login_time", sortable: true },
-  { name: "update_time", label: "更新时间", field: "update_time", sortable: true },
-  { name: "is_superuser", label: "是否为超级用户", field: "is_superuser", sortable: true },
-  { name: "valid", label: "有效", field: "valid", sortable: true },
+  { name: "id", label: "ID", field: "id" },
+  { name: "username", label: "用户名", field: "username" },
+  { name: "email", label: "邮箱", field: "email" },
+  { name: "phone", label: "电话", field: "phone" },
+  { name: "name", label: "姓名", field: "name" },
+  {
+    name: "create_time",
+    label: "注册时间",
+    field: (row: ChatSession) => {
+      return date.formatDate(new Date(row.create_time), "YYYY-MM-DD HH:mm:ss");
+    },
+  },
+  {
+    name: "update_time",
+    label: "更新时间",
+    field: (row: ChatSession) => {
+      return date.formatDate(new Date(row.update_time), "YYYY-MM-DD HH:mm:ss");
+    },
+  },
+  {
+    name: "delete_time",
+    label: "删除时间",
+    field: (row: ChatSession) => {
+      return date.formatDate(new Date(row.delete_time), "YYYY-MM-DD HH:mm:ss");
+    },
+  },
+  { name: "is_superuser", label: "是否为超级用户", field: "is_superuser" },
+  { name: "valid", label: "有效", field: "valid" },
 ];
 
 const rows = ref<User[]>([]);

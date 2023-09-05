@@ -39,13 +39,21 @@
 <script setup lang="ts">
 import { ChatSession, ChatMessage, getAllSessions } from "@/api/chat";
 
+import { date } from 'quasar'
+
 const columns = [
   { name: "id", label: "ID", field: "id" },
   { name: "user", label: "用户", field: (row: ChatSession)=> row.user.username},
   { name: "title", label: "标题", field: "title" },
-  { name: "create_time", label: "注册时间", field: "create_time" },
-  { name: "update_time", label: "更新时间", field: "update_time" },
-  { name: "delete_time", label: "删除时间", field: "delete_time" },
+  { name: "create_time", label: "注册时间", field: (row: ChatSession)=> {
+    return date.formatDate(new Date(row.create_time), 'YYYY-MM-DD HH:mm:ss')
+  }},
+  { name: "update_time", label: "更新时间", field: (row: ChatSession)=> {
+    return date.formatDate(new Date(row.update_time), 'YYYY-MM-DD HH:mm:ss')
+  }},
+  { name: "delete_time", label: "删除时间", field: (row: ChatSession)=> {
+    return date.formatDate(new Date(row.delete_time), 'YYYY-MM-DD HH:mm:ss')
+  }}
 ];
 
 const rows = ref<ChatSession[]>([]);
