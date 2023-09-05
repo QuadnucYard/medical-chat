@@ -51,7 +51,7 @@
         :sessionId="selectedSession"
       />
       <div class="q-pa-md q-gutter-sm">
-        <q-btn color="black" label="登出" @click="onLogout" />
+        <q-btn color="black" label="登出" @click="onLogout()" />
         <q-btn color="black" label="个人信息" router-link to="/user/info" />
         <!-- <q-card>
           <q-card-section>
@@ -154,6 +154,8 @@ async function showDeleteConfirmation() {
       .onCancel(() => resolve(false))
       .onDismiss(() => reject(new Error("Confirmation dialog dismissed.")));
   });
+}
+
 async function onLogout() {
   console.log("logout");
   await logout();
