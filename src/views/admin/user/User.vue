@@ -40,11 +40,11 @@
 </template>
 
 <script setup lang="ts">
-import { ChatSession } from "@/api/chat";
 import { User, getUsers } from "@/api/user";
 import { TablePagination } from "@/typing/quasar";
+import { dateFormatter } from "@/utils/date-utils";
 import { addSSP, makeRequester } from "@/utils/paginating";
-import { QTable, date } from "quasar";
+import { QTable } from "quasar";
 
 const columns = [
   { name: "id", label: "ID", field: "id" },
@@ -52,27 +52,9 @@ const columns = [
   { name: "email", label: "邮箱", field: "email" },
   { name: "phone", label: "电话", field: "phone" },
   { name: "name", label: "姓名", field: "name" },
-  {
-    name: "create_time",
-    label: "注册时间",
-    field: (row: ChatSession) => {
-      return date.formatDate(new Date(row.create_time), "YYYY-MM-DD HH:mm:ss");
-    },
-  },
-  {
-    name: "update_time",
-    label: "更新时间",
-    field: (row: ChatSession) => {
-      return date.formatDate(new Date(row.update_time), "YYYY-MM-DD HH:mm:ss");
-    },
-  },
-  {
-    name: "delete_time",
-    label: "删除时间",
-    field: (row: ChatSession) => {
-      return date.formatDate(new Date(row.delete_time), "YYYY-MM-DD HH:mm:ss");
-    },
-  },
+  { name: "create_time", label: "注册时间", field: dateFormatter("create_time") },
+  { name: "update_time", label: "更新时间", field: dateFormatter("update_time") },
+  { name: "delete_time", label: "删除时间", field: dateFormatter("delete_time") },
   { name: "is_superuser", label: "是否为超级用户", field: "is_superuser" },
   { name: "valid", label: "有效", field: "valid" },
 ];
