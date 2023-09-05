@@ -32,9 +32,11 @@
                   </q-avatar>
                 </q-item-section>
 
-                <q-item-section class="grid-container">
+                <q-item-section>
                   <q-item-label>{{ session.title }}</q-item-label>
-                  <q-item-label caption>{{ session.subject }}</q-item-label>
+                </q-item-section>
+                <q-item-section side>
+                  <q-icon name="delete" class="q-ml-xs" @click="deleteIt(session.id)" />
                 </q-item-section>
               </q-item>
             </q-list>
@@ -42,6 +44,12 @@
           </div>
         </div>
       </div>
+      <chat-area
+        class="q-pa-md"
+        v-if="selectedSession"
+        style="margin-top: 60px; flex: 2"
+        :sessionId="selectedSession"
+      />
       <div class="q-pa-md q-gutter-sm">
         <q-btn color="black" label="登出" router-link to="/auth/login" />
         <q-btn color="black" label="个人信息" router-link to="/user/info" />
@@ -82,9 +90,10 @@
 </template>
 
 <script setup lang="ts">
-import DeleteIcon from "@mui/icons-material/Delete";
+import { ref } from "vue";
 import { ChatSession, deleteSessions, getSessions, addSessions } from "@/api/chat";
 import ChatArea from "@/views/components/ChatArea.vue";
+import { Dialog } from "quasar";
 
 const sessions = ref<ChatSession[]>([]);
 
@@ -107,6 +116,39 @@ async function add() {
   } catch (error) {
     console.log("添加失败", error);
   }
+}
+
+async function deleteIt(chatId: int) {
+  try {
+    const shouldDelete = await showDeleteConfirmation();
+    if (shouldDelete) {
+      const response = await deleteSessions(chatId);
+      sessions.value = await getSessions();
+    }
+  } catch (error) {
+    console.error("Error deleting sessions:", error);
+    throw error;
+  }
+}
+
+async function showDeleteConfirmation() {
+  return new Promise((resolve, reject) => {
+    Dialog.create({
+      title: "确认删除",
+      message: "确定要删除该会话吗？",
+      ok: {
+        label: "确认",
+        color: "negative",
+      },
+      cancel: {
+        label: "取消",
+        color: "grey-8",
+      },
+    })
+      .onOk(() => resolve(true))
+      .onCancel(() => resolve(false))
+      .onDismiss(() => reject(new Error("Confirmation dialog dismissed.")));
+  });
 }
 </script>
 

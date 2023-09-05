@@ -1,16 +1,14 @@
 <template>
   <div v-if="session">
     <h1 class="text-h4">{{ session.title }}</h1>
-    <p>创建时间: {{ session.createTime }}</p>
-    <p>更新时间: {{ session.updateTime }}</p>
-
+    <p>创建时间: {{ session.create_time }}</p>
+    <p>更新时间: {{ session.update_time }}</p>
     <div class="chat-messages">
       <div v-for="(message, index) in session.messages" :key="index">
         <q-chat-message
           name="Jane"
           avatar="https://cdn.quasar.dev/img/avatar3.jpg"
-          :text="[message.text]"
-          :stamp="message.time"
+          :stamp="message.send_time"
           class="message-container"
         >
           <div class="icon-wrapper">
@@ -18,13 +16,14 @@
             <q-icon name="thumb_down" class="icon thumb-down" />
             <q-icon name="textsms" class="icon textsms" />
           </div>
+          <div>{{ message.content }}</div>
         </q-chat-message>
       </div>
     </div>
 
     <div class="input-field" style="margin-top: 10px">
       <q-input
-        v-model="message"
+        v-model="message.question"
         rounded
         filled
         dense
@@ -42,14 +41,18 @@ import {
   ChatSession,
   deleteSessions,
   getSessions,
-  addSessions,
+  addQuestion,
 } from "@/api/chat";
-import { ThumbDown } from "@mui/icons-material";
+import { reactive } from "vue";
+
 const props = defineProps<{ sessionId: int }>();
 
 const session = ref<ChatSession | undefined>(undefined);
 
-const message = ref("");
+const message = reactive({
+  question: "",
+  hint: "",
+});
 
 onMounted(updateSession);
 watch(props, updateSession);
@@ -58,14 +61,27 @@ async function updateSession() {
   session.value = await getSessionDetails(props.sessionId);
 }
 
-function sendMessage() {
-  if (message.value.trim() !== "") {
-    const newMessage = {
-      text: message.value.trim(),
-      time: new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }),
-    };
-    session.value?.messages?.push(newMessage);
-    message.value = "";
+async function sendMessage() {
+  if (message.question.trim() !== "") {
+    try {
+      const response = await addQuestion(props.sessionId, {
+        question: message.question,
+        hint: "",
+      });
+      const newQuestion = {
+        chat_id: 0, // 设置聊天会话的ID
+        type: 0, // 设置问题类型
+        content: message.question, // 设置问题内容
+        id: 0, // 设置问题的ID
+        send_time: new Date().toISOString(), // 设置发送时间为当前时间
+      };
+      session.value?.messages?.push(newQuestion);
+      session.value?.messages?.push(response);
+      message.question = "";
+      message.hint = "";
+    } catch (error) {
+      console.error("Failed to add question:", error);
+    }
   }
 }
 </script>

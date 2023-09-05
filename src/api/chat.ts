@@ -1,18 +1,22 @@
 import api from "./request";
 
 export interface ChatSession {
+  user_id:int;
   id: int;
   title: string;
-  subject: string;
-  createTime: string;
-  updateTime: string;
-  unread: boolean;
+  delete_time:string;
+  create_time: string;
+  update_time: string;
   messages?: {
-    text: string;
-    time: string;
+    chat_id:int;
+    type:int;
+    content: string;
+    id:int;
+    send_time: string;
   }[];
 }
 
+// done
 export async function getSessions(): Promise<ChatSession[]> {
   return (await api.get("/chat/me")).data;
 }
@@ -20,21 +24,22 @@ export async function getSessions(): Promise<ChatSession[]> {
 export async function deleteSessions(chat_id: int) {
   return (await api.delete(`/chat/${chat_id}`)).data
 }
+
+// done
 export async function addSessions(title: string): Promise<ChatSession> {
   return (await api.post("/chat/",{title})).data;
 }
 
-export async function getSessionDetails(id: int): Promise<ChatSession> {
-  return {
-    id,
-    title: `会话${id}`,
-    subject: "关于主题1的讨论",
-    createTime: "2023-08-01",
-    updateTime: "2023-08-15",
-    unread: true,
-    messages: [
-      { text: "你好！", time: "08:00 AM" },
-      { text: "有什么问题需要帮助吗？", time: "08:05 AM" },
-    ],
-  };
+// done
+export async function getSessionDetails(chat_id: int): Promise<ChatSession> {
+  return (await api.get(`/chat/${chat_id}`)).data;
+}
+
+// done
+export async function addQuestion(chat_id: int,question_data: any): Promise<ChatSession> {
+  return (await api.post(`/chat/${chat_id}`,question_data)).data;
+}
+
+export async function addFeedback(feedback_data: any): Promise<ChatSession> {
+  return (await api.post("/chat/feedbacks/",feedback_data)).data;
 }
