@@ -51,7 +51,7 @@
         :sessionId="selectedSession"
       />
       <div class="q-pa-md q-gutter-sm">
-        <q-btn color="black" label="登出" router-link to="/auth/login" />
+        <q-btn color="black" label="登出" @click="onLogout" />
         <q-btn color="black" label="个人信息" router-link to="/user/info" />
         <!-- <q-card>
           <q-card-section>
@@ -90,8 +90,8 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from "vue";
 import { ChatSession, deleteSessions, getSessions, addSessions } from "@/api/chat";
+import { logout } from "@/api/login";
 import ChatArea from "@/views/components/ChatArea.vue";
 import { Dialog } from "quasar";
 
@@ -101,7 +101,12 @@ const selectedSession = ref<int | undefined>(undefined);
 // const selectedTopic = ref<int | undefined>(undefined);
 
 onMounted(async () => {
-  sessions.value = await getSessions();
+  try {
+    sessions.value = await getSessions();
+  } catch (e) {
+    console.log("Not logged in")
+  }
+
   // hotTopics.value = await getTopics();
 });
 
@@ -149,6 +154,10 @@ async function showDeleteConfirmation() {
       .onCancel(() => resolve(false))
       .onDismiss(() => reject(new Error("Confirmation dialog dismissed.")));
   });
+async function onLogout() {
+  console.log("logout");
+  await logout();
+  location.reload();
 }
 </script>
 

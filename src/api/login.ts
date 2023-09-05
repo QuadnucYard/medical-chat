@@ -5,16 +5,18 @@ export interface AccessToken {
   token_type: string;
 }
 
-export async function register(username: string, password: string): Promise<any> {
+export async function register(username: string, password: string) {
   return (await api.postForm("/auth/register", { username, password })).data;
 }
 
-export async function login(username: string, password: string): Promise<AccessToken> {
-  return (await api.postForm("/auth/login", { username, password })).data;
+export async function login(username: string, password: string) {
+  return (await api.postForm<AccessToken>("/auth/login", { username, password })).data;
 }
 
-
-export async function logout(): Promise<void> {
-  await api.post("/auth/logout");
+export async function logout() {
+  return (await api.post("/auth/logout")).data;
 }
 
+export async function auth() {
+  return (await api.post("/auth")).data;
+}

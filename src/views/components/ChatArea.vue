@@ -43,8 +43,6 @@ import {
   getSessions,
   addQuestion,
 } from "@/api/chat";
-import { reactive } from "vue";
-
 const props = defineProps<{ sessionId: int }>();
 
 const session = ref<ChatSession | undefined>(undefined);
