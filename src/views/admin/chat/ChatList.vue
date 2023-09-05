@@ -1,7 +1,7 @@
 <template>
   <div>
     <q-table
-      title="Treats"
+      title="聊天会话"
       :rows="rows"
       :columns="columns"
       row-key="name"
@@ -37,30 +37,18 @@
 </template>
 
 <script setup lang="ts">
-import { User, getUsers } from "@/api/user";
+import { ChatSession, ChatMessage, getAllSessions } from "@/api/chat";
 
 const columns = [
   { name: "id", label: "ID", field: "id" },
-  { name: "username", label: "用户名", field: "username" },
-  { name: "email", label: "邮箱", field: "email" },
-  { name: "phone", label: "电话", field: "phone" },
-  { name: "name", label: "姓名", field: "name" },
+  { name: "user", label: "用户", field: (row: ChatSession)=> row.user.username},
+  { name: "title", label: "标题", field: "title" },
   { name: "create_time", label: "注册时间", field: "create_time" },
-  { name: "login_time", label: "登录时间", field: "login_time" },
   { name: "update_time", label: "更新时间", field: "update_time" },
-  { name: "is_superuser", label: "是否为超级用户", field: "is_superuser" },
-  { name: "valid", label: "有效", field: "valid" },
-/*   {
-    name: "name",
-    label: "Dessert (100g serving)",
-    align: "left",
-    field: (row) => row.name,
-    format: (val) => `${val}`,
-    sortable: true,
-  }, */
+  { name: "delete_time", label: "删除时间", field: "delete_time" },
 ];
 
-const rows = ref<User[]>([]);
+const rows = ref<ChatSession[]>([]);
 
 const initialPagination = {
   sortBy: "desc",
@@ -73,7 +61,7 @@ const initialPagination = {
 const filter = ref("");
 
 onMounted(async() => {
-  const resp = await getUsers();
+  const resp = await getAllSessions();
   rows.value = resp;
 });
 </script>
