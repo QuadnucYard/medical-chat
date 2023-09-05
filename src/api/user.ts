@@ -1,3 +1,4 @@
+import { Page, Pagination } from "./page";
 import api from "./request";
 
 export interface User {
@@ -24,6 +25,12 @@ export async function updateUser(user_id: int, user_data: any) {
   return (await api.put(`/users/${user_id}`, user_data)).data;
 }
 
-export async function getUsers() {
-  return (await api.get<User[]>("/users/")).data;
+export async function getUsers(page: Pagination) {
+  const params = {
+    page: page.page,
+    size: page.rowsPerPage,
+    sort_by: page.sortBy,
+    desc: page.descending,
+  };
+  return (await api.get<Page<User>>("/users/", { params })).data;
 }

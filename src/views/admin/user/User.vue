@@ -1,17 +1,20 @@
 <template>
   <div>
     <q-table
-      title="Treats"
+      ref="tableRef"
+      title="用户"
       :rows="rows"
       :columns="columns"
-      row-key="name"
+      row-key="id"
       binary-state-sort
       square
       flat
       dense
       class="my-sticky-table-handle"
       :filter="filter"
-      :pagination="initialPagination"
+      :loading="loading"
+      v-model:pagination="pagination"
+      @request="onRequest"
     >
       <template v-slot:top>
         <div class="q-gutter-md">
@@ -38,44 +41,41 @@
 
 <script setup lang="ts">
 import { User, getUsers } from "@/api/user";
+import { TablePagination } from "@/typing/quasar";
+import { addSSP, makeRequester } from "@/utils/paginating";
+import { QTable } from "quasar";
 
 const columns = [
-  { name: "id", label: "ID", field: "id" },
-  { name: "username", label: "用户名", field: "username" },
-  { name: "email", label: "邮箱", field: "email" },
-  { name: "phone", label: "电话", field: "phone" },
-  { name: "name", label: "姓名", field: "name" },
-  { name: "create_time", label: "注册时间", field: "create_time" },
-  { name: "login_time", label: "登录时间", field: "login_time" },
-  { name: "update_time", label: "更新时间", field: "update_time" },
-  { name: "is_superuser", label: "是否为超级用户", field: "is_superuser" },
-  { name: "valid", label: "有效", field: "valid" },
-/*   {
-    name: "name",
-    label: "Dessert (100g serving)",
-    align: "left",
-    field: (row) => row.name,
-    format: (val) => `${val}`,
-    sortable: true,
-  }, */
+  { name: "id", label: "ID", field: "id", sortable: true },
+  { name: "username", label: "用户名", field: "username", sortable: true },
+  { name: "email", label: "邮箱", field: "email", sortable: true },
+  { name: "phone", label: "电话", field: "phone", sortable: true },
+  { name: "name", label: "姓名", field: "name", sortable: true },
+  { name: "create_time", label: "注册时间", field: "create_time", sortable: true },
+  { name: "login_time", label: "登录时间", field: "login_time", sortable: true },
+  { name: "update_time", label: "更新时间", field: "update_time", sortable: true },
+  { name: "is_superuser", label: "是否为超级用户", field: "is_superuser", sortable: true },
+  { name: "valid", label: "有效", field: "valid", sortable: true },
 ];
 
 const rows = ref<User[]>([]);
 
-const initialPagination = {
-  sortBy: "desc",
+const tableRef = ref<QTable>();
+
+const pagination = ref<TablePagination>({
+  sortBy: null,
   descending: false,
   page: 1,
   rowsPerPage: 20,
-  // rowsNumber: xx if getting data from a server
-};
+  rowsNumber: 0,
+}); // It MUST be REF!
 
+const loading = ref(false);
 const filter = ref("");
 
-onMounted(async() => {
-  const resp = await getUsers();
-  rows.value = resp;
-});
+onMounted(addSSP(tableRef));
+
+const onRequest = makeRequester({ rows, pagination, loading }, getUsers);
 </script>
 
 <style scoped></style>
