@@ -38,6 +38,9 @@
 
 <script setup lang="ts">
 import { User, getUsers } from "@/api/user";
+import { ChatSession } from "@/api/chat";
+
+import { date } from 'quasar'
 
 const columns = [
   { name: "id", label: "ID", field: "id" },
@@ -45,9 +48,15 @@ const columns = [
   { name: "email", label: "邮箱", field: "email" },
   { name: "phone", label: "电话", field: "phone" },
   { name: "name", label: "姓名", field: "name" },
-  { name: "create_time", label: "注册时间", field: "create_time" },
-  { name: "login_time", label: "登录时间", field: "login_time" },
-  { name: "update_time", label: "更新时间", field: "update_time" },
+  { name: "create_time", label: "注册时间", field: (row: ChatSession)=> {
+    return date.formatDate(new Date(row.create_time), 'YYYY-MM-DD HH:mm:ss')
+  }},
+  { name: "update_time", label: "更新时间", field: (row: ChatSession)=> {
+    return date.formatDate(new Date(row.update_time), 'YYYY-MM-DD HH:mm:ss')
+  }},
+  { name: "delete_time", label: "删除时间", field: (row: ChatSession)=> {
+    return date.formatDate(new Date(row.delete_time), 'YYYY-MM-DD HH:mm:ss')
+  }},
   { name: "is_superuser", label: "是否为超级用户", field: "is_superuser" },
   { name: "valid", label: "有效", field: "valid" },
 /*   {
