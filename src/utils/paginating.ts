@@ -26,7 +26,6 @@ export function makeRequester<T>(
   getter: (pg: Pagination) => Promise<Page<T>>
 ) {
   return async function (prop: TableRequestProps) {
-    console.log("load");
     scope.loading.value = true;
     const res = await getter(prop.pagination);
     scope.rows.value = res.items;
