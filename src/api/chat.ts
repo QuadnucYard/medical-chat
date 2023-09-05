@@ -1,5 +1,5 @@
 import api from "./request";
-import { User } from "./user";
+import { UserPartial } from "./user";
 
 export interface ChatMessage {
   chat_id: int;
@@ -17,7 +17,21 @@ export interface ChatSession {
   create_time: string;
   update_time: string;
   messages?: ChatMessage[];
-  user: User;
+  user: UserPartial;
+}
+
+export interface ChatFeedback {
+  msg_id: int;
+  user_id: int;
+  mark_like: boolean;
+  mark_dislike: boolean;
+  content: string;
+  update_time: string;
+}
+
+export interface ChatFeedbackDetailed extends ChatFeedback {
+  msg: ChatMessage;
+  user: UserPartial;
 }
 
 // done
@@ -50,4 +64,8 @@ export async function addFeedback(feedback_data: any) {
 
 export async function getAllSessions() {
   return (await api.get<ChatSession[]>("/chat/")).data;
+}
+
+export async function getAllFeedbacks() {
+  return (await api.get<ChatFeedbackDetailed[]>("/feedbacks/")).data;
 }

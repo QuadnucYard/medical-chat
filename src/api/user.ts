@@ -14,6 +14,8 @@ export interface User {
   valid: boolean;
 }
 
+export type UserPartial = Pick<User, "id" | "username" | "avatar_url">;
+
 export async function getUser() {
   return (await api.get<User>("/users/me")).data;
 }

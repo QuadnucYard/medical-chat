@@ -78,6 +78,11 @@ const routes: Array<RouteRecordRaw> = [
         name: "admin-chat",
         component: () => import("@/views/admin/chat/ChatList.vue"),
       },
+      {
+        path: "/message",
+        name: "admin-message",
+        component: () => import("@/views/admin/chat/MessageList.vue"),
+      },
     ],
   },
 ];
