@@ -35,7 +35,15 @@
           </template>
         </q-input>
       </template>
-      <template v-slot:body-cell-is_superuser="props">
+      <template v-for="field in editables" #[`body-cell-${field}`]="props">
+        <q-td :props="props">
+          {{ props.row[field] }}
+          <q-popup-edit v-model="props.row[field]" v-slot="scope">
+            <q-input v-model="scope.value" dense autofocus counter @keyup.enter="scope.set" />
+          </q-popup-edit>
+        </q-td>
+      </template>
+      <template #body-cell-is_superuser="props">
         <q-td :props="props">
           <q-checkbox
             dense
@@ -48,14 +56,22 @@
           />
         </q-td>
       </template>
-      <template v-slot:body-cell-valid="props">
+      <template #body-cell-valid="props">
         <q-td :props="props">
           <q-checkbox dense size="sm" v-model="props.row.valid" />
         </q-td>
       </template>
-      <template v-slot:body-cell-handle="props">
+      <template #body-cell-handle="props">
         <q-td :props="props">
-          <q-btn flat dense round color="green" icon="o_edit" size="sm" />
+          <q-btn
+            flat
+            dense
+            round
+            color="green"
+            icon="o_edit"
+            size="sm"
+            @click="onUpdateEdit(props.row)"
+          />
         </q-td>
       </template>
     </q-table>
@@ -63,29 +79,31 @@
 </template>
 
 <script setup lang="ts">
-import { User, getUsers } from "@/api/user";
+import { User, getUsers, updateUser } from "@/api/user";
 import { TablePagination } from "@/typing/quasar";
 import { formatDate } from "@/utils/date-utils";
 import { addSSP, makeRequester } from "@/utils/paginating";
 import { columnDefaults } from "@/utils/table-utils";
 import { QTable } from "quasar";
+import Message from "@/utils/message";
 
 const columns = columnDefaults(
   [
-    { name: "id", label: "ID", field: "id" },
-    { name: "username", label: "用户名", field: "username" },
-    { name: "email", label: "邮箱", field: "email" },
-    { name: "phone", label: "电话", field: "phone" },
-    { name: "name", label: "姓名", field: "name" },
-    { name: "create_time", label: "注册时间", field: "create_time", format: formatDate },
-    { name: "update_time", label: "更新时间", field: "update_time", format: formatDate },
-    { name: "login_time", label: "登录时间", field: "login_time", format: formatDate },
-    { name: "is_superuser", label: "是否为超级用户", field: "is_superuser" },
-    { name: "valid", label: "有效", field: "valid" },
-    { name: "handle", label: "操作", field: "handle", sortable: false },
+    { name: "id", label: "ID" },
+    { name: "username", label: "用户名" },
+    { name: "email", label: "邮箱" },
+    { name: "phone", label: "电话" },
+    { name: "name", label: "姓名" },
+    { name: "create_time", label: "注册时间", format: formatDate },
+    { name: "update_time", label: "更新时间", format: formatDate },
+    { name: "login_time", label: "登录时间", format: formatDate },
+    { name: "is_superuser", label: "是否为超级用户" },
+    { name: "valid", label: "有效" },
+    { name: "handle", label: "操作", sortable: false },
   ],
   { sortable: true, align: "center" }
 );
+const editables = ["username", "email", "phone", "name"];
 
 const rows = ref<User[]>([]);
 
@@ -105,6 +123,12 @@ const filter = ref("");
 onMounted(addSSP(tableRef));
 
 const onRequest = makeRequester({ rows, pagination, loading }, getUsers);
+
+async function onUpdateEdit(user: User) {
+  const res = await updateUser(user.id, user);
+  Object.assign(user, res);
+  Message.success("成功编辑用户信息");
+}
 </script>
 
 <style scoped></style>
