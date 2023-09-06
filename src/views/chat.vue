@@ -50,42 +50,84 @@
         style="margin-top: 60px; flex: 2"
         :sessionId="selectedSession"
       />
-      <div class="q-pa-md q-gutter-sm">
-        <q-btn color="black" label="登出" @click="onLogout()" />
-        <q-btn color="black" label="个人信息" router-link to="/user/info" />
-        <!-- <q-card>
-          <q-card-section>
-            <h4 class="text-h6">热门话题</h4>
-          </q-card-section>
+      <div
+        class="q-pa-md q-gutter-sm"
+        style="display: flex; flex-direction: column; align-items: center"
+      >
+        <div style="display: flex; gap: 10px">
+          <q-btn color="black" label="登出" @click="onLogout" />
+          <q-btn color="black" label="个人信息" router-link to="/user/info" />
+        </div>
 
-          <q-separator />
-
-          <q-card-section>
-            <q-list bordered>
-              <q-item
-                v-for="(topic, index) in hotTopics"
-                :key="index"
-                clickable
-                v-ripple
-                @click="selectTopic(topic.id)"
-                class="cursor-pointer"
-              >
-                <q-item-section>
-                  <q-item-label lines="1">
-                    <span class="text-weight-medium">{{ topic.title }}</span>
-                  </q-item-label>
-                  <q-item-label caption lines="1">{{ topic.description }}</q-item-label>
-                </q-item-section>
-
-                <q-item-section side v-if="topic.count">
-                  <q-badge color="primary" floating>{{ topic.count }}</q-badge>
-                </q-item-section>
-              </q-item>
-            </q-list>
-          </q-card-section>
-        </q-card> -->
+        <div style="margin-top: 500px">
+          <q-fab
+            v-model="fabLeft"
+            vertical-actions-align="left"
+            color="primary"
+            glossy
+            icon="keyboard_arrow_up"
+            direction="up"
+            style="margin: 0 auto"
+          >
+            <q-fab-action
+              label-position="right"
+              color="accent"
+              icon="report"
+              label="投诉"
+              @click="report = true"
+            />
+            <q-fab-action
+              label-position="right"
+              color="primary"
+              icon="note"
+              label="笔记"
+              @click="note = true"
+            />
+          </q-fab>
+        </div>
       </div>
     </div>
+
+    <q-dialog v-model="report" persistent>
+      <q-card style="min-width: 350px">
+        <q-card-section>
+          <div class="text-h6">您的投诉</div>
+        </q-card-section>
+
+        <q-card-section class="q-pt-none">
+          <q-input dense v-model="report_detail" autofocus @keyup.enter="report = false" />
+        </q-card-section>
+
+        <q-card-actions align="right" class="text-primary">
+          <q-btn flat label="取消" v-close-popup />
+          <q-btn flat label="确认" v-close-popup />
+        </q-card-actions>
+      </q-card>
+    </q-dialog>
+
+    <q-dialog v-model="note" persistent>
+      <q-card style="min-width: 350px">
+        <q-card-section>
+          <div class="text-h6">您的笔记</div>
+        </q-card-section>
+
+        <q-card-section class="q-pt-none">
+          <q-input
+            filled
+            v-model="booknote_detail"
+            type="textarea"
+            autofocus
+            autogrow
+            @keyup.enter="note = false"
+          />
+        </q-card-section>
+
+        <q-card-actions align="right" class="text-primary">
+          <q-btn flat label="取消" v-close-popup />
+          <q-btn flat label="确认" v-close-popup />
+        </q-card-actions>
+      </q-card>
+    </q-dialog>
   </div>
 </template>
 
@@ -96,6 +138,12 @@ import ChatArea from "@/views/components/ChatArea.vue";
 import { Dialog } from "quasar";
 
 const sessions = ref<ChatSession[]>([]);
+const fabLeft = ref(true);
+const report = ref(false);
+const note = ref(false);
+
+const report_detail = ref("");
+const booknote_detail = ref("");
 
 const selectedSession = ref<int | undefined>(undefined);
 // const selectedTopic = ref<int | undefined>(undefined);

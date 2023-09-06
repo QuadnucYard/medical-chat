@@ -34,3 +34,7 @@ export async function getUsers(page: Pagination) {
   };
   return (await api.get<Page<User>>("/users/", { params })).data;
 }
+
+export async function updateUserMe(user_data: any): Promise<User> {
+  return (await api.putForm("/users/me", user_data)).data;
+}

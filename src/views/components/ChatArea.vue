@@ -1,6 +1,16 @@
 <template>
   <div v-if="session">
-    <h1 class="text-h4">{{ session.title }}</h1>
+    <q-input
+      v-model="session.title"
+      :readonly="readonly"
+      :after="[
+        {
+          icon: 'arrow_forward',
+          content: true,
+          handler: toggleEditable,
+        },
+      ]"
+    />
     <p>创建时间: {{ session.create_time }}</p>
     <p>更新时间: {{ session.update_time }}</p>
     <div class="chat-messages">
@@ -58,7 +68,7 @@ import { addFeedback } from "@/api/feedback";
 const props = defineProps<{ sessionId: int }>();
 
 const session = ref<ChatSession | undefined>(undefined);
-
+const readonly = ref(true);
 const question_message = reactive({
   question: "",
   hint: "",
@@ -121,6 +131,9 @@ async function dislike(data: any) {
 }
 function getMessageName(message: any): string {
   return message.type === 1 ? "MedBot" : "Me";
+}
+function toggleEditable() {
+  readonly.value = !readonly.value;
 }
 </script>
 

@@ -1,18 +1,18 @@
 <template>
-  <!-- <q-page class="q-pa-sm"> -->
-  <div class="row q-col-gutter-sm">
+  <div class="row q-col-gutter-sm m-4">
     <div class="col-lg-8 col-md-8 col-xs-12 col-sm-12">
       <q-card class="card-bg text-white no-shadow" bordered>
+        <q-btn color="dark" label="返回主页" router-link to="/chat" />
         <q-card-section class="text-h6">
-          <div class="text-h6">Edit Profile</div>
-          <div class="text-subtitle2">Complete your profile</div>
+          <div class="text-h6">更新页面</div>
+          <div class="text-subtitle2">补充信息 帮助我们更好地为您服务！</div>
         </q-card-section>
         <q-card-section class="q-pa-sm">
           <q-list class="row">
             <q-item class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
               <q-item-section side>
                 <q-avatar size="100px">
-                  <img src="https://cdn.quasar.dev/img/boy-avatar.png" />
+                  <img :src="user_details.avatar_url" />
                 </q-avatar>
               </q-item-section>
               <q-item-section>
@@ -32,88 +32,31 @@
                   dark
                   color="white"
                   dense
-                  v-model="user_details.user_name"
-                  label="User Name"
+                  v-model="user_details.username"
+                  label="您的用户名"
+                  readonly
                 />
               </q-item-section>
             </q-item>
             <q-item class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
               <q-item-section>
-                <q-input
-                  dark
-                  color="white"
-                  dense
-                  v-model="user_details.email"
-                  label="Email Address"
-                />
+                <q-input dark color="white" dense v-model="user_details.email" label="您的邮箱" />
               </q-item-section>
             </q-item>
             <q-item class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
               <q-item-section>
-                <q-input
-                  dark
-                  color="white"
-                  dense
-                  v-model="user_details.first_name"
-                  label="First Name"
-                />
+                <q-input dark color="white" dense v-model="user_details.phone" label="您的号码" />
               </q-item-section>
             </q-item>
             <q-item class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
               <q-item-section>
-                <q-input
-                  dark
-                  color="white"
-                  dense
-                  v-model="user_details.last_name"
-                  label="Last Name"
-                />
-              </q-item-section>
-            </q-item>
-            <q-item class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-              <q-item-section>
-                <q-input
-                  dark
-                  color="white"
-                  autogrow
-                  dense
-                  v-model="user_details.address"
-                  label="Address"
-                />
-              </q-item-section>
-            </q-item>
-            <q-item class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-              <q-item-section>
-                <q-input dark color="white" dense v-model="user_details.city" label="City" />
-              </q-item-section>
-            </q-item>
-            <q-item class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-              <q-item-section>
-                <q-input
-                  dark
-                  color="white"
-                  dense
-                  v-model="user_details.post_code"
-                  label="Postal Code"
-                />
-              </q-item-section>
-            </q-item>
-            <q-item class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-              <q-item-section>
-                <q-input
-                  dark
-                  color="white"
-                  type="textarea"
-                  dense
-                  v-model="user_details.about"
-                  label="About"
-                />
+                <q-input dark color="white" dense v-model="user_details.name" label="您的昵称" />
               </q-item-section>
             </q-item>
           </q-list>
         </q-card-section>
         <q-card-actions align="right">
-          <q-btn class="text-capitalize bg-info text-white">Update User Info</q-btn>
+          <q-btn class="text-capitalize bg-info text-white" @click="update">更新您的信息</q-btn>
         </q-card-actions>
       </q-card>
     </div>
@@ -121,17 +64,16 @@
       <q-card class="card-bg text-white no-shadow" bordered>
         <q-card-section class="text-center bg-transparent">
           <q-avatar size="100px" class="shadow-10">
-            <img src="profile.svg" />
+            <img
+              src="https://img.freepik.com/free-vector/hospital-logo-design-vector-medical-cross_53876-136743.jpg?w=740&t=st=1693359039~exp=1693359639~hmac=e1c4b87396670f03b3fad1745015b3048e9f7224a5785073d789e63ae23c82be"
+            />
           </q-avatar>
-          <div class="text-subtitle2 q-mt-lg">by Pratik Patel</div>
-          <div class="text-h6 q-mt-md">Pratik Patel</div>
+          <div class="text-subtitle2 q-mt-lg">by MedChat</div>
+          <div class="text-h6 q-mt-md">MedChat</div>
         </q-card-section>
         <q-card-section>
           <div class="text-body2 text-justify">
-            My name is Pratik Patel (also known as @pratik227). I noticed myself pulling into
-            programming since 2013, and then determined myself to become a skilled and knowledgeable
-            programmer. My passion for my programming increases as I started working for Incentius
-            (where I am currently working in).
+            作为医疗问答系统，我是您的个人医疗助手。我旨在为您提供准确、可靠的医疗信息和答案，帮助您解答各种健康问题和疑虑。无论是关于常见疾病、症状解释、治疗选项还是预防措施，我都可以为您提供专业建议和指导。我会根据您提供的症状描述和问题，给出可能的诊断建议，但请注意，这不应替代实际就医和专业医生的意见。
           </div>
         </q-card-section>
       </q-card>
@@ -196,7 +138,7 @@
           </q-item>
         </q-card-section>
         <q-card-actions align="right">
-          <q-btn class="text-capitalize bg-info text-white">Change Password</q-btn>
+          <q-btn class="text-capitalize bg-info text-white" @click="updatePassword">更改密码</q-btn>
         </q-card-actions>
       </q-card>
     </div>
@@ -205,8 +147,50 @@
 </template>
 
 <script setup lang="ts">
-const user_details = reactive({});
-const password_dict = reactive({});
+import { getUser, updateUserMe } from "@/api/user";
+import Message from "@/utils/message";
+const user_details = ref({});
+const password_dict = ref({});
+
+onMounted(async () => {
+  try {
+    user_details.value = await getUser();
+  } catch (e) {
+    console.log("get user_details error");
+  }
+
+  // hotTopics.value = await getTopics();
+});
+async function update(user_details: any) {
+  try {
+    Message.info("提交更新信息");
+    user_details.value = await updateUserMe({
+      email: user_details.email,
+      phone: user_details.phone,
+      name: user_details.name,
+      password: "root",
+      password2: "root",
+    });
+    Message.success(`更新成功！`);
+  } catch (e) {
+    console.log("update error");
+  }
+}
+async function updatePassword(user_details: any) {
+  try {
+    Message.info("提交更新信息");
+    user_details.value = await updateUserMe({
+      email: user_details.email,
+      phone: user_details.phone,
+      name: user_details.name,
+      password: "root",
+      password2: "root",
+    });
+    Message.success(`更新成功！`);
+  } catch (e) {
+    console.log("update error");
+  }
+}
 </script>
 
 <style scoped>
