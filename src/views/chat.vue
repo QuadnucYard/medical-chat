@@ -51,7 +51,7 @@
         :sessionId="selectedSession"
       />
       <div class="q-pa-md q-gutter-sm">
-        <q-btn color="black" label="登出" @click="onLogout" />
+        <q-btn color="black" label="登出" @click="onLogout()" />
         <q-btn color="black" label="个人信息" router-link to="/user/info" />
         <!-- <q-card>
           <q-card-section>
@@ -119,28 +119,47 @@ async function add() {
     const response = await addSessions("123");
     sessions.value = await getSessions();
   } catch (error) {
-    console.error("Error addSession sessions:", error);
-    throw error;
+    console.log("添加失败", error);
   }
 }
 
 async function deleteIt(chatId: int) {
   try {
-    const response = await deleteSessions(chatId);
-    sessions.value = await getSessions();
+    const shouldDelete = await showDeleteConfirmation();
+    if (shouldDelete) {
+      const response = await deleteSessions(chatId);
+      sessions.value = await getSessions();
+    }
   } catch (error) {
     console.error("Error deleting sessions:", error);
     throw error;
   }
 }
 
+async function showDeleteConfirmation() {
+  return new Promise((resolve, reject) => {
+    Dialog.create({
+      title: "确认删除",
+      message: "确定要删除该会话吗？",
+      ok: {
+        label: "确认",
+        color: "negative",
+      },
+      cancel: {
+        label: "取消",
+        color: "grey-8",
+      },
+    })
+      .onOk(() => resolve(true))
+      .onCancel(() => resolve(false))
+      .onDismiss(() => reject(new Error("Confirmation dialog dismissed.")));
+  });
+}
+
 async function onLogout() {
-  try {
-    const response = await logout();
-  } catch (error) {
-    console.error("Error logout sessions:", error);
-    throw error;
-  }
+  console.log("logout");
+  await logout();
+  location.reload();
 }
 </script>
 
