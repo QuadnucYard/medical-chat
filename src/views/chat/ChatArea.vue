@@ -4,34 +4,7 @@
     <p>创建时间: {{ session.create_time }}</p>
     <p>更新时间: {{ session.update_time }}</p>
     <div class="chat-messages">
-      <div v-for="(message, index) in session.messages" :key="index">
-        <q-chat-message
-          :name="getMessageName(message)"
-          :avatar="MyAvatar"
-          :stamp="message.send_time"
-          :sent="message.type === 0"
-          class="message-container"
-        >
-          <div>
-            <div class="icon-wrapper">
-              <q-icon
-                v-if="message.type === 1"
-                name="thumb_up"
-                :class="{ 'icon thumb-up': true }"
-                @click="like(message)"
-              />
-              <q-icon
-                v-if="message.type === 1"
-                name="thumb_down"
-                :class="{ 'icon thumb-down': true }"
-                @click="dislike(message)"
-              />
-              <q-icon v-if="message.type === 1" name="textsms" class="icon textsms" />
-            </div>
-            {{ message.content }}
-          </div>
-        </q-chat-message>
-      </div>
+      <my-chat-message v-for="msg in session.messages" :message="msg" />
     </div>
 
     <div class="input-field" style="margin-top: 10px">
@@ -51,10 +24,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from "vue";
-import MyAvatar from "@/assets/knight.png";
-import { getSessionDetails, ChatSession, addQuestion } from "@/api/chat";
-import { addFeedback } from "@/api/feedback";
+import { getSessionDetails, ChatSession, addQuestion, ChatMessage, ChatFeedback } from "@/api/chat";
 import emitter from "@/utils/bus";
 
 const sessionId = ref<int | undefined>(undefined);
@@ -95,34 +65,6 @@ async function sendMessage() {
     }
   }
 }
-async function like(data: any) {
-  try {
-    const feedback = {
-      msg_id: data.id,
-      mark_like: true,
-      mark_dislike: false,
-      content: "123",
-    };
-    const response = await addFeedback(feedback);
-  } catch (error) {
-    console.error("Failed to add feedback:", error);
-  }
-}
-async function dislike(data: any) {
-  try {
-    const response = await addFeedback({
-      msg_id: data.id,
-      mark_like: false,
-      mark_dislike: true,
-      content: "",
-    });
-  } catch (error) {
-    console.error("Failed to add feedback:", error);
-  }
-}
-function getMessageName(message: any): string {
-  return message.type === 1 ? "MedBot" : "Me";
-}
 </script>
 
 <style scoped lang="scss">
@@ -130,26 +72,6 @@ function getMessageName(message: any): string {
   padding: 48px;
 }
 
-.message-container {
-  position: relative;
-}
-
-.icon-wrapper {
-  position: absolute;
-  top: 50%;
-  right: -75px; /* 调整图标与消息之间的水平间距 */
-  transform: translateY(-50%);
-  opacity: 0; /* 初始时将图标隐藏 */
-  transition: opacity 0.3s ease; /* 添加平滑过渡效果 */
-  display: flex; /* 将图标容器设置为弹性布局 */
-  align-items: center; /* 垂直居中对齐图标 */
-  > .icon {
-    margin-right: 10px; /* 调整thumb-up图标与thumb-down图标之间的间距 */
-  }
-}
-.message-container:hover .icon-wrapper {
-  opacity: 1; /* 鼠标悬停时显示图标 */
-}
 .input-field {
   position: fixed;
   bottom: 0;
