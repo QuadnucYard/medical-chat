@@ -62,6 +62,7 @@ import Message from "@/utils/message";
 import { useUserStore } from "@/store/user";
 
 const $router = useRouter();
+const $route = useRoute();
 
 const form = reactive({ username: "", password: "" });
 
@@ -83,7 +84,12 @@ async function onSubmit() {
     console.log("获取用户", user);
     userStore.login({ token, data: user });
     Message.success(`登录成功！`)
-    $router.push({ name: "chat" });
+
+    if ($route.query.redirect) {
+      $router.push($route.query.redirect as string);
+    } else {
+      $router.push("chat");
+    }
   } catch (error) {
     console.log("登录失败", error);
   }
