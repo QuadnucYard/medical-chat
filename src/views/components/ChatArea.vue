@@ -1,5 +1,5 @@
 <template>
-  <div v-if="session">
+  <div v-if="session" class="chat-area">
     <h1 class="text-h4">{{ session.title }}</h1>
     <p>创建时间: {{ session.create_time }}</p>
     <p>更新时间: {{ session.update_time }}</p>
@@ -55,8 +55,9 @@ import { ref } from "vue";
 import MyAvatar from "@/assets/knight.png";
 import { getSessionDetails, ChatSession, addQuestion } from "@/api/chat";
 import { addFeedback } from "@/api/feedback";
-const props = defineProps<{ sessionId: int }>();
+import emitter from "@/utils/bus";
 
+const sessionId = ref<int | undefined>(undefined);
 const session = ref<ChatSession | undefined>(undefined);
 
 const question_message = reactive({
@@ -64,17 +65,17 @@ const question_message = reactive({
   hint: "",
 });
 
-onMounted(updateSession);
-watch(props, updateSession);
+emitter.on("session-changed", onSessionChanged);
 
-async function updateSession() {
-  session.value = await getSessionDetails(props.sessionId);
+async function onSessionChanged(newValue: int) {
+  sessionId.value = newValue;
+  session.value = await getSessionDetails(newValue);
 }
 
 async function sendMessage() {
-  if (question_message.question.trim() !== "") {
+  if (sessionId.value && question_message.question.trim() !== "") {
     try {
-      const response = await addQuestion(props.sessionId, {
+      const response = await addQuestion(sessionId.value, {
         question: question_message.question,
         hint: "",
       });
@@ -125,6 +126,10 @@ function getMessageName(message: any): string {
 </script>
 
 <style scoped lang="scss">
+.chat-area {
+  padding: 48px;
+}
+
 .message-container {
   position: relative;
 }
@@ -138,12 +143,12 @@ function getMessageName(message: any): string {
   transition: opacity 0.3s ease; /* 添加平滑过渡效果 */
   display: flex; /* 将图标容器设置为弹性布局 */
   align-items: center; /* 垂直居中对齐图标 */
+  > .icon {
+    margin-right: 10px; /* 调整thumb-up图标与thumb-down图标之间的间距 */
+  }
 }
 .message-container:hover .icon-wrapper {
   opacity: 1; /* 鼠标悬停时显示图标 */
-}
-.icon-wrapper > .icon {
-  margin-right: 10px; /* 调整thumb-up图标与thumb-down图标之间的间距 */
 }
 .input-field {
   position: fixed;

@@ -1,18 +1,11 @@
 <template>
-  <q-layout view="hHh LpR fFf">
+  <q-layout view="hHh LpR fFf" scroll="no">
     <q-header class="shadow-1">
-      <app-bar @switch-right="toggleRightDrawer" @switch-left="toggleLeftDrawer" />
+      <app-tool-bar @switch-right="toggleRightDrawer" @switch-left="toggleLeftDrawer" />
     </q-header>
 
-    <q-drawer
-      class="shadow-0"
-      v-model="leftDrawerOpen"
-      show-if-above
-      bordered
-      :width="200"
-      id="left-menu"
-    >
-      <LeftMenu />
+    <q-drawer class="shadow-0" v-model="leftDrawerOpen" show-if-above bordered :width="300">
+      <session-list />
     </q-drawer>
 
     <q-drawer
@@ -29,14 +22,13 @@
     </q-drawer>
     <q-page-container class="main-container">
       <router-view />
+      <!-- <chat-area /> -->
     </q-page-container>
   </q-layout>
 </template>
 
 <script setup lang="ts">
-import LeftMenu from "@/components/common/LeftMenu.vue";
-import AppBar from "@/components/common/AppBar.vue";
-import UIConfig from "@/components/common/UIConfig.vue";
+import ChatArea from "@/views/components/ChatArea.vue";
 
 const leftDrawerOpen = ref(false);
 const rightDrawerOpen = ref(false);
@@ -49,3 +41,5 @@ function toggleRightDrawer() {
   rightDrawerOpen.value = !rightDrawerOpen.value;
 }
 </script>
+
+<style scoped></style>
