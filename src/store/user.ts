@@ -1,6 +1,7 @@
 import Cookies from "js-cookie";
+import { User } from "@/api/login";
 
-type UserState = { token?: string; data?: { [k: string]: any } } | null;
+type UserState = { token?: string; data?: User } | null;
 
 export const useUserStore = defineStore("user", {
   state: () => ({

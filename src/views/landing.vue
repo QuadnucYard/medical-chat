@@ -1,0 +1,348 @@
+<template>
+  <!--navigation-->
+  <section class="smart-scroll">
+    <div class="container-fluid">
+      <nav class="navbar navbar-expand-md navbar-dark">
+        <a class="navbar-brand heading-black" href="index.html"> Knight </a>
+        <button
+          class="navbar-toggler navbar-toggler-right border-0"
+          type="button"
+          data-toggle="collapse"
+          data-target="#navbarCollapse"
+          aria-controls="navbarCollapse"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <span data-feather="grid"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarCollapse">
+          <ul class="navbar-nav ml-auto">
+            <li class="nav-item">
+              <a class="nav-link page-scroll" href="#features">Features</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link page-scroll" href="#pricing">Pricing</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link page-scroll" href="#faq">FAQ</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link page-scroll" href="#blog">Blog</a>
+            </li>
+            <li class="nav-item">
+              <a
+                class="nav-link page-scroll d-flex flex-row align-items-center text-primary"
+                href="#"
+              >
+                <em data-feather="layout" width="18" height="18" class="mr-2"></em>
+                Try Generator
+              </a>
+            </li>
+          </ul>
+        </div>
+      </nav>
+    </div>
+  </section>
+
+  <!--hero header-->
+  <section class="py-7 py-md-0 bg-hero" id="home">
+    <div class="container">
+      <div class="row vh-md-100">
+        <div class="col-md-8 col-sm-10 col-12 mx-auto my-auto text-center">
+          <h1 class="heading-black text-capitalize">Quickly build landing pages with Knight</h1>
+          <p class="lead py-3">
+            Knight is a platform that helps freelancers and companies build beautiful landing pages
+            in minutes. Sign up for free.
+          </p>
+          <button class="btn btn-primary d-inline-flex flex-row align-items-center">
+            Get started now
+            <em class="ml-2" data-feather="arrow-right"></em>
+          </button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- features section -->
+  <section class="pt-6 pb-7" id="features">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-6 mx-auto text-center">
+          <h2 class="heading-black">Knight offers everything you need.</h2>
+          <p class="text-muted lead">
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum in nisi commodo,
+            tempus odio a, vestibulum nibh.
+          </p>
+        </div>
+      </div>
+      <div class="row mt-5">
+        <div class="col-md-10 mx-auto">
+          <div class="row feature-boxes">
+            <div class="col-md-6 box">
+              <div class="icon-box box-primary">
+                <div class="icon-box-inner">
+                  <span data-feather="edit-3" width="35" height="35"></span>
+                </div>
+              </div>
+              <h5>Create once. Share everywhere.</h5>
+              <p class="text-muted">
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum in nisi commodo,
+                tempus odio a, vestibulum nibh.
+              </p>
+            </div>
+            <div class="col-md-6 box">
+              <div class="icon-box box-success">
+                <div class="icon-box-inner">
+                  <span data-feather="monitor" width="35" height="35"></span>
+                </div>
+              </div>
+              <h5>Unlimited devices</h5>
+              <p class="text-muted">
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum in nisi commodo,
+                tempus odio a, vestibulum nibh.
+              </p>
+            </div>
+            <div class="col-md-6 box">
+              <div class="icon-box box-danger">
+                <div class="icon-box-inner">
+                  <span data-feather="layout" width="35" height="35"></span>
+                </div>
+              </div>
+              <h5>Beautiful tempates & layouts</h5>
+              <p class="text-muted">
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum in nisi commodo,
+                tempus odio a, vestibulum nibh.
+              </p>
+            </div>
+            <div class="col-md-6 box">
+              <div class="icon-box box-info">
+                <div class="icon-box-inner">
+                  <span data-feather="globe" width="35" height="35"></span>
+                </div>
+              </div>
+              <h5>Available globally</h5>
+              <p class="text-muted">
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum in nisi commodo,
+                tempus odio a, vestibulum nibh.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row mt-6">
+        <div class="col-md-6 mr-auto">
+          <h2>Knight is more than just a page builder.</h2>
+          <p class="mb-5">
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla convallis pulvinar
+            vestibulum. Donec eleifend, sem sed dictum mattis, turpis purus placerat eros.
+          </p>
+          <a href="#" class="btn btn-light"> Try the live demo </a>
+        </div>
+        <div class="col-md-5">
+          <div class="slick-about">
+            <img src="img/blog-1.jpg" class="img-fluid rounded d-block mx-auto" alt="Work 1" />
+            <img src="img/blog-2.jpg" class="img-fluid rounded d-block mx-auto" alt="Work 2" />
+            <img src="img/blog-3.jpg" class="img-fluid rounded d-block mx-auto" alt="Work 3" />
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!--faq section-->
+  <section class="py-7" id="faq">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-6 mx-auto text-center">
+          <h2>Frequently asked questions</h2>
+          <p class="text-muted lead">Answers to most common questions.</p>
+        </div>
+      </div>
+      <div class="row mt-5">
+        <div class="col-md-10 mx-auto">
+          <div class="row">
+            <div class="col-md-6 mb-5">
+              <h6>Can I try it for free?</h6>
+              <p class="text-muted">
+                Nam liber tempor cum soluta nobis eleifend option congue nihil imper per tem por
+                legere me doming.
+              </p>
+            </div>
+            <div class="col-md-6 mb-5">
+              <h6>Do you have hidden fees?</h6>
+              <p class="text-muted">
+                Nam liber tempor cum soluta nobis eleifend option congue nihil imper per tem por
+                legere me doming.
+              </p>
+            </div>
+            <div class="col-md-6 mb-5">
+              <h6>What are the payment methods you accept?</h6>
+              <p class="text-muted">
+                Nam liber tempor cum soluta nobis eleifend option congue nihil imper per tem por
+                legere me doming.
+              </p>
+            </div>
+            <div class="col-md-6 mb-5">
+              <h6>How often do you release updates?</h6>
+              <p class="text-muted">
+                Nam liber tempor cum soluta nobis eleifend option congue nihil imper per tem por
+                legere me doming.
+              </p>
+            </div>
+            <div class="col-md-6 mb-5">
+              <h6>What is your refund policy?</h6>
+              <p class="text-muted">
+                Nam liber tempor cum soluta nobis eleifend option congue nihil imper per tem por
+                legere me doming.
+              </p>
+            </div>
+            <div class="col-md-6 mb-5">
+              <h6>How can I contact you?</h6>
+              <p class="text-muted">
+                Nam liber tempor cum soluta nobis eleifend option congue nihil imper per tem por
+                legere me doming.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row mt-4">
+        <div class="col-md-6 mx-auto text-center">
+          <h5 class="mb-4">Have questions?</h5>
+          <a href="#" class="btn btn-primary">Contact us</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!--news section-->
+  <section class="py-7 bg-dark section-angle top-left bottom-left" id="blog">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-6 mx-auto text-center">
+          <h2 class="heading-black">News from Knight.</h2>
+          <p class="text-muted lead">What's new at Knight.</p>
+        </div>
+      </div>
+      <div class="row mt-5">
+        <div class="col-md-4">
+          <div class="card">
+            <a href="#">
+              <img class="card-img-top img-raised" src="img/blog-1.jpg" alt="Blog 1" />
+            </a>
+            <div class="card-body">
+              <a href="#" class="card-title mb-2"
+                ><h5>We launch new iOS & Android mobile apps</h5></a
+              >
+              <p class="text-muted small-xl mb-2">Sep 27, 2018</p>
+              <p class="card-text">
+                Nam liber tempor cum soluta nobis eleifend option congue nihil imper, consectetur
+                adipiscing elit. <a href="#">Learn more</a>
+              </p>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="card">
+            <a href="#">
+              <img class="card-img-top img-raised" src="img/blog-2.jpg" alt="Blog 2" />
+            </a>
+            <div class="card-body">
+              <a href="#" class="card-title mb-2"
+                ><h5>New update is available for the editor</h5></a
+              >
+              <p class="text-muted small-xl mb-2">August 16, 2018</p>
+              <p class="card-text">
+                Nam liber tempor cum soluta nobis eleifend option congue nihil imper, consectetur
+                adipiscing elit. <a href="#">Learn more</a>
+              </p>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="card">
+            <a href="#">
+              <img class="card-img-top img-raised" src="img/blog-3.jpg" alt="Blog 3" />
+            </a>
+            <div class="card-body">
+              <a href="#" class="card-title mb-2"><h5>The story of building #1 page builder</h5></a>
+              <p class="text-muted small-xl mb-2">December 2nd, 2017</p>
+              <p class="card-text">
+                Nam liber tempor cum soluta nobis eleifend option congue nihil imper, consectetur
+                adipiscing elit. <a href="#">Learn more</a>
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row mt-6">
+        <div class="col-md-6 mx-auto text-center">
+          <a href="#" class="btn btn-primary">View all posts</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!--footer-->
+  <footer class="py-6">
+    <div class="container">
+      <div class="row">
+        <div class="col-sm-5 mr-auto">
+          <h5>About Knight</h5>
+          <p class="text-muted">
+            Magnis modipsae que voloratati andigen daepeditem quiate conecus aut labore. Laceaque
+            quiae sitiorem rest non restibusaes maio es dem tumquam explabo.
+          </p>
+          <ul class="list-inline social social-sm">
+            <li class="list-inline-item">
+              <a href=""><i class="fa fa-facebook"></i></a>
+            </li>
+            <li class="list-inline-item">
+              <a href=""><i class="fa fa-twitter"></i></a>
+            </li>
+            <li class="list-inline-item">
+              <a href=""><i class="fa fa-google-plus"></i></a>
+            </li>
+            <li class="list-inline-item">
+              <a href=""><i class="fa fa-dribbble"></i></a>
+            </li>
+          </ul>
+        </div>
+        <div class="col-sm-2">
+          <h5>Legal</h5>
+          <ul class="list-unstyled">
+            <li><a href="#">Privacy</a></li>
+            <li><a href="#">Terms</a></li>
+            <li><a href="#">Refund policy</a></li>
+          </ul>
+        </div>
+        <div class="col-sm-2">
+          <h5>Partner</h5>
+          <ul class="list-unstyled">
+            <li><a href="#">Refer a friend</a></li>
+            <li><a href="#">Affiliates</a></li>
+          </ul>
+        </div>
+        <div class="col-sm-2">
+          <h5>Help</h5>
+          <ul class="list-unstyled">
+            <li><a href="#">Support</a></li>
+            <li><a href="#">Log in</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="row mt-5">
+        <div class="col-12 text-muted text-center small-xl">
+          &copy; 2019 Knight - All Rights Reserved
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!--scroll to top-->
+  <div class="scroll-top">
+    <i class="fa fa-angle-up" aria-hidden="true"></i>
+  </div>
+</template>
+<script setup></script>
+<style lang="scss"></style>

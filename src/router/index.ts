@@ -1,12 +1,12 @@
 import { createRouter, createWebHistory, RouteRecordRaw, Router } from "vue-router";
-import axios from "@/api/request";
+import { auth } from "@/api/login";
 import { useUserStore } from "@/store/user";
 
 const routes: Array<RouteRecordRaw> = [
   {
     path: "/",
     name: "index",
-    component: () => import("@/views/index.vue"),
+    component: () => import("@/views/chat.vue"),
     meta: { keepalive: false },
   },
   {
@@ -15,6 +15,35 @@ const routes: Array<RouteRecordRaw> = [
     component: () => import("@/views/login.vue"),
     meta: { keepalive: false },
   },
+  {
+    path: "/auth/register",
+    name: "register",
+    component: () => import("@/views/register.vue"),
+    meta: { keepalive: false },
+  },
+  {
+    path: "/chat",
+    name: "chat",
+    component: () => import("@/views/chat.vue"),
+    meta: { keepalive: false },
+  },
+  {
+    path: "/user/info",
+    name: "info",
+    component: () => import("@/views/info.vue"),
+    meta: { keepalive: false, requireAuth: true },
+  },
+  {
+    path: "/landing",
+    name: "landing",
+    component: () => import("@/views/landing.vue"),
+    meta: { keepalive: false },
+  },
+  {
+    path: "/message",
+    name: "admin-message",
+    component: () => import("@/views/admin/chat/MessageList.vue"),
+  },
 ];
 
 const router: Router = createRouter({
@@ -22,19 +51,17 @@ const router: Router = createRouter({
   routes,
 });
 
-router.beforeEach((to, from, next) => {
+router.beforeEach(async (to, from, next) => {
   console.log("beforeEach", to.meta.requireAuth);
   if (to.meta.requireAuth) {
     const userStore = useUserStore();
     if (userStore.user) {
-      axios
-        .get("/auth")
-        .then(resp => {
-          if (resp) next();
-        })
-        .catch(err => {
-          next({ name: "login", query: { redirect: to.fullPath } });
-        });
+      try {
+        await auth();
+        next();
+      } catch (err) {
+        next({ name: "login", query: { redirect: to.fullPath } });
+      }
     } else {
       next({ name: "login", query: { redirect: to.fullPath } });
     }
