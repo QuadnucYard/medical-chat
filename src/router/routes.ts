@@ -26,9 +26,9 @@ const routes: RouteRecordRaw[] = [
     meta: { keepalive: false },
     children: [
       {
-        path: "x",
+        path: "",
         name: "chat",
-        component: () => import("@/views/components/ChatArea.vue"),
+        component: () => import("@/views/chat/ChatArea.vue"),
       },
       {
         path: "/user/info",

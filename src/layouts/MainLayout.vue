@@ -22,14 +22,11 @@
     </q-drawer>
     <q-page-container class="main-container">
       <router-view />
-      <!-- <chat-area /> -->
     </q-page-container>
   </q-layout>
 </template>
 
 <script setup lang="ts">
-import ChatArea from "@/views/components/ChatArea.vue";
-
 const leftDrawerOpen = ref(false);
 const rightDrawerOpen = ref(false);
 
