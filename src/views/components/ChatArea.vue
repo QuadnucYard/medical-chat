@@ -6,24 +6,39 @@
     <div class="chat-messages">
       <div v-for="(message, index) in session.messages" :key="index">
         <q-chat-message
-          name="Jane"
-          avatar="https://cdn.quasar.dev/img/avatar3.jpg"
+          :name="getMessageName(message)"
+          :avatar="MyAvatar"
           :stamp="message.send_time"
+          :sent="message.type === 0"
           class="message-container"
         >
-          <div class="icon-wrapper">
-            <q-icon name="thumb_up" class="icon thumb-up" />
-            <q-icon name="thumb_down" class="icon thumb-down" />
-            <q-icon name="textsms" class="icon textsms" />
+          <div>
+            <div class="icon-wrapper">
+              <q-icon
+                v-if="message.type === 1"
+                name="thumb_up"
+                :class="{ 'icon thumb-up': true }"
+                @click="like(message)"
+              />
+              <q-icon
+                v-if="message.type === 1"
+                name="thumb_down"
+                :class="{ 'icon thumb-down': true }"
+                @click="dislike(message)"
+              />
+              <q-icon v-if="message.type === 1" name="textsms" class="icon textsms" />
+            </div>
+            {{ message.content }}
           </div>
-          <div>{{ message.content }}</div>
         </q-chat-message>
       </div>
     </div>
 
     <div class="input-field" style="margin-top: 10px">
       <q-input
-        v-model="message.question"
+        color="lime-11"
+        bg-color="green"
+        v-model="question_message.question"
         rounded
         filled
         dense
@@ -36,18 +51,15 @@
 </template>
 
 <script setup lang="ts">
-import {
-  getSessionDetails,
-  ChatSession,
-  deleteSessions,
-  getSessions,
-  addQuestion,
-} from "@/api/chat";
+import { ref } from "vue";
+import MyAvatar from "@/assets/knight.png";
+import { getSessionDetails, ChatSession, addQuestion } from "@/api/chat";
+import { addFeedback } from "@/api/feedback";
 const props = defineProps<{ sessionId: int }>();
 
 const session = ref<ChatSession | undefined>(undefined);
 
-const message = reactive({
+const question_message = reactive({
   question: "",
   hint: "",
 });
@@ -60,27 +72,55 @@ async function updateSession() {
 }
 
 async function sendMessage() {
-  if (message.question.trim() !== "") {
+  if (question_message.question.trim() !== "") {
     try {
       const response = await addQuestion(props.sessionId, {
-        question: message.question,
+        question: question_message.question,
         hint: "",
       });
       const newQuestion = {
         chat_id: 0, // 设置聊天会话的ID
         type: 0, // 设置问题类型
-        content: message.question, // 设置问题内容
+        content: question_message.question, // 设置问题内容
         id: 0, // 设置问题的ID
         send_time: new Date().toISOString(), // 设置发送时间为当前时间
       };
       session.value?.messages?.push(newQuestion);
       session.value?.messages?.push(response);
-      message.question = "";
-      message.hint = "";
+      question_message.question = "";
+      question_message.hint = "";
     } catch (error) {
       console.error("Failed to add question:", error);
     }
   }
+}
+async function like(data: any) {
+  try {
+    const feedback = {
+      msg_id: data.id,
+      mark_like: true,
+      mark_dislike: false,
+      content: "123",
+    };
+    const response = await addFeedback(feedback);
+  } catch (error) {
+    console.error("Failed to add feedback:", error);
+  }
+}
+async function dislike(data: any) {
+  try {
+    const response = await addFeedback({
+      msg_id: data.id,
+      mark_like: false,
+      mark_dislike: true,
+      content: "",
+    });
+  } catch (error) {
+    console.error("Failed to add feedback:", error);
+  }
+}
+function getMessageName(message: any): string {
+  return message.type === 1 ? "MedBot" : "Me";
 }
 </script>
 

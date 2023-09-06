@@ -79,6 +79,9 @@ devDependencies:
   vite-plugin-compression:
     specifier: ^0.5.1
     version: registry.npmmirror.com/vite-plugin-compression@0.5.1(vite@4.4.9)
+  vue-property-decorator:
+    specifier: 10.0.0-rc.2
+    version: 10.0.0-rc.2(vue-class-component@7.2.6)(vue@3.3.4)
   vue-tsc:
     specifier: ^1.8.8
     version: registry.npmmirror.com/vue-tsc@1.8.8(typescript@5.2.2)
@@ -654,6 +657,24 @@ packages:
 
   /stylis@4.2.0:
     resolution: {integrity: sha512-Orov6g6BB1sDfYgzWfTHDOxamtX1bE/zo104Dh9e6fqJ3PooipYyfJ0pUmrZO2wAvO8YbEyeFrkV91XTsGMSrw==}
+    dev: true
+
+  /vue-class-component@7.2.6(vue@3.3.4):
+    resolution: {integrity: sha512-+eaQXVrAm/LldalI272PpDe3+i4mPis0ORiMYxF6Ae4hyuCh15W8Idet7wPUEs4N4YptgFHGys4UrgNQOMyO6w==}
+    peerDependencies:
+      vue: ^2.0.0
+    dependencies:
+      vue: registry.npmmirror.com/vue@3.3.4
+    dev: true
+
+  /vue-property-decorator@10.0.0-rc.2(vue-class-component@7.2.6)(vue@3.3.4):
+    resolution: {integrity: sha512-Q5kBSt6pP0wQX6F4d0y62LlJxrpX5/QosPGgVhvPPpXNvaYdlmI3w8kQSawYSDy3SBFN7umsasTtj0agxTzErg==}
+    peerDependencies:
+      vue: '*'
+      vue-class-component: '*'
+    dependencies:
+      vue: registry.npmmirror.com/vue@3.3.4
+      vue-class-component: 7.2.6(vue@3.3.4)
     dev: true
 
   registry.npmmirror.com/@alloc/quick-lru@5.2.0:

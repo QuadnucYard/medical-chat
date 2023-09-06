@@ -39,6 +39,11 @@ const routes: Array<RouteRecordRaw> = [
     component: () => import("@/views/landing.vue"),
     meta: { keepalive: false },
   },
+  {
+    path: "/message",
+    name: "admin-message",
+    component: () => import("@/views/admin/chat/MessageList.vue"),
+  },
 ];
 
 const router: Router = createRouter({

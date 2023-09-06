@@ -104,7 +104,7 @@ onMounted(async () => {
   try {
     sessions.value = await getSessions();
   } catch (e) {
-    console.log("Not logged in")
+    console.log("Not logged in");
   }
 
   // hotTopics.value = await getTopics();
@@ -119,45 +119,28 @@ async function add() {
     const response = await addSessions("123");
     sessions.value = await getSessions();
   } catch (error) {
-    console.log("添加失败", error);
+    console.error("Error addSession sessions:", error);
+    throw error;
   }
 }
 
 async function deleteIt(chatId: int) {
   try {
-    const shouldDelete = await showDeleteConfirmation();
-    if (shouldDelete) {
-      const response = await deleteSessions(chatId);
-      sessions.value = await getSessions();
-    }
+    const response = await deleteSessions(chatId);
+    sessions.value = await getSessions();
   } catch (error) {
     console.error("Error deleting sessions:", error);
     throw error;
   }
 }
 
-async function showDeleteConfirmation() {
-  return new Promise((resolve, reject) => {
-    Dialog.create({
-      title: "确认删除",
-      message: "确定要删除该会话吗？",
-      ok: {
-        label: "确认",
-        color: "negative",
-      },
-      cancel: {
-        label: "取消",
-        color: "grey-8",
-      },
-    })
-      .onOk(() => resolve(true))
-      .onCancel(() => resolve(false))
-      .onDismiss(() => reject(new Error("Confirmation dialog dismissed.")));
-  });
 async function onLogout() {
-  console.log("logout");
-  await logout();
-  location.reload();
+  try {
+    const response = await logout();
+  } catch (error) {
+    console.error("Error logout sessions:", error);
+    throw error;
+  }
 }
 </script>
 
@@ -185,11 +168,11 @@ async function onLogout() {
   display: flex; /* 使用 Flexbox 布局 */
 }
 .sidebar {
-  width: 40%; /* 设置容器宽度为屏幕的 1/4 */
+  width: 30%; /* 设置容器宽度为屏幕的 1/4 */
 }
 .chat-area-container {
   flex-grow: 1; /* 占据剩余空间 */
-  width: 60%; /* 设置容器宽度为屏幕的 3/4 */
+  width: 70%; /* 设置容器宽度为屏幕的 3/4 */
   height: 100vh;
   padding: 16px; /* 添加内边距，可根据需要调整 */
   box-sizing: border-box; /* 确保内边距不会影响容器的宽度 */
