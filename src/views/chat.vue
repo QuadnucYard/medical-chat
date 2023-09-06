@@ -104,7 +104,7 @@ onMounted(async () => {
   try {
     sessions.value = await getSessions();
   } catch (e) {
-    console.log("Not logged in")
+    console.log("Not logged in");
   }
 
   // hotTopics.value = await getTopics();
@@ -187,11 +187,11 @@ async function onLogout() {
   display: flex; /* 使用 Flexbox 布局 */
 }
 .sidebar {
-  width: 40%; /* 设置容器宽度为屏幕的 1/4 */
+  width: 30%; /* 设置容器宽度为屏幕的 1/4 */
 }
 .chat-area-container {
   flex-grow: 1; /* 占据剩余空间 */
-  width: 60%; /* 设置容器宽度为屏幕的 3/4 */
+  width: 70%; /* 设置容器宽度为屏幕的 3/4 */
   height: 100vh;
   padding: 16px; /* 添加内边距，可根据需要调整 */
   box-sizing: border-box; /* 确保内边距不会影响容器的宽度 */
