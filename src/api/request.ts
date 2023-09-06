@@ -1,8 +1,11 @@
-import axios from "axios";
-import { Notify } from "quasar";
+import axios, { AxiosError } from "axios";
 
 import { useUserStore } from "@/store/user";
-// import Cookies from "js-cookie";
+import Message from "@/utils/message";
+
+function format422(data: any, detail: { loc: string[]; msg: string; type: string }[]) {
+  return detail.map((t) => t.msg + ".").join(" ");
+}
 
 // 创建axios实例
 const service = axios.create({
@@ -38,19 +41,15 @@ service.interceptors.response.use(
       return response;
     }
   },
-  (error) => {
+  (error: AxiosError<any>) => {
     console.log(error);
-    let code = 0;
-    try {
-      code = error.response.status;
-    } catch (e) {
-      if (error.toString().includes("Error: timeout")) {
-        Notify.create({ type: "negative", message: "网络请求超时" });
-        return Promise.reject(error);
-      }
+    const code = error.response?.status;
+    if (error.toString().includes("Error: timeout")) {
+      Message.error("网络请求超时");
+      return Promise.reject(error);
     }
     if (!code) {
-      Notify.create({ type: "negative", message: "接口请求失败" });
+      Message.error("接口请求失败");
       return Promise.reject(error);
     }
     if (code === 401) {
@@ -58,17 +57,17 @@ service.interceptors.response.use(
       const userStore = useUserStore();
       userStore.logout();
       // location.reload();
-      Notify.create({ type: "negative", message: error });
+      Message.error(error.message);
     } else if (code === 403) {
       /* const $router = useRouter();
         $router.push({ path: "/401" }); */
-      Notify.create({ type: "negative", message: error });
+      Message.error(error.message);
     } else if (code == 422) {
       // Unprocessable Entity
-      Notify.create({ type: "negative", message: error.message });
+      Message.error(format422(JSON.parse(error.config?.data), error.response!.data.detail));
     } else {
-      const errorMsg = error.response.data.message ?? error.response.data.detail;
-      Notify.create({ type: "negative", message: errorMsg ?? "Unknown error" });
+      const errorMsg = error.response?.data.message ?? error.response?.data.detail;
+      Message.error(errorMsg ?? "Unknown error");
     }
     return Promise.reject(error);
   }
