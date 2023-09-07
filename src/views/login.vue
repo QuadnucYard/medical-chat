@@ -83,12 +83,12 @@ async function onSubmit() {
     const user = await getUser();
     console.log("获取用户", user);
     userStore.login({ token, data: user });
-    Message.success(`登录成功！`)
+    Message.success(`登录成功！`);
 
     if ($route.query.redirect) {
       $router.push($route.query.redirect as string);
     } else {
-      $router.push("chat");
+      $router.push({ name: "chat" });
     }
   } catch (error) {
     console.log("登录失败", error);

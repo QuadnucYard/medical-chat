@@ -32,7 +32,7 @@
 </template>
 
 <script setup lang="ts">
-import { ChatSession, addSessions, deleteSessions, getSessions } from "@/api/chat";
+import { ChatSession, addSession, deleteSession, getSessions } from "@/api/chat";
 import emitter from "@/utils/bus";
 import { Dialog } from "quasar";
 
@@ -59,7 +59,7 @@ function selectSession(sessionId: int) {
 
 async function add() {
   try {
-    const response = await addSessions("123");
+    const response = await addSession("123");
     sessions.value = await getSessions();
     selectSession(response.id);
   } catch (error) {
@@ -71,7 +71,7 @@ async function deleteIt(chatId: int) {
   try {
     const shouldDelete = await showDeleteConfirmation();
     if (shouldDelete) {
-      const response = await deleteSessions(chatId);
+      const response = await deleteSession(chatId);
       sessions.value = await getSessions();
     }
     if (chatId == selectedId.value) {
