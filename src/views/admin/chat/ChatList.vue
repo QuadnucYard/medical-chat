@@ -1,70 +1,72 @@
 <template>
-  <div>
-    <q-table
-      ref="tableRef"
-      title="聊天会话"
-      :rows="rows"
-      :columns="columns"
-      row-key="id"
-      binary-state-sort
-      square
-      flat
-      dense
-      class="my-sticky-table-handle"
-      :filter="filter"
-      :loading="loading"
-      v-model:pagination="pagination"
-      @request="onRequest"
-    >
-      <!-- <template #top-right>
+  <div class="q-pa-sm full-width full-height">
+    <q-card square flat bordered>
+      <q-table
+        ref="tableRef"
+        title="聊天会话"
+        :rows="rows"
+        :columns="columns"
+        row-key="id"
+        binary-state-sort
+        square
+        flat
+        dense
+        class="my-sticky-table-handle"
+        :filter="filter"
+        :loading="loading"
+        v-model:pagination="pagination"
+        @request="onRequest"
+      >
+        <!-- <template #top-right>
         <q-input dense outlined debounce="300" color="primary" v-model="filter">
           <template #append>
             <q-icon name="search" />
           </template>
         </q-input>
       </template> -->
-      <template v-for="field in editables" #[`body-cell-${field}`]="props">
-        <q-td :props="props">
-          {{ props.row[field] }}
-          <q-popup-edit v-model="props.row[field]" v-slot="scope">
-            <q-input v-model="scope.value" dense autofocus counter @keyup.enter="scope.set" />
-          </q-popup-edit>
-        </q-td>
-      </template>
-      <template #body-cell-handle="props">
-        <q-td :props="props">
-          <q-btn
-            flat
-            dense
-            round
-            color="blue"
-            icon="edit"
-            size="sm"
-            @click="onUpdateEdit(props.row)"
-          />
-          <q-btn
-            v-if="!props.row.delete_time"
-            flat
-            dense
-            round
-            color="red"
-            icon="delete"
-            size="sm"
-            @click="onDelete(props.row)"
-          />
-          <q-btn
-            v-else
-            flat
-            dense
-            round
-            color="green"
-            icon="restore_from_trash"
-            size="sm"
-            @click="onDelete(props.row)"
-          />
-        </q-td>
-      </template>
-    </q-table>
+        <template v-for="field in editables" #[`body-cell-${field}`]="props">
+          <q-td :props="props">
+            {{ props.row[field] }}
+            <q-popup-edit v-model="props.row[field]" v-slot="scope">
+              <q-input v-model="scope.value" dense autofocus counter @keyup.enter="scope.set" />
+            </q-popup-edit>
+          </q-td>
+        </template>
+        <template #body-cell-handle="props">
+          <q-td :props="props">
+            <q-btn
+              flat
+              dense
+              round
+              color="blue"
+              icon="edit"
+              size="sm"
+              @click="onUpdateEdit(props.row)"
+            />
+            <q-btn
+              v-if="!props.row.delete_time"
+              flat
+              dense
+              round
+              color="red"
+              icon="delete"
+              size="sm"
+              @click="onDelete(props.row)"
+            />
+            <q-btn
+              v-else
+              flat
+              dense
+              round
+              color="green"
+              icon="restore_from_trash"
+              size="sm"
+              @click="onDelete(props.row)"
+            />
+          </q-td>
+        </template>
+      </q-table>
+    </q-card>
   </div>
 </template>
 
