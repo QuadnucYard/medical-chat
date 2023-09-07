@@ -2,6 +2,7 @@ import axios, { AxiosError } from "axios";
 
 import { useUserStore } from "@/store/user";
 import Message from "@/utils/message";
+import { redirectLogin } from "@/router";
 
 function format422(data: any, detail: { loc: string[]; msg: string; type: string }[]) {
   return detail.map((t) => t.msg + ".").join(" ");
@@ -59,9 +60,8 @@ service.interceptors.response.use(
       // location.reload();
       Message.error(error.message);
     } else if (code === 403) {
-      /* const $router = useRouter();
-        $router.push({ path: "/401" }); */
-      Message.error(error.message);
+      redirectLogin();
+      Message.error(error.response?.data.detail);
     } else if (code == 422) {
       // Unprocessable Entity
       Message.error(format422(JSON.parse(error.config?.data), error.response!.data.detail));

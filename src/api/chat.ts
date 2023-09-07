@@ -8,6 +8,7 @@ export interface ChatMessage {
   content: string;
   id: int;
   send_time: string;
+  own_feedback?: ChatFeedback;
 }
 
 export interface ChatSession {
@@ -19,6 +20,13 @@ export interface ChatSession {
   update_time: string;
   messages?: ChatMessage[];
   user: UserPartial;
+}
+
+export interface ChatFeedbackUpdate {
+  msg_id: int;
+  mark_like?: boolean;
+  mark_dislike?: boolean;
+  content?: string;
 }
 
 export interface ChatFeedback {
@@ -56,15 +64,15 @@ export async function getSessionDetails(chat_id: int) {
 
 // done
 export async function addQuestion(chat_id: int, question_data: any) {
-  return (await api.post<ChatSession>(`/chat/${chat_id}`, question_data)).data;
-}
-
-export async function addFeedback(feedback_data: any) {
-  return (await api.post<ChatSession>("/chat/feedbacks/", feedback_data)).data;
+  return (await api.post<ChatMessage>(`/chat/${chat_id}`, question_data)).data;
 }
 
 export async function getAllSessions() {
   return (await api.get<Page<ChatSession>>("/chat/")).data;
+}
+
+export async function addFeedback(feedback_data: ChatFeedbackUpdate) {
+  return (await api.put<ChatFeedback>("/feedbacks/", feedback_data)).data;
 }
 
 export async function getAllFeedbacks() {

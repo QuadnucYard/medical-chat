@@ -1,6 +1,6 @@
 import { RouteRecordRaw } from "vue-router";
 
-const routes: Array<RouteRecordRaw> = [
+const routes: RouteRecordRaw[] = [
   {
     path: "/",
     name: "index",
@@ -21,15 +21,22 @@ const routes: Array<RouteRecordRaw> = [
   },
   {
     path: "/chat",
-    name: "chat",
-    component: () => import("@/views/chat.vue"),
+    name: "chat-main",
+    component: () => import("@/layouts/MainLayout.vue"),
     meta: { keepalive: false },
-  },
-  {
-    path: "/user/info",
-    name: "info",
-    component: () => import("@/views/info.vue"),
-    meta: { keepalive: false, requireAuth: true },
+    children: [
+      {
+        path: "",
+        name: "chat",
+        component: () => import("@/views/chat/ChatArea.vue"),
+      },
+      {
+        path: "/user/info",
+        name: "user-info",
+        component: () => import("@/views/info.vue"),
+        meta: { keepalive: false, requireAuth: true },
+      },
+    ],
   },
   {
     path: "/landing",
