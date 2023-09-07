@@ -4,7 +4,7 @@ const routes: RouteRecordRaw[] = [
   {
     path: "/",
     name: "index",
-    component: () => import("@/views/chat.vue"),
+    component: () => import("@/layouts/MainLayout.vue"),
     meta: { keepalive: false },
   },
   {
@@ -37,12 +37,6 @@ const routes: RouteRecordRaw[] = [
         meta: { keepalive: false, requireAuth: true },
       },
     ],
-  },
-  {
-    path: "/landing",
-    name: "landing",
-    component: () => import("@/views/landing.vue"),
-    meta: { keepalive: false },
   },
   {
     path: "/admin",
