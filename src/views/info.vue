@@ -16,13 +16,16 @@
                 </q-avatar>
               </q-item-section>
               <q-item-section>
-                <q-btn
-                  label="Add Photo"
-                  class="text-capitalize"
-                  rounded
-                  color="info"
-                  style="max-width: 120px"
-                ></q-btn>
+                <q-file
+                  v-model="file"
+                  outlined
+                  label="更改头像"
+                  filled
+                  style="max-width: 300px"
+                  @change="handleFileChange"
+                />
+                <img v-if="previewUrl" :src="previewUrl" alt="预览头像" />
+                <button @click="uploadAvatar">上传头像</button>
               </q-item-section>
             </q-item>
 
@@ -82,11 +85,11 @@
     <div class="col-lg-8 col-md-8 col-xs-12 col-sm-12">
       <q-card class="card-bg text-white no-shadow" bordered>
         <q-card-section class="text-h6 q-pa-sm">
-          <div class="text-h6">Change Password</div>
+          <div class="text-h6">更改密码</div>
         </q-card-section>
         <q-card-section class="q-pa-sm row">
           <q-item class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
-            <q-item-section> Current Password </q-item-section>
+            <q-item-section> 当前密码 </q-item-section>
           </q-item>
           <q-item class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
             <q-item-section>
@@ -103,7 +106,7 @@
             </q-item-section>
           </q-item>
           <q-item class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
-            <q-item-section> New Password </q-item-section>
+            <q-item-section> 新密码 </q-item-section>
           </q-item>
           <q-item class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
             <q-item-section>
@@ -120,7 +123,7 @@
             </q-item-section>
           </q-item>
           <q-item class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
-            <q-item-section> Confirm New Password </q-item-section>
+            <q-item-section> 确认新密码 </q-item-section>
           </q-item>
           <q-item class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
             <q-item-section>
@@ -147,10 +150,15 @@
 </template>
 
 <script setup lang="ts">
-import { getUser, updateUserMe } from "@/api/user";
+import { getUser, updateUserMe, updateUserMeAvatar } from "@/api/user";
 import Message from "@/utils/message";
+import { ref } from "vue";
+
 const user_details = ref({});
 const password_dict = ref({});
+
+const file = ref({});
+const previewUrl = ref({});
 
 onMounted(async () => {
   try {
@@ -189,6 +197,27 @@ async function updatePassword(user_details: any) {
     Message.success(`更新成功！`);
   } catch (e) {
     console.log("update error");
+  }
+}
+function handleFileChange(event: Event) {
+  const target = event.target as HTMLInputElement;
+  if (target.files && target.files.length > 0) {
+    const file = target.files[0];
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      this.previewUrl = e.target?.result as string;
+    };
+    reader.readAsDataURL(file);
+  } else {
+    this.previewUrl = null;
+  }
+}
+async function uploadAvatar() {
+  if (this.file) {
+    const formData = new FormData();
+    formData.append("avatar", this.file);
+
+    const response = await updateUserMeAvatar(this.file);
   }
 }
 </script>

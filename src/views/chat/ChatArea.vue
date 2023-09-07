@@ -1,8 +1,28 @@
 <template>
   <div v-if="session" class="chat-area">
-    <h1 class="text-h4">{{ session.title }}</h1>
-    <p>创建时间: {{ session.create_time }}</p>
-    <p>更新时间: {{ session.update_time }}</p>
+    <q-input
+      outlined
+      v-model="session.title"
+      label-slot
+      clearable
+      class="title"
+      input-class="input-large"
+    >
+      <template v-slot:prepend>
+        <q-avatar>
+          <img src="https://cdn.quasar.dev/logo-v2/svg/logo.svg" />
+        </q-avatar>
+      </template>
+      <template v-slot:label>
+        <span class="q-px-sm bg-deep-orange text-white text-italic rounded-borders">标题</span>
+      </template>
+    </q-input>
+    <q-chip outline color="primary" text-color="white" icon="event">
+      创建时间：{{ formatDate(session.create_time) }}
+    </q-chip>
+    <q-chip outline color="primary" text-color="white" icon="event">
+      更新时间：{{ formatDate(session.update_time) }}
+    </q-chip>
     <div class="chat-messages">
       <my-chat-message v-for="msg in session.messages" :message="msg" />
     </div>
@@ -25,7 +45,9 @@
 
 <script setup lang="ts">
 import { getSessionDetails, ChatSession, addQuestion, ChatMessage, ChatFeedback } from "@/api/chat";
+import { formatDate } from "@/utils/date-utils";
 import emitter from "@/utils/bus";
+import MyChatMessage from "@/components/chat/MyChatMessage.vue";
 
 const sessionId = ref<int | undefined>(undefined);
 const session = ref<ChatSession | undefined>(undefined);
@@ -84,5 +106,13 @@ async function sendMessage() {
   right: 20px; /* 调整图标与输入框之间的水平间距 */
   transform: translateY(-50%);
   cursor: pointer;
+}
+.title {
+  font-size: 20px; /* 根据需要调整整体大小和样式 */
+}
+
+.input-large {
+  font-size: 24px; /* 根据需要调整输入框字体大小 */
+  width: 400px; /* 根据需要调整输入框宽度 */
 }
 </style>

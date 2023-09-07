@@ -4,7 +4,7 @@ const routes: RouteRecordRaw[] = [
   {
     path: "/",
     name: "index",
-    component: () => import("@/views/chat.vue"),
+    component: () => import("@/views/Error404.vue"),
     meta: { keepalive: false },
   },
   {
