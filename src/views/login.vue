@@ -1,7 +1,7 @@
 <template>
   <q-layout view="lHh Lpr lFf">
     <q-page-container>
-      <q-page class="flex flex-center bg-grey-2">
+      <q-page class="flex flex-center">
         <q-card class="q-pa-md shadow-2 my_card" bordered>
           <q-card-section class="text-center">
             <div class="text-grey-9 text-h5 text-weight-bold">登录</div>
@@ -83,7 +83,7 @@ async function onSubmit() {
     const user = await getUser();
     console.log("获取用户", user);
     userStore.login({ token, data: user });
-    Message.success(`登录成功！`)
+    Message.success(`登录成功！`);
 
     if ($route.query.redirect) {
       $router.push($route.query.redirect as string);

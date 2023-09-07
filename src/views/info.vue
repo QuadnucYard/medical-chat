@@ -55,6 +55,23 @@
                 <q-input dark color="white" dense v-model="user.name" label="您的昵称" />
               </q-item-section>
             </q-item>
+            <q-item class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+              <q-item-section> 当前密码 </q-item-section>
+            </q-item>
+            <q-item class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
+              <q-item-section>
+                <q-input
+                  type="password"
+                  dark
+                  dense
+                  outlined
+                  color="white"
+                  round
+                  v-model="password_dict.current_password"
+                  label="Current Password"
+                />
+              </q-item-section>
+            </q-item>
           </q-list>
         </q-card-section>
         <q-card-actions align="right">
@@ -87,23 +104,6 @@
           <div class="text-h6">更改密码</div>
         </q-card-section>
         <q-card-section class="q-pa-sm row">
-          <q-item class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
-            <q-item-section> 当前密码 </q-item-section>
-          </q-item>
-          <q-item class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
-            <q-item-section>
-              <q-input
-                type="password"
-                dark
-                dense
-                outlined
-                color="white"
-                round
-                v-model="password_dict.current_password"
-                label="Current Password"
-              />
-            </q-item-section>
-          </q-item>
           <q-item class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
             <q-item-section> 新密码 </q-item-section>
           </q-item>
@@ -144,6 +144,15 @@
         </q-card-actions>
       </q-card>
     </div>
+
+    <q-fab icon="add" direction="up" color="accent">
+      <q-fab-action color="primary" icon="person_add" />
+      <q-fab-action color="primary" icon="mail" />
+    </q-fab>
+    <q-fab color="secondary" push icon="keyboard_arrow_right" direction="right">
+      <q-fab-action color="primary" @click="onClick" icon="mail" />
+      <q-fab-action color="accent" @click="onClick" icon="alarm" />
+    </q-fab>
   </div>
   <!-- </q-page> -->
 </template>
@@ -216,6 +225,7 @@ async function uploadAvatar(files: File[]) {
 
 <style scoped>
 .card-bg {
-  background-color: #162b4d;
+  --my-primary-color: var(--q-color-primary);
+  background-color: var(--my-primary-color);
 }
 </style>

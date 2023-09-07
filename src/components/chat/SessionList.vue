@@ -24,7 +24,9 @@
       </q-item>
       <q-item clickable v-ripple @click="add()" class="bg-teal-1">
         <q-item-section>
-          <q-item-label style="text-align: center">添加对话</q-item-label>
+          <q-item-label style="text-align: center; background-color: primary; color: black">
+            添加对话
+          </q-item-label>
         </q-item-section>
       </q-item>
     </q-list>

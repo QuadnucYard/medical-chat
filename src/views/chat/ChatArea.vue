@@ -30,7 +30,7 @@
     <div class="input-field" style="margin-top: 10px">
       <q-input
         color="lime-11"
-        bg-color="green"
+        bg-color="primary"
         v-model="question_message.question"
         rounded
         filled
@@ -40,17 +40,87 @@
       />
       <q-icon name="send" class="icon2" @click="sendMessage" />
     </div>
+
+    <div style="margin-top: 100px">
+      <q-fab
+        v-model="fabLeft"
+        vertical-actions-align="left"
+        color="primary"
+        glossy
+        icon="keyboard_arrow_up"
+        direction="up"
+        style="margin: 0 auto"
+      >
+        <q-fab-action
+          label-position="right"
+          color="accent"
+          icon="report"
+          label="投诉"
+          @click="report = true"
+        />
+        <q-fab-action
+          label-position="right"
+          color="primary"
+          icon="note"
+          label="笔记"
+          @click="note = true"
+        />
+      </q-fab>
+
+      <q-dialog v-model="report" persistent>
+        <q-card style="min-width: 350px">
+          <q-card-section>
+            <div class="text-h6">您的投诉</div>
+          </q-card-section>
+
+          <q-card-section class="q-pt-none">
+            <q-input type="textarea" v-model="report_detail" filled @keyup.enter="report = false" />
+          </q-card-section>
+
+          <q-card-actions align="right" class="text-primary">
+            <q-btn flat label="取消" v-close-popup />
+            <q-btn flat label="确认" v-close-popup @click="addComplain" />
+          </q-card-actions>
+        </q-card>
+      </q-dialog>
+
+      <q-dialog v-model="note" persistent>
+        <q-card style="min-width: 350px">
+          <q-card-section>
+            <div class="text-h6">您的笔记</div>
+          </q-card-section>
+
+          <q-card-section class="q-pt-none">
+            <q-input type="textarea" v-model="booknote_detail" filled @keyup.enter="note = false" />
+          </q-card-section>
+
+          <q-card-actions align="right" class="text-primary">
+            <q-btn flat label="取消" v-close-popup />
+            <q-btn flat label="确认" v-close-popup />
+          </q-card-actions>
+        </q-card>
+      </q-dialog>
+    </div>
   </div>
 </template>
 
 <script setup lang="ts">
 import { getSessionDetails, ChatSession, addQuestion, ChatMessage, ChatFeedback } from "@/api/chat";
+import { updateComplaint } from "@/api/feedback";
 import { formatDate } from "@/utils/date-utils";
 import emitter from "@/utils/bus";
 import MyChatMessage from "@/components/chat/MyChatMessage.vue";
+import { ref } from "vue";
 
 const sessionId = ref<int | undefined>(undefined);
 const session = ref<ChatSession | undefined>(undefined);
+
+const fabLeft = ref(true);
+const report = ref(false);
+const note = ref(false);
+
+const report_detail = ref("");
+const booknote_detail = ref("");
 
 const question_message = reactive({
   question: "",
@@ -84,6 +154,15 @@ async function sendMessage() {
       question_message.hint = "";
     } catch (error) {
       console.error("Failed to add question:", error);
+    }
+  }
+}
+async function addComplain() {
+  if (report_detail.value !== "") {
+    try {
+      const response = await updateComplaint(report_detail.value);
+    } catch (error) {
+      console.error("Failed to add complain:", error);
     }
   }
 }
