@@ -1,19 +1,22 @@
 <template>
   <div>
     <q-table
+      ref="tableRef"
       title="聊天会话"
       :rows="rows"
       :columns="columns"
-      row-key="name"
+      row-key="id"
       binary-state-sort
       square
       flat
       dense
       class="my-sticky-table-handle"
       :filter="filter"
-      :pagination="initialPagination"
+      :loading="loading"
+      v-model:pagination="pagination"
+      @request="onRequest"
     >
-      <template v-slot:top>
+      <template #top>
         <div class="q-gutter-md">
           <q-btn color="green" icon="add" label="新建" unelevated rounded class="l-shadow-2" />
           <q-btn
@@ -27,10 +30,49 @@
         </div>
         <q-space />
         <q-input dense outlined debounce="300" color="primary" v-model="filter">
-          <template v-slot:append>
+          <template #append>
             <q-icon name="search" />
           </template>
         </q-input>
+      </template>
+      <template v-for="field in editables" #[`body-cell-${field}`]="props">
+        <q-td :props="props">
+          {{ props.row[field] }}
+          <q-popup-edit v-model="props.row[field]" v-slot="scope">
+            <q-input v-model="scope.value" dense autofocus counter @keyup.enter="scope.set" />
+          </q-popup-edit>
+        </q-td>
+      </template>
+      <template #body-cell-is_superuser="props">
+        <q-td :props="props">
+          <q-checkbox
+            dense
+            v-model="props.row.is_superuser"
+            checked-icon="star"
+            unchecked-icon="star_border"
+            indeterminate-icon="help"
+            color="red"
+            :disable="true"
+          />
+        </q-td>
+      </template>
+      <template #body-cell-valid="props">
+        <q-td :props="props">
+          <q-checkbox dense size="sm" v-model="props.row.valid" />
+        </q-td>
+      </template>
+      <template #body-cell-handle="props">
+        <q-td :props="props">
+          <q-btn
+            flat
+            dense
+            round
+            color="green"
+            icon="o_edit"
+            size="sm"
+            @click="onUpdateEdit(props.row)"
+          />
+        </q-td>
       </template>
     </q-table>
   </div>
@@ -38,40 +80,54 @@
 
 <script setup lang="ts">
 import { ChatSession, ChatMessage, getAllSessions } from "@/api/chat";
-
+import { User, getUsers, updateUser } from "@/api/user";
+import { TablePagination } from "@/typing/quasar";
+import { formatDate } from "@/utils/date-utils";
+import { addSSP, makeRequester } from "@/utils/paginating";
+import { columnDefaults } from "@/utils/table-utils";
+import { QTab, QTable } from "quasar";
+import Message from "@/utils/message";
 import { date } from 'quasar'
 
-const columns = [
-  { name: "id", label: "ID", field: "id" },
+const columns = columnDefaults(
+[
+  { name: "id", label: "ID"},
   { name: "user", label: "用户", field: (row: ChatSession)=> row.user.username},
-  { name: "title", label: "标题", field: "title" },
-  { name: "create_time", label: "注册时间", field: (row: ChatSession)=> {
-    return date.formatDate(new Date(row.create_time), 'YYYY-MM-DD HH:mm:ss')
-  }},
-  { name: "update_time", label: "更新时间", field: (row: ChatSession)=> {
-    return date.formatDate(new Date(row.update_time), 'YYYY-MM-DD HH:mm:ss')
-  }},
-  { name: "delete_time", label: "删除时间", field: (row: ChatSession)=> {
-    return date.formatDate(new Date(row.delete_time), 'YYYY-MM-DD HH:mm:ss')
-  }}
-];
+  { name: "title", label: "标题"},
+  { name: "create_time", label: "注册时间", format: formatDate },
+  { name: "update_time", label: "更新时间", format: formatDate },
+  { name: "login_time", label: "登录时间", format: formatDate }
+],{ sortable: true, align: "center" });
+
+const editables = ["title"];
 
 const rows = ref<ChatSession[]>([]);
 
-const initialPagination = {
-  sortBy: "desc",
+const tableRef = ref<QTable>();
+
+const pagination = ref<TablePagination>({
+  sortBy: null,
   descending: false,
   page: 1,
   rowsPerPage: 20,
-  // rowsNumber: xx if getting data from a server
-};
+  rowsNumber: 0,
+}); // It MUST be REF!
 
+const loading = ref(false);
 const filter = ref("");
 
-onMounted(async() => {
-  const resp = await getAllSessions();
-  rows.value = resp;
-});
+onMounted(addSSP(tableRef));
+
+const onRequest = makeRequester({ rows, pagination, loading }, getAllSessions);
+
+/*TODO*/ 
+async function onUpdateEdit(user: User) {
+  const res = await updateUser(user.id, user);
+  Object.assign(user, res);
+  Message.success("成功编辑用户信息");
+}
 </script>
 
 <style scoped></style>
+
+
