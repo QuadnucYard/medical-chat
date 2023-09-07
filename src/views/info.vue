@@ -1,7 +1,7 @@
 <template>
   <div class="row q-col-gutter-sm m-4">
     <div class="col-lg-8 col-md-8 col-xs-12 col-sm-12">
-      <q-card class="card-bg text-white no-shadow" bordered>
+      <q-card class="card-bg text-white no-shadow" bordered v-if="user">
         <q-btn color="dark" label="返回主页" router-link to="/chat" />
         <q-card-section class="text-h6">
           <div class="text-h6">更新页面</div>
@@ -11,21 +11,20 @@
           <q-list class="row">
             <q-item class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
               <q-item-section side>
-                <q-avatar size="100px">
-                  <img :src="user_details.avatar_url" />
-                </q-avatar>
+                <q-btn round @click="uploadState = !uploadState" title="点击上传新头像">
+                  <q-avatar size="200px" class="shadow-2">
+                    <img :src="imgPrefix + user.avatar_url" />
+                  </q-avatar>
+                </q-btn>
               </q-item-section>
               <q-item-section>
-                <q-file
-                  v-model="file"
-                  outlined
-                  label="更改头像"
-                  filled
-                  style="max-width: 300px"
-                  @change="handleFileChange"
+                <q-uploader
+                  v-if="uploadState"
+                  style="max-width: 240px; max-height: 200px"
+                  label="新头像"
+                  accept=".jpg, image/*"
+                  :factory="uploadAvatar"
                 />
-                <img v-if="previewUrl" :src="previewUrl" alt="预览头像" />
-                <button @click="uploadAvatar">上传头像</button>
               </q-item-section>
             </q-item>
 
@@ -35,7 +34,7 @@
                   dark
                   color="white"
                   dense
-                  v-model="user_details.username"
+                  v-model="user.username"
                   label="您的用户名"
                   readonly
                 />
@@ -43,17 +42,17 @@
             </q-item>
             <q-item class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
               <q-item-section>
-                <q-input dark color="white" dense v-model="user_details.email" label="您的邮箱" />
+                <q-input dark color="white" dense v-model="user.email" label="您的邮箱" />
               </q-item-section>
             </q-item>
             <q-item class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
               <q-item-section>
-                <q-input dark color="white" dense v-model="user_details.phone" label="您的号码" />
+                <q-input dark color="white" dense v-model="user.phone" label="您的号码" />
               </q-item-section>
             </q-item>
             <q-item class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
               <q-item-section>
-                <q-input dark color="white" dense v-model="user_details.name" label="您的昵称" />
+                <q-input dark color="white" dense v-model="user.name" label="您的昵称" />
               </q-item-section>
             </q-item>
           </q-list>
@@ -150,19 +149,22 @@
 </template>
 
 <script setup lang="ts">
-import { getUser, updateUserMe, updateUserMeAvatar } from "@/api/user";
+import { User, getUser, updateUserMe, updateUserMeAvatar } from "@/api/user";
 import Message from "@/utils/message";
-import { ref } from "vue";
 
-const user_details = ref({});
-const password_dict = ref({});
+const user = ref<User>();
+const password_dict = reactive({
+  current_password: "",
+  new_password: "",
+  confirm_new_password: "",
+});
 
-const file = ref({});
-const previewUrl = ref({});
+const imgPrefix = import.meta.env.VITE_APP_BASE_API + "/";
+const uploadState = ref(false);
 
 onMounted(async () => {
   try {
-    user_details.value = await getUser();
+    user.value = await getUser();
   } catch (e) {
     console.log("get user_details error");
   }
@@ -199,25 +201,15 @@ async function updatePassword(user_details: any) {
     console.log("update error");
   }
 }
-function handleFileChange(event: Event) {
-  const target = event.target as HTMLInputElement;
-  if (target.files && target.files.length > 0) {
-    const file = target.files[0];
-    const reader = new FileReader();
-    reader.onload = (e) => {
-      this.previewUrl = e.target?.result as string;
-    };
-    reader.readAsDataURL(file);
-  } else {
-    this.previewUrl = null;
-  }
-}
-async function uploadAvatar() {
-  if (this.file) {
-    const formData = new FormData();
-    formData.append("avatar", this.file);
 
-    const response = await updateUserMeAvatar(this.file);
+async function uploadAvatar(files: File[]) {
+  const file = files[0];
+  if (file) {
+    user.value = await updateUserMeAvatar(file);
+    Message.success("成功更新头像！");
+    uploadState.value = false;
+  } else {
+    Message.warning("你没有选择文件！");
   }
 }
 </script>

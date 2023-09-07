@@ -40,5 +40,5 @@ export async function updateUserMe(user_data: any) {
 }
 
 export async function updateUserMeAvatar(user_avatar: File) {
-  return (await api.postForm<User>("/users/me/avatar", user_avatar)).data;
+  return (await api.postForm<User>("/users/me/avatar", { file: user_avatar })).data;
 }
