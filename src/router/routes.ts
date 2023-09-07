@@ -1,6 +1,6 @@
 import { RouteRecordRaw } from "vue-router";
 
-const routes: Array<RouteRecordRaw> = [
+const routes: RouteRecordRaw[] = [
   {
     path: "/",
     name: "index",
@@ -21,15 +21,22 @@ const routes: Array<RouteRecordRaw> = [
   },
   {
     path: "/chat",
-    name: "chat",
-    component: () => import("@/views/chat.vue"),
+    name: "chat-main",
+    component: () => import("@/layouts/MainLayout.vue"),
     meta: { keepalive: false },
-  },
-  {
-    path: "/user/info",
-    name: "info",
-    component: () => import("@/views/info.vue"),
-    meta: { keepalive: false, requireAuth: true },
+    children: [
+      {
+        path: "",
+        name: "chat",
+        component: () => import("@/views/chat/ChatArea.vue"),
+      },
+      {
+        path: "/user/info",
+        name: "user-info",
+        component: () => import("@/views/info.vue"),
+        meta: { keepalive: false, requireAuth: true },
+      },
+    ],
   },
   {
     path: "/landing",
@@ -48,42 +55,42 @@ const routes: Array<RouteRecordRaw> = [
     meta: { keepalive: false },
     children: [
       {
-        path: "/index",
+        path: "index",
         name: "index",
         component: () => import("@/views/admin/content/IndexPage.vue"),
       },
       {
-        path: "/customer",
+        path: "customer",
         name: "customer",
         component: () => import("@/views/admin/content/CustomerPage.vue"),
       },
       {
-        path: "/business_config",
+        path: "business_config",
         name: "business_config",
         component: () => import("@/views/admin/content/BusinessConfigPage.vue"),
       },
       {
-        path: "/customer_list",
+        path: "customer_list",
         name: "customer_list",
         component: () => import("@/views/admin/content/CustomerList.vue"),
       },
       {
-        path: "/order",
+        path: "order",
         name: "order",
         component: () => import("@/views/admin/content/OrderPage.vue"),
       },
       {
-        path: "/user",
+        path: "user",
         name: "admin-user",
         component: () => import("@/views/admin/user/User.vue"),
       },
       {
-        path: "/chat",
+        path: "chat",
         name: "admin-chat",
         component: () => import("@/views/admin/chat/ChatList.vue"),
       },
       {
-        path: "/message",
+        path: "message",
         name: "admin-message",
         component: () => import("@/views/admin/chat/MessageList.vue"),
       },
