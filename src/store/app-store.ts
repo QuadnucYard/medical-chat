@@ -21,7 +21,7 @@ export const appMenu = defineStore("menus", {
         ],
       },
       {
-        icon: "settings",
+        icon: "chat",
         label: "聊天管理",
         children: [
           { label: "会话管理", page: "admin-chat" },

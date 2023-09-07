@@ -1,22 +1,23 @@
 <template>
-  <div>
-    <q-table
-      ref="tableRef"
-      title="用户"
-      :rows="rows"
-      :columns="columns"
-      row-key="id"
-      binary-state-sort
-      square
-      flat
-      dense
-      class="my-sticky-table-handle"
-      :filter="filter"
-      :loading="loading"
-      v-model:pagination="pagination"
-      @request="onRequest"
-    >
-      <template #top>
+  <div class="q-pa-sm full-width full-height">
+    <q-card square flat bordered>
+      <q-table
+        ref="tableRef"
+        title="用户管理"
+        :rows="rows"
+        :columns="columns"
+        row-key="id"
+        binary-state-sort
+        square
+        flat
+        dense
+        class="my-sticky-table-handle"
+        :filter="filter"
+        :loading="loading"
+        v-model:pagination="pagination"
+        @request="onRequest"
+      >
+        <!-- <template #top>
         <div class="q-gutter-md">
           <q-btn color="green" icon="add" label="新建" unelevated rounded class="l-shadow-2" />
           <q-btn
@@ -34,47 +35,48 @@
             <q-icon name="search" />
           </template>
         </q-input>
-      </template>
-      <template v-for="field in editables" #[`body-cell-${field}`]="props">
-        <q-td :props="props">
-          {{ props.row[field] }}
-          <q-popup-edit v-model="props.row[field]" v-slot="scope">
-            <q-input v-model="scope.value" dense autofocus counter @keyup.enter="scope.set" />
-          </q-popup-edit>
-        </q-td>
-      </template>
-      <template #body-cell-is_superuser="props">
-        <q-td :props="props">
-          <q-checkbox
-            dense
-            v-model="props.row.is_superuser"
-            checked-icon="star"
-            unchecked-icon="star_border"
-            indeterminate-icon="help"
-            color="red"
-            :disable="true"
-          />
-        </q-td>
-      </template>
-      <template #body-cell-valid="props">
-        <q-td :props="props">
-          <q-checkbox dense size="sm" v-model="props.row.valid" />
-        </q-td>
-      </template>
-      <template #body-cell-handle="props">
-        <q-td :props="props">
-          <q-btn
-            flat
-            dense
-            round
-            color="green"
-            icon="o_edit"
-            size="sm"
-            @click="onUpdateEdit(props.row)"
-          />
-        </q-td>
-      </template>
-    </q-table>
+      </template> -->
+        <template v-for="field in editables" #[`body-cell-${field}`]="props">
+          <q-td :props="props">
+            {{ props.row[field] }}
+            <q-popup-edit v-model="props.row[field]" v-slot="scope">
+              <q-input v-model="scope.value" dense autofocus counter @keyup.enter="scope.set" />
+            </q-popup-edit>
+          </q-td>
+        </template>
+        <template #body-cell-is_superuser="props">
+          <q-td :props="props">
+            <q-checkbox
+              dense
+              v-model="props.row.is_superuser"
+              checked-icon="star"
+              unchecked-icon="star_border"
+              indeterminate-icon="help"
+              color="red"
+              :disable="true"
+            />
+          </q-td>
+        </template>
+        <template #body-cell-valid="props">
+          <q-td :props="props">
+            <q-checkbox dense size="sm" v-model="props.row.valid" />
+          </q-td>
+        </template>
+        <template #body-cell-handle="props">
+          <q-td :props="props">
+            <q-btn
+              flat
+              dense
+              round
+              color="blue"
+              icon="edit"
+              size="sm"
+              @click="onUpdateEdit(props.row)"
+            />
+          </q-td>
+        </template>
+      </q-table>
+    </q-card>
   </div>
 </template>
 
@@ -82,10 +84,10 @@
 import { User, getUsers, updateUser } from "@/api/user";
 import { TablePagination } from "@/typing/quasar";
 import { formatDate } from "@/utils/date-utils";
+import Message from "@/utils/message";
 import { addSSP, makeRequester } from "@/utils/paginating";
 import { columnDefaults } from "@/utils/table-utils";
 import { QTable } from "quasar";
-import Message from "@/utils/message";
 
 const columns = columnDefaults(
   [
