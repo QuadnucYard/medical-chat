@@ -17,3 +17,12 @@ export interface Pagination {
   page: number;
   rowsPerPage: number;
 }
+
+export function castPagination(page: Pagination) {
+  return {
+    page: page.page,
+    size: page.rowsPerPage,
+    sort_by: page.sortBy,
+    desc: page.descending,
+  };
+}

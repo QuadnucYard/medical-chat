@@ -16,25 +16,13 @@
       v-model:pagination="pagination"
       @request="onRequest"
     >
-      <template #top>
-        <div class="q-gutter-md">
-          <q-btn color="green" icon="add" label="新建" unelevated rounded class="l-shadow-2" />
-          <q-btn
-            color="orange"
-            icon="visibility"
-            label="审核"
-            unelevated
-            rounded
-            class="l-shadow-2"
-          />
-        </div>
-        <q-space />
+      <!-- <template #top-right>
         <q-input dense outlined debounce="300" color="primary" v-model="filter">
           <template #append>
             <q-icon name="search" />
           </template>
         </q-input>
-      </template>
+      </template> -->
       <template v-for="field in editables" #[`body-cell-${field}`]="props">
         <q-td :props="props">
           {{ props.row[field] }}
@@ -43,34 +31,36 @@
           </q-popup-edit>
         </q-td>
       </template>
-      <template #body-cell-is_superuser="props">
-        <q-td :props="props">
-          <q-checkbox
-            dense
-            v-model="props.row.is_superuser"
-            checked-icon="star"
-            unchecked-icon="star_border"
-            indeterminate-icon="help"
-            color="red"
-            :disable="true"
-          />
-        </q-td>
-      </template>
-      <template #body-cell-valid="props">
-        <q-td :props="props">
-          <q-checkbox dense size="sm" v-model="props.row.valid" />
-        </q-td>
-      </template>
       <template #body-cell-handle="props">
         <q-td :props="props">
           <q-btn
             flat
             dense
             round
-            color="green"
-            icon="o_edit"
+            color="blue"
+            icon="edit"
             size="sm"
             @click="onUpdateEdit(props.row)"
+          />
+          <q-btn
+            v-if="!props.row.delete_time"
+            flat
+            dense
+            round
+            color="red"
+            icon="delete"
+            size="sm"
+            @click="onDelete(props.row)"
+          />
+          <q-btn
+            v-else
+            flat
+            dense
+            round
+            color="green"
+            icon="restore_from_trash"
+            size="sm"
+            @click="onDelete(props.row)"
           />
         </q-td>
       </template>
@@ -79,25 +69,31 @@
 </template>
 
 <script setup lang="ts">
-import { ChatSession, ChatMessage, getAllSessions } from "@/api/chat";
-import { User, getUsers, updateUser } from "@/api/user";
+import { ChatSession, deleteSession, getAllSessions } from "@/api/chat";
 import { TablePagination } from "@/typing/quasar";
-import { formatDate } from "@/utils/date-utils";
+import { formatDate, formatNow } from "@/utils/date-utils";
+import Message from "@/utils/message";
 import { addSSP, makeRequester } from "@/utils/paginating";
 import { columnDefaults } from "@/utils/table-utils";
-import { QTab, QTable } from "quasar";
-import Message from "@/utils/message";
-import { date } from 'quasar'
+import { QTable } from "quasar";
 
 const columns = columnDefaults(
-[
-  { name: "id", label: "ID"},
-  { name: "user", label: "用户", field: (row: ChatSession)=> row.user.username},
-  { name: "title", label: "标题"},
-  { name: "create_time", label: "注册时间", format: formatDate },
-  { name: "update_time", label: "更新时间", format: formatDate },
-  { name: "login_time", label: "登录时间", format: formatDate }
-],{ sortable: true, align: "center" });
+  [
+    { name: "id", label: "ID" },
+    {
+      name: "user",
+      label: "用户",
+      field: (row: ChatSession) => row.user.username,
+      sortable: false,
+    },
+    { name: "title", label: "标题" },
+    { name: "create_time", label: "创建时间", format: formatDate },
+    { name: "update_time", label: "更新时间", format: formatDate },
+    { name: "delete_time", label: "删除时间", format: formatDate },
+    { name: "handle", label: "操作", sortable: false },
+  ],
+  { sortable: true, align: "center" }
+);
 
 const editables = ["title"];
 
@@ -120,14 +116,21 @@ onMounted(addSSP(tableRef));
 
 const onRequest = makeRequester({ rows, pagination, loading }, getAllSessions);
 
-/*TODO*/ 
-async function onUpdateEdit(user: User) {
-  const res = await updateUser(user.id, user);
-  Object.assign(user, res);
-  Message.success("成功编辑用户信息");
+async function onUpdateEdit(chat: ChatSession) {
+  // const res = await update(user.id, user);
+  // Object.assign(user, res);
+  Message.success("成功编辑用会话信息");
+}
+
+async function onDelete(chat: ChatSession) {
+  const res = await deleteSession(chat.id);
+  Message.success("成功删除会话");
+  chat.delete_time = formatNow();
 }
 </script>
 
-<style scoped></style>
-
-
+<style scoped>
+.q-table__container {
+  padding: 16px;
+}
+</style>

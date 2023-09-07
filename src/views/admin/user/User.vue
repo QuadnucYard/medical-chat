@@ -2,7 +2,7 @@
   <div>
     <q-table
       ref="tableRef"
-      title="用户"
+      title="用户管理"
       :rows="rows"
       :columns="columns"
       row-key="id"
@@ -16,7 +16,7 @@
       v-model:pagination="pagination"
       @request="onRequest"
     >
-      <template #top>
+      <!-- <template #top>
         <div class="q-gutter-md">
           <q-btn color="green" icon="add" label="新建" unelevated rounded class="l-shadow-2" />
           <q-btn
@@ -34,7 +34,7 @@
             <q-icon name="search" />
           </template>
         </q-input>
-      </template>
+      </template> -->
       <template v-for="field in editables" #[`body-cell-${field}`]="props">
         <q-td :props="props">
           {{ props.row[field] }}
@@ -67,8 +67,8 @@
             flat
             dense
             round
-            color="green"
-            icon="o_edit"
+            color="blue"
+            icon="edit"
             size="sm"
             @click="onUpdateEdit(props.row)"
           />
@@ -82,10 +82,10 @@
 import { User, getUsers, updateUser } from "@/api/user";
 import { TablePagination } from "@/typing/quasar";
 import { formatDate } from "@/utils/date-utils";
+import Message from "@/utils/message";
 import { addSSP, makeRequester } from "@/utils/paginating";
 import { columnDefaults } from "@/utils/table-utils";
 import { QTable } from "quasar";
-import Message from "@/utils/message";
 
 const columns = columnDefaults(
   [
@@ -131,4 +131,8 @@ async function onUpdateEdit(user: User) {
 }
 </script>
 
-<style scoped></style>
+<style scoped>
+.q-table__container {
+  padding: 16px;
+}
+</style>

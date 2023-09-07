@@ -1,6 +1,6 @@
 import api from "./request";
 import { UserPartial } from "./user";
-import { Page } from "./page";
+import { Page, Pagination, castPagination } from "./page";
 
 export interface ChatMessage {
   chat_id: int;
@@ -48,12 +48,12 @@ export async function getSessions() {
   return (await api.get<ChatSession[]>("/chat/me")).data;
 }
 
-export async function deleteSessions(chat_id: int) {
+export async function deleteSession(chat_id: int) {
   return (await api.delete(`/chat/${chat_id}`)).data;
 }
 
 // done
-export async function addSessions(title: string) {
+export async function addSession(title: string) {
   return (await api.post<ChatSession>("/chat/", { title })).data;
 }
 
@@ -67,14 +67,16 @@ export async function addQuestion(chat_id: int, question_data: any) {
   return (await api.post<ChatMessage>(`/chat/${chat_id}`, question_data)).data;
 }
 
-export async function getAllSessions() {
-  return (await api.get<Page<ChatSession>>("/chat/")).data;
+export async function getAllSessions(page: Pagination) {
+  const params = castPagination(page);
+  return (await api.get<Page<ChatSession>>("/chat/", { params })).data;
 }
 
 export async function addFeedback(feedback_data: ChatFeedbackUpdate) {
   return (await api.put<ChatFeedback>("/feedbacks/", feedback_data)).data;
 }
 
-export async function getAllFeedbacks() {
-  return (await api.get<Page<ChatFeedbackDetailed>>("/feedbacks/")).data;
+export async function getAllFeedbacks(page: Pagination) {
+  const params = castPagination(page);
+  return (await api.get<Page<ChatFeedbackDetailed>>("/feedbacks/", { params })).data;
 }
