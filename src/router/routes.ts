@@ -44,42 +44,42 @@ const routes: Array<RouteRecordRaw> = [
     meta: { keepalive: false },
     children: [
       {
-        path: "/index",
+        path: "index",
         name: "index",
         component: () => import("@/views/admin/content/IndexPage.vue"),
       },
       {
-        path: "/customer",
+        path: "customer",
         name: "customer",
         component: () => import("@/views/admin/content/CustomerPage.vue"),
       },
       {
-        path: "/business_config",
+        path: "business_config",
         name: "business_config",
         component: () => import("@/views/admin/content/BusinessConfigPage.vue"),
       },
       {
-        path: "/customer_list",
+        path: "customer_list",
         name: "customer_list",
         component: () => import("@/views/admin/content/CustomerList.vue"),
       },
       {
-        path: "/order",
+        path: "order",
         name: "order",
         component: () => import("@/views/admin/content/OrderPage.vue"),
       },
       {
-        path: "/user",
+        path: "user",
         name: "admin-user",
         component: () => import("@/views/admin/user/User.vue"),
       },
       {
-        path: "/chat",
+        path: "chat",
         name: "admin-chat",
         component: () => import("@/views/admin/chat/ChatList.vue"),
       },
       {
-        path: "/message",
+        path: "message",
         name: "admin-message",
         component: () => import("@/views/admin/chat/MessageList.vue"),
       },

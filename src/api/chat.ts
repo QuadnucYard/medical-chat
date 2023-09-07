@@ -1,5 +1,6 @@
 import api from "./request";
 import { UserPartial } from "./user";
+import { Page } from "./page";
 
 export interface ChatMessage {
   chat_id: int;
@@ -63,9 +64,9 @@ export async function addFeedback(feedback_data: any) {
 }
 
 export async function getAllSessions() {
-  return (await api.get<ChatSession[]>("/chat/")).data;
+  return (await api.get<Page<ChatSession>>("/chat/")).data;
 }
 
 export async function getAllFeedbacks() {
-  return (await api.get<ChatFeedbackDetailed[]>("/feedbacks/")).data;
+  return (await api.get<Page<ChatFeedbackDetailed>>("/feedbacks/")).data;
 }
