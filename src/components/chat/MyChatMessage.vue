@@ -2,8 +2,10 @@
   <q-chat-message
     :name="getMessageName(message)"
     :avatar="MyAvatar"
-    :stamp="message.send_time"
+    :stamp="formatDate(message.send_time)"
     :sent="message.type === 0"
+    :bg-color="message.type === 1 ? 'dark' : 'primary'"
+    text-color="white"
     class="message-container"
   >
     <div>
@@ -26,16 +28,18 @@
         />
         <q-btn flat round push color="primary" icon="textsms" @click="comment()" />
       </div>
-      {{ message.content }}
+      <q-item-label style="white-space: pre-wrap">{{ message.content }}</q-item-label>
     </div>
   </q-chat-message>
 </template>
 
 <script setup lang="ts">
-import MyAvatar from "@/assets/knight.png";
+import MyAvatar from "@/assets/chatbot.jpg";
+import UserAvatar from "@/assets/knight.png";
 import { ChatMessage, ChatFeedback } from "@/api/chat";
 import { addFeedback } from "@/api/chat";
 import Message from "@/utils/message";
+import { formatDate } from "@/utils/date-utils";
 
 const props = defineProps<{ message: ChatMessage }>();
 

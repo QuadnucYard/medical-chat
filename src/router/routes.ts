@@ -39,6 +39,10 @@ const routes: RouteRecordRaw[] = [
     ],
   },
   {
+    path: "/:catchAll(.*)*",
+    component: () => import("@/views/Error404.vue"),
+  },
+  {
     path: "/admin",
     name: "admin",
     component: () => import("@/views/admin/AdminLayout.vue"),
