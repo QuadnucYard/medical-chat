@@ -6,6 +6,7 @@ export interface ChatMessage {
   chat_id: int;
   type: int;
   content: string;
+  remark: string;
   id: int;
   send_time: string;
   own_feedback?: ChatFeedback;
@@ -83,4 +84,8 @@ export async function getAllFeedbacks(page: Pagination) {
 
 export async function updateTitle(chat_id: int, new_title: string) {
   return (await api.put<ChatSession>(`/chat/${chat_id}`, { title: new_title })).data;
+}
+
+export async function addNote(chat_id: int, content: string, remark: string) {
+  return (await api.post<ChatMessage>(`/chat/${chat_id}/note`, { content, remark })).data;
 }

@@ -9,6 +9,6 @@ export interface Feedback {
   admin_id: 0;
 }
 
-export async function updateComplaint(complaint_detail: any) {
-  return (await api.postForm<Feedback>("/complaints/", complaint_detail)).data;
+export async function updateComplaint(category: string, content: string) {
+  return (await api.post<Feedback>("/complaints/", { category, content })).data;
 }

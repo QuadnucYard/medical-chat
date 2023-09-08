@@ -1,60 +1,56 @@
 <template>
-  <q-layout view="lHh Lpr lFf">
-    <q-page-container>
-      <q-page class="flex flex-center">
-        <q-card class="q-pa-md shadow-2 my_card" bordered>
-          <q-card-section class="text-center">
-            <div class="text-grey-9 text-h5 text-weight-bold">登录</div>
-            <div class="text-grey-8">登录以开启medtalk</div>
-          </q-card-section>
-          <q-card-section>
-            <q-form @submit="onSubmit">
-              <q-input
-                dense
-                outlined
-                v-model="form.username"
-                label="用户名"
-                :rules="usernameRules"
-              />
-              <q-input
-                dense
-                outlined
-                class="q-mt-md"
-                v-model="form.password"
-                type="password"
-                label="密码"
-                :rules="passwordRules"
-              />
-              <q-btn
-                type="submit"
-                style="border-radius: 8px"
-                color="dark"
-                rounded
-                size="md"
-                label="登录"
-                no-caps
-                class="full-width"
-              />
-            </q-form>
-          </q-card-section>
-          <q-card-section class="text-center q-pt-none">
-            <div class="text-grey-8">
-              还没有账号?
-              <router-link
-                to="/auth/register"
-                class="text-dark text-weight-bold"
-                style="text-decoration: none"
-              >
-                点击注册.
-              </router-link>
-            </div>
-          </q-card-section>
-        </q-card>
-      </q-page>
-    </q-page-container>
-  </q-layout>
-</template>
+  <div class="q-pa-md">
+    <q-parallax :height="730">
+      <template v-slot:media>
+        <video
+          width="720"
+          height="440"
+          poster="https://cdn.quasar.dev/img/polina.jpg"
+          autoplay
+          loop
+          muted
+        >
+          <source type="video/webm" src="https://cdn.quasar.dev/img/polina.webm" />
+          <source type="video/mp4" src="https://cdn.quasar.dev/img/polina.mp4" />
+        </video>
+      </template>
 
+      <q-card flat class="bg-white text-black">
+        <div class="row">
+          <div class="col-md-6 col-xs-12 q-pa-md"></div>
+          <div class="col-md-6 col-xs-12">
+            <div class="q-pa-md">
+              <div class="text-h6 q-pb-md text-blue-8 text-center text-weight-bolder">
+                Back Office
+              </div>
+              <q-form @submit="onSubmit" @reset="onReset" class="q-gutter-md">
+                <q-input
+                  filled
+                  v-model="form.username"
+                  label="Username"
+                  lazy-rules
+                  :rules="[(val) => (val && val.length > 0) || 'Please type Username']"
+                />
+                <q-input
+                  filled
+                  type="password"
+                  v-model="form.password"
+                  label="Password"
+                  lazy-rules
+                  :rules="[(val) => (val !== null && val !== '') || 'Please type your password']"
+                />
+                <div>
+                  <q-btn label="Login" type="submit" color="primary" />
+                  <q-btn label="Reset" type="reset" color="primary" flat class="q-ml-sm" />
+                </div>
+              </q-form>
+            </div>
+          </div>
+        </div>
+      </q-card>
+    </q-parallax>
+  </div>
+</template>
 <script setup lang="ts">
 import { login } from "@/api/login";
 import { getUser } from "@/api/user";
@@ -94,11 +90,15 @@ async function onSubmit() {
     console.log("登录失败", error);
   }
 }
+function onReset() {
+  form.username = "";
+  form.password = "";
+}
 </script>
 
-<style lang="scss">
+<style scoped>
 .my_card {
-  width: 25rem;
+  width: 50rem;
   border-radius: 8px;
   box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
 }

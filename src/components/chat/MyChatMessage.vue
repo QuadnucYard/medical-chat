@@ -1,10 +1,11 @@
 <template>
   <q-chat-message
+    v-if="message.type !== 2"
     :name="getMessageName(message)"
     :avatar="MyAvatar"
     :stamp="formatDate(message.send_time)"
     :sent="message.type === 0"
-    :bg-color="message.type === 1 ? 'dark' : 'primary'"
+    :bg-color="message.type === 1 ? 'amber' : 'primary'"
     text-color="white"
     class="message-container"
   >
