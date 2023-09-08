@@ -83,6 +83,11 @@ const routes: Array<RouteRecordRaw> = [
         name: "admin-message",
         component: () => import("@/views/admin/chat/MessageList.vue"),
       },
+      {
+        path: "complaint",
+        name: "admin-complaint",
+        component: () => import("@/views/admin/chat/complaint.vue"),
+      },
     ],
   },
 ];
