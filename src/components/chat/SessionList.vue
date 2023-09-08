@@ -24,7 +24,9 @@
       </q-item>
       <q-item clickable v-ripple @click="add()" class="bg-teal-1">
         <q-item-section>
-          <q-item-label style="text-align: center">添加对话</q-item-label>
+          <q-item-label style="text-align: center; background-color: primary; color: black">
+            添加对话
+          </q-item-label>
         </q-item-section>
       </q-item>
     </q-list>
@@ -32,7 +34,7 @@
 </template>
 
 <script setup lang="ts">
-import { ChatSession, addSessions, deleteSessions, getSessions } from "@/api/chat";
+import { ChatSession, addSession, deleteSession, getSessions } from "@/api/chat";
 import emitter from "@/utils/bus";
 import { Dialog } from "quasar";
 
@@ -59,7 +61,7 @@ function selectSession(sessionId: int) {
 
 async function add() {
   try {
-    const response = await addSessions("123");
+    const response = await addSession("123");
     sessions.value = await getSessions();
     selectSession(response.id);
   } catch (error) {
@@ -71,7 +73,7 @@ async function deleteIt(chatId: int) {
   try {
     const shouldDelete = await showDeleteConfirmation();
     if (shouldDelete) {
-      const response = await deleteSessions(chatId);
+      const response = await deleteSession(chatId);
       sessions.value = await getSessions();
     }
     if (chatId == selectedId.value) {
@@ -104,6 +106,11 @@ async function showDeleteConfirmation() {
       .onDismiss(() => reject(new Error("Confirmation dialog dismissed.")));
   });
 }
+
+emitter.on("session-title-changed", ({ id, title }) => {
+  const session = sessions.value.find((t) => t.id == id);
+  if (session) session.title = title;
+});
 </script>
 
 <style scoped>
