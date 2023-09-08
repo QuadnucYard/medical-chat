@@ -1,4 +1,4 @@
-import { Page, Pagination } from "./page";
+import { Page, Pagination, castPagination } from "./page";
 import api from "./request";
 
 export interface User {
@@ -26,11 +26,6 @@ export async function updateUser(user_id: int, user_data: any) {
 }
 
 export async function getUsers(page: Pagination) {
-  const params = {
-    page: page.page,
-    size: page.rowsPerPage,
-    sort_by: page.sortBy,
-    desc: page.descending,
-  };
+  const params = castPagination(page);
   return (await api.get<Page<User>>("/users/", { params })).data;
 }

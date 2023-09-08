@@ -1,80 +1,71 @@
 <template>
-  <div>
-    <q-table
-      ref="tableRef"
-      title="聊天消息反馈"
-      :rows="rows"
-      :columns="columns"
-      row-key="id"
-      binary-state-sort
-      square
-      flat
-      dense
-      class="my-sticky-table-handle"
-      :filter="filter"
-      :loading="loading"
-      v-model:pagination="pagination"
-      @request="onRequest"
-    >
-      <template #top>
+  <div class="q-pa-sm full-width full-height">
+    <q-card square flat bordered>
+      <q-table
+        ref="tableRef"
+        title="聊天消息反馈"
+        :rows="rows"
+        :columns="columns"
+        row-key="id"
+        binary-state-sort
+        square
+        flat
+        dense
+        class="my-sticky-table-handle"
+        :filter="filter"
+        :loading="loading"
+        v-model:pagination="pagination"
+        @request="onRequest"
+      >
+        <!-- <template #top-right>
         <div class="q-gutter-md">
-          <q-btn color="green" icon="add" label="新建" unelevated rounded class="l-shadow-2" />
-          <q-btn
-            color="orange"
-            icon="visibility"
-            label="审核"
-            unelevated
-            rounded
-            class="l-shadow-2"
-          />
-        </div>
-        <q-space />
         <q-input dense outlined debounce="300" color="primary" v-model="filter">
           <template #append>
             <q-icon name="search" />
           </template>
         </q-input>
-      </template>
-      <template v-for="field in editables" #[`body-cell-${field}`]="props">
-        <q-td :props="props">
-          {{ props.row[field] }}
-          <q-popup-edit v-model="props.row[field]" v-slot="scope">
-            <q-input v-model="scope.value" dense autofocus counter @keyup.enter="scope.set" />
-          </q-popup-edit>
-        </q-td>
-      </template>
-      <template #body-cell-is_superuser="props">
-        <q-td :props="props">
-          <q-checkbox
-            dense
-            v-model="props.row.is_superuser"
-            checked-icon="star"
-            unchecked-icon="star_border"
-            indeterminate-icon="help"
-            color="red"
-            :disable="true"
-          />
-        </q-td>
-      </template>
-      <template #body-cell-valid="props">
-        <q-td :props="props">
-          <q-checkbox dense size="sm" v-model="props.row.valid" />
-        </q-td>
-      </template>
-      <template #body-cell-handle="props">
-        <q-td :props="props">
-          <q-btn
-            flat
-            dense
-            round
-            color="green"
-            icon="o_edit"
-            size="sm"
-            @click="onUpdateEdit(props.row)"
-          />
-        </q-td>
-      </template>
-    </q-table>
+      </template> -->
+        <template v-for="field in editables" #[`body-cell-${field}`]="props">
+          <q-td :props="props">
+            {{ props.row[field] }}
+            <q-popup-edit v-model="props.row[field]" v-slot="scope">
+              <q-input v-model="scope.value" dense autofocus counter @keyup.enter="scope.set" />
+            </q-popup-edit>
+          </q-td>
+        </template>
+        <template #body-cell-is_superuser="props">
+          <q-td :props="props">
+            <q-checkbox
+              dense
+              v-model="props.row.is_superuser"
+              checked-icon="star"
+              unchecked-icon="star_border"
+              indeterminate-icon="help"
+              color="red"
+              :disable="true"
+            />
+          </q-td>
+        </template>
+        <template #body-cell-valid="props">
+          <q-td :props="props">
+            <q-checkbox dense size="sm" v-model="props.row.valid" />
+          </q-td>
+        </template>
+        <template #body-cell-handle="props">
+          <q-td :props="props">
+            <q-btn
+              flat
+              dense
+              round
+              color="green"
+              icon="o_edit"
+              size="sm"
+              @click="onUpdateEdit(props.row)"
+            />
+          </q-td>
+        </template>
+      </q-table>
+    </q-card>
   </div>
 </template>
 
@@ -89,19 +80,20 @@ import { QTab, QTable } from "quasar";
 import Message from "@/utils/message";
 
 const columns = columnDefaults(
-[
-  { name: "id", label: "ID"},
-  { name: "user", label: "用户", field: (row: ChatFeedbackDetailed) => row.user.username },
-  {
-    name: "msg",
-    label: "消息",
-    field: (row: ChatFeedbackDetailed) => row.msg.content.slice(0, 10),
-  },
-  { name: "mark_like", label: "👍", field: "mark_like" },
-  { name: "mark_dislike", label: "👎", field: "mark_dislike" },
-  { name: "content", label: "评论", field: "content" },
-  { name: "update_time", label: "反馈时间", field: "update_time", format: formatDate },
-],{ sortable: true, align: "center" });
+  [
+    { name: "user", label: "用户", field: (row: ChatFeedbackDetailed) => row.user.username },
+    {
+      name: "msg",
+      label: "消息",
+      field: (row: ChatFeedbackDetailed) => row.msg.content.slice(0, 10),
+    },
+    { name: "mark_like", label: "👍", format: (val) => (val ? "👍" : "") },
+    { name: "mark_dislike", label: "👎", format: (val) => (val ? "👎" : "") },
+    { name: "content", label: "评论" },
+    { name: "update_time", label: "反馈时间", format: formatDate },
+  ],
+  { sortable: true, align: "center" }
+);
 
 const editables = ["content"];
 
@@ -117,14 +109,14 @@ const pagination = ref<TablePagination>({
   rowsNumber: 0,
 }); // It MUST be REF!
 
-const loading = ref(false)
+const loading = ref(false);
 const filter = ref("");
 
 onMounted(addSSP(tableRef));
 
 const onRequest = makeRequester({ rows, pagination, loading }, getAllFeedbacks);
 
-/*TODO*/ 
+/*TODO*/
 async function onUpdateEdit(user: User) {
   const res = await updateUser(user.id, user);
   Object.assign(user, res);
@@ -132,4 +124,8 @@ async function onUpdateEdit(user: User) {
 }
 </script>
 
-<style scoped></style>
+<style scoped>
+.q-table__container {
+  padding: 16px;
+}
+</style>
