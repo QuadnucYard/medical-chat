@@ -80,3 +80,7 @@ export async function getAllFeedbacks(page: Pagination) {
   const params = castPagination(page);
   return (await api.get<Page<ChatFeedbackDetailed>>("/feedbacks/", { params })).data;
 }
+
+export async function updateTitle(chat_id: int, new_title: string) {
+  return (await api.put<ChatSession>(`/chat/${chat_id}`, { title: new_title })).data;
+}

@@ -39,12 +39,6 @@ const routes: RouteRecordRaw[] = [
     ],
   },
   {
-    path: "/landing",
-    name: "landing",
-    component: () => import("@/views/landing.vue"),
-    meta: { keepalive: false },
-  },
-  {
     path: "/:catchAll(.*)*",
     component: () => import("@/views/Error404.vue"),
   },

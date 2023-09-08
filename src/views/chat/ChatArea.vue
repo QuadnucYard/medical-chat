@@ -7,6 +7,7 @@
       clearable
       class="title"
       input-class="input-large"
+      @blur="update_title(session.id, session.title)"
     >
       <template v-slot:prepend>
         <q-avatar>
@@ -17,6 +18,7 @@
         <span class="q-px-sm bg-deep-orange text-white text-italic rounded-borders">标题</span>
       </template>
     </q-input>
+
     <q-chip outline color="primary" text-color="white" icon="event">
       创建时间：{{ formatDate(session.create_time) }}
     </q-chip>
@@ -70,7 +72,36 @@
       <q-dialog v-model="report" persistent>
         <q-card style="min-width: 350px">
           <q-card-section>
-            <div class="text-h6">您的投诉</div>
+            <div class="text-h6" style="display: flex; align-items: center">
+              <span style="flex: 1">您的投诉</span>
+              <q-btn-dropdown color="primary" :label="complain_type" style="margin-left: auto">
+                <q-list>
+                  <q-item clickable v-close-popup @click="onItemClick('信息不准确')">
+                    <q-item-section>
+                      <q-item-label>信息不准确</q-item-label>
+                    </q-item-section>
+                  </q-item>
+
+                  <q-item clickable v-close-popup @click="onItemClick('信息不完整')">
+                    <q-item-section>
+                      <q-item-label>信息不完整</q-item-label>
+                    </q-item-section>
+                  </q-item>
+
+                  <q-item clickable v-close-popup @click="onItemClick('相应时间长')">
+                    <q-item-section>
+                      <q-item-label>相应时间长</q-item-label>
+                    </q-item-section>
+                  </q-item>
+
+                  <q-item clickable v-close-popup @click="onItemClick('其他问题')">
+                    <q-item-section>
+                      <q-item-label>其他问题</q-item-label>
+                    </q-item-section>
+                  </q-item>
+                </q-list>
+              </q-btn-dropdown>
+            </div>
           </q-card-section>
 
           <q-card-section class="q-pt-none">
@@ -105,7 +136,14 @@
 </template>
 
 <script setup lang="ts">
-import { getSessionDetails, ChatSession, addQuestion, ChatMessage, ChatFeedback } from "@/api/chat";
+import {
+  getSessionDetails,
+  ChatSession,
+  addQuestion,
+  ChatMessage,
+  ChatFeedback,
+  updateTitle,
+} from "@/api/chat";
 import { updateComplaint } from "@/api/feedback";
 import { formatDate } from "@/utils/date-utils";
 import emitter from "@/utils/bus";
@@ -120,6 +158,7 @@ const report = ref(false);
 const note = ref(false);
 
 const report_detail = ref("");
+let complain_type = ref("");
 const booknote_detail = ref("");
 
 const question_message = reactive({
@@ -163,6 +202,21 @@ async function addComplain() {
       const response = await updateComplaint(report_detail.value);
     } catch (error) {
       console.error("Failed to add complain:", error);
+    }
+  }
+}
+function onItemClick(type: string) {
+  complain_type.value = type;
+}
+
+async function update_title(chat_id: int, title: string) {
+  if (title !== "") {
+    try {
+      const response = await updateTitle(chat_id, title);
+      await onSessionChanged(chat_id);
+      emitter.emit("session-title-changed", { id: chat_id, title });
+    } catch (error) {
+      console.log(error);
     }
   }
 }

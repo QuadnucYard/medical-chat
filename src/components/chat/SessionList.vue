@@ -106,6 +106,11 @@ async function showDeleteConfirmation() {
       .onDismiss(() => reject(new Error("Confirmation dialog dismissed.")));
   });
 }
+
+emitter.on("session-title-changed", ({ id, title }) => {
+  const session = sessions.value.find((t) => t.id == id);
+  if (session) session.title = title;
+});
 </script>
 
 <style scoped>
