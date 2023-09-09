@@ -76,17 +76,22 @@ const routes: RouteRecordRaw[] = [
       {
         path: "user",
         name: "admin-user",
-        component: () => import("@/views/admin/user/User.vue"),
+        component: () => import("@/views/admin/user/UserPage.vue"),
       },
       {
         path: "chat",
         name: "admin-chat",
-        component: () => import("@/views/admin/chat/ChatList.vue"),
+        component: () => import("@/views/admin/chat/ChatPage.vue"),
       },
       {
         path: "message",
         name: "admin-message",
-        component: () => import("@/views/admin/chat/MessageList.vue"),
+        component: () => import("@/views/admin/chat/MessagePage.vue"),
+      },
+      {
+        path: "complaint",
+        name: "admin-complaint",
+        component: () => import("@/views/admin/chat/ComplaintPage.vue"),
       },
     ],
   },

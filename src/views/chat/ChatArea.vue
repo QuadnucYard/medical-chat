@@ -52,20 +52,8 @@
               direction="up"
               style="margin: 0 auto"
             >
-              <q-fab-action
-                label-position="right"
-                color="accent"
-                icon="report"
-                label="投诉"
-                @click="report = true"
-              />
-              <q-fab-action
-                label-position="right"
-                color="primary"
-                icon="note"
-                label="笔记"
-                @click="note = true"
-              />
+              <q-fab-action label-position="right" color="accent" icon="report" label="投诉" @click="report = true" />
+              <q-fab-action label-position="right" color="primary" icon="note" label="笔记" @click="note = true" />
               <q-fab-action
                 label-position="right"
                 color="primary"
@@ -103,11 +91,7 @@
                 <q-card-section>
                   <div class="text-h6" style="display: flex; align-items: center">
                     <span style="flex: 1">您的投诉</span>
-                    <q-btn-dropdown
-                      color="primary"
-                      :label="complain_type"
-                      style="margin-left: auto"
-                    >
+                    <q-btn-dropdown color="primary" :label="complain_type" style="margin-left: auto">
                       <q-list>
                         <q-item clickable v-close-popup @click="onItemClick('信息不准确')">
                           <q-item-section>
@@ -161,12 +145,7 @@
                 </q-card-section>
 
                 <q-card-section class="q-pt-none">
-                  <q-input
-                    type="textarea"
-                    v-model="booknote_detail.content"
-                    filled
-                    @keyup.enter="note = false"
-                  />
+                  <q-input type="textarea" v-model="booknote_detail.content" filled @keyup.enter="note = false" />
                 </q-card-section>
 
                 <q-card-actions align="right" class="text-primary">
@@ -195,11 +174,7 @@
       <div class="col-3">
         <q-list bordered separator>
           <q-item-label header>推荐话题</q-item-label>
-          <q-item
-            v-for="(recommend, index) in recommends"
-            :key="index"
-            @click="send_recommend(recommend.title)"
-          >
+          <q-item v-for="(recommend, index) in recommends" :key="index" @click="send_recommend(recommend.title)">
             <q-item-section>
               <q-item-label>{{ recommend.title }}</q-item-label>
               <q-item-label caption lines="2">{{ recommend.content }}</q-item-label>
@@ -215,23 +190,14 @@
 </template>
 
 <script setup lang="ts">
-import {
-  getSessionDetails,
-  ChatSession,
-  addQuestion,
-  ChatMessage,
-  ChatFeedback,
-  updateTitle,
-} from "@/api/chat";
-import { createShare } from "@/api/share";
-import { Recommendation, getRecommendations } from "@/api/recommend";
+import { ChatSession, addNote, addQuestion, getSessionDetails, updateTitle } from "@/api/chat";
 import { updateComplaint } from "@/api/feedback";
-import { formatDate, formatDateToDay } from "@/utils/date-utils";
-import emitter from "@/utils/bus";
+import { Recommendation, getRecommendations } from "@/api/recommend";
+import { createShare } from "@/api/share";
 import MyChatMessage from "@/components/chat/MyChatMessage.vue";
-import { addNote } from "@/api/chat";
+import emitter from "@/utils/bus";
+import { formatDate, formatDateToDay } from "@/utils/date-utils";
 import Message from "../../utils/message";
-import func from "../../../vue-temp/vue-editor-bridge";
 
 const sessionId = ref<int | undefined>(undefined);
 const session = ref<ChatSession | undefined>(undefined);

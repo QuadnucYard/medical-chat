@@ -44,6 +44,16 @@ export interface ChatFeedbackDetailed extends ChatFeedback {
   user: UserPartial;
 }
 
+export type ChatStats = {
+  total_chats: int;
+  total_messages: int;
+  total_chats_today: int;
+  total_messages_today: int;
+  total_chats_yesterday: int;
+  total_messages_yesterday: int;
+  by_date: { date: string; total_chats: int; total_messages: int; questions: int; answers: int; notes: int }[];
+};
+
 // done
 export async function getSessions() {
   return (await api.get<ChatSession[]>("/chat/me")).data;
@@ -88,4 +98,8 @@ export async function updateTitle(chat_id: int, new_title: string) {
 
 export async function addNote(chat_id: int, content: string, remark: string) {
   return (await api.post<ChatMessage>(`/chat/${chat_id}/note`, { content, remark })).data;
+}
+
+export async function getChatStats() {
+  return (await api.get<ChatStats>("/chat/stat")).data;
 }
