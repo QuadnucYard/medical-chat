@@ -1,5 +1,5 @@
 <template>
-  <v-chart :option="option" />
+  <v-chart ref="chartRef" :option="option" />
 </template>
 
 <script setup lang="ts">
@@ -23,16 +23,9 @@ import type { ComposeOption } from "echarts/core";
 import { use } from "echarts/core";
 import { CanvasRenderer } from "echarts/renderers";
 import VChart from "vue-echarts";
+import type { ComplaintStats } from "@/api/complaint";
 
-use([
-  TooltipComponent,
-  ToolboxComponent,
-  DatasetComponent,
-  LegendComponent,
-  GridComponent,
-  BarChart,
-  CanvasRenderer,
-]);
+use([TooltipComponent, ToolboxComponent, DatasetComponent, LegendComponent, GridComponent, BarChart, CanvasRenderer]);
 
 type EChartsOption = ComposeOption<
   | TooltipComponentOption
@@ -43,44 +36,11 @@ type EChartsOption = ComposeOption<
   | BarSeriesOption
 >;
 
-const data = {
-  total: 6,
-  resolved: 3,
-  by_date: [
-    {
-      date: "2023-08-29",
-      creation: 1,
-      resolution: 0,
-    },
-    {
-      date: "2023-08-30",
-      creation: 0,
-      resolution: 1,
-    },
-    {
-      date: "2023-09-03",
-      creation: 1,
-      resolution: 0,
-    },
-    {
-      date: "2023-09-08",
-      creation: 3,
-      resolution: 0,
-    },
-    {
-      date: "2023-09-09",
-      creation: 0,
-      resolution: 2,
-    },
-    {
-      date: "2023-09-13",
-      creation: 1,
-      resolution: 0,
-    },
-  ],
-};
+const props = defineProps<{ data: ComplaintStats }>();
 
-const option = reactive<EChartsOption>({
+const chartRef = ref<InstanceType<typeof VChart>>();
+
+const option: EChartsOption = {
   tooltip: {
     trigger: "axis",
     axisPointer: {
@@ -97,7 +57,7 @@ const option = reactive<EChartsOption>({
   },
   dataset: {
     dimensions: ["date", "creation", "resolution"],
-    source: data.by_date,
+    source: props.data.by_date,
   },
   legend: {
     data: ["创建", "解决"],
@@ -109,13 +69,16 @@ const option = reactive<EChartsOption>({
     },
   ],
   yAxis: [{ type: "value", name: "数量", minInterval: 1 }],
-  grid: {
-bottom: 20
-  },
+  grid: { bottom: 20, left: 40, right: 40 },
   series: [
     { name: "创建", type: "bar" },
     { name: "解决", type: "bar" },
   ],
+};
+
+watch(props, () => {
+  (option.dataset as any).source = props.data.by_date;
+  chartRef.value?.setOption(option, { notMerge: true });
 });
 </script>
 

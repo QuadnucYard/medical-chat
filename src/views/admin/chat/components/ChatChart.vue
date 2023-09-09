@@ -1,5 +1,5 @@
 <template>
-  <v-chart :option="option" />
+  <v-chart ref="chartRef" :option="option" />
 </template>
 
 <script setup lang="ts">
@@ -20,6 +20,7 @@ import { LineChart, LineSeriesOption, BarChart, BarSeriesOption } from "echarts/
 import { UniversalTransition } from "echarts/features";
 import { CanvasRenderer } from "echarts/renderers";
 import VChart from "vue-echarts";
+import type { ChatStats } from "@/api/chat";
 
 echarts.use([
   DatasetComponent,
@@ -43,38 +44,11 @@ type EChartsOption = echarts.ComposeOption<
   | BarSeriesOption
 >;
 
-const data = {
-  total_chats: 415,
-  total_messages: 2143,
-  by_date: [
-    {
-      date: "2023-09-06",
-      total_chats: 212,
-      total_messages: 1008,
-      questions: 535,
-      answers: 473,
-      notes: 0,
-    },
-    {
-      date: "2023-09-07",
-      total_chats: 3,
-      total_messages: 99,
-      questions: 53,
-      answers: 46,
-      notes: 0,
-    },
-    {
-      date: "2023-09-08",
-      total_chats: 200,
-      total_messages: 1036,
-      questions: 512,
-      answers: 516,
-      notes: 8,
-    },
-  ],
-};
+const props = defineProps<{ data: ChatStats }>();
 
-const option = <EChartsOption>{
+const chartRef = ref<InstanceType<typeof VChart>>();
+
+const option: EChartsOption = {
   tooltip: {
     trigger: "axis",
     axisPointer: {
@@ -92,7 +66,7 @@ const option = <EChartsOption>{
   },
   dataset: {
     dimensions: ["date", "total_chats", "total_messages", "questions", "answers", "notes"],
-    source: data.by_date,
+    source: props.data.by_date,
   },
   legend: {
     data: ["总会话数", "总消息数", "提问", "回答", "笔记"],
@@ -104,6 +78,7 @@ const option = <EChartsOption>{
     },
   ],
   yAxis: [{ type: "value", name: "数量", minInterval: 1 }],
+  grid: { bottom: 40, left: 60, right: 60 },
   series: [
     { name: "总会话数", type: "line" },
     { name: "总消息数", type: "line" },
@@ -112,6 +87,11 @@ const option = <EChartsOption>{
     { name: "笔记", type: "bar" },
   ],
 };
+
+watch(props, () => {
+  (option.dataset as any).source = props.data.by_date;
+  chartRef.value?.setOption(option, { notMerge: true });
+});
 </script>
 
 <style scoped></style>

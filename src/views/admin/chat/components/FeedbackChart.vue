@@ -1,5 +1,5 @@
 <template>
-  <v-chart :option="option" />
+  <v-chart ref="chartRef" :option="option" />
 </template>
 
 <script setup lang="ts">
@@ -20,6 +20,7 @@ import { LineChart, LineSeriesOption, BarChart, BarSeriesOption } from "echarts/
 import { UniversalTransition } from "echarts/features";
 import { CanvasRenderer } from "echarts/renderers";
 import VChart from "vue-echarts";
+import type { FeedbackStats } from "@/api/feedback";
 
 echarts.use([
   DatasetComponent,
@@ -43,34 +44,11 @@ type EChartsOption = echarts.ComposeOption<
   | BarSeriesOption
 >;
 
-const data = {
-  total: 404,
-  by_date: [
-    {
-      date: "2023-09-06",
-      total: 202,
-      like: 100,
-      dislike: 60,
-      comments: 47,
-    },
-    {
-      date: "2023-09-07",
-      total: 2,
-      like: 1,
-      dislike: 1,
-      comments: 1,
-    },
-    {
-      date: "2023-09-08",
-      total: 200,
-      like: 107,
-      dislike: 68,
-      comments: 39,
-    },
-  ],
-};
+const props = defineProps<{ data: FeedbackStats }>();
 
-const option = <EChartsOption>{
+const chartRef = ref<InstanceType<typeof VChart>>();
+
+const option: EChartsOption = {
   tooltip: {
     trigger: "axis",
     axisPointer: {
@@ -88,7 +66,7 @@ const option = <EChartsOption>{
   },
   dataset: {
     dimensions: ["date", "total", "like", "dislike", "comments"],
-    source: data.by_date,
+    source: props.data.by_date,
   },
   legend: {
     data: ["总反馈数", "赞", "踩", "评论"],
@@ -100,6 +78,7 @@ const option = <EChartsOption>{
     },
   ],
   yAxis: [{ type: "value", name: "反馈数", minInterval: 1 }],
+  grid: { bottom: 40, left: 60, right: 60 },
   series: [
     { name: "总反馈数", type: "line" },
     { name: "赞", type: "bar" },
@@ -107,6 +86,11 @@ const option = <EChartsOption>{
     { name: "评论", type: "bar" },
   ],
 };
+
+watch(props, () => {
+  (option.dataset as any).source = props.data.by_date;
+  chartRef.value?.setOption(option, { notMerge: true });
+});
 </script>
 
 <style scoped></style>
