@@ -24,14 +24,6 @@
 </template>
 
 <script setup lang="ts">
-import { Complaint, getAllComplaints, resolveComplaint } from "@/api/complaint";
-import { Pagination } from "@/api/page";
-import { TablePagination } from "@/typing/quasar";
-import { formatDate } from "@/utils/date-utils";
-import Message from "@/utils/message";
-import { addSSP, makeRequester } from "@/utils/paginating";
-import { columnDefaults } from "@/utils/table-utils";
-import { QTable } from "quasar";
 import ComplaintChart from "./components/ComplaintChart.vue";
 import ComplaintTable from "./components/ComplaintTable.vue";
 
