@@ -1,14 +1,21 @@
 import api from "./request";
 
-export interface Feedback {
-  content: "string";
-  create_time: "2023-09-07T08:45:06.493Z";
-  resolve_time: "2023-09-07T08:45:06.493Z";
-  id: 0;
-  user_id: 0;
-  admin_id: 0;
-}
+export type FeedbackStats = {
+  total: int;
+  total_like: int;
+  total_dislike: int;
+  total_comment: int;
+  total_today: int;
+  total_like_today: int;
+  total_dislike_today: int;
+  total_comment_today: int;
+  total_yesterday: int;
+  total_like_yesterday: int;
+  total_dislike_yesterday: int;
+  total_comment_yesterday: int;
+  by_date: { date: string; total: int; like: int; dislike: int; comments: int }[];
+};
 
-export async function updateComplaint(complaint_detail: any) {
-  return (await api.postForm<Feedback>("/complaints/", complaint_detail)).data;
+export async function getFeedbackStats() {
+  return (await api.get<FeedbackStats>("/feedbacks/stat")).data;
 }

@@ -1,5 +1,5 @@
 import Cookies from "js-cookie";
-import { User } from "@/api/login";
+import { User } from "@/api/user";
 
 type UserState = { token?: string; data?: User } | null;
 
