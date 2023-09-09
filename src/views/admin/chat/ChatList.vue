@@ -1,6 +1,9 @@
 <template>
-  <div class="q-pa-sm full-width full-height">
-    <q-card square flat bordered>
+  <admin-page>
+    <admin-section-card>
+      <chat-chart style="height: 300px"/>
+    </admin-section-card>
+    <admin-section-card>
       <q-table
         ref="tableRef"
         title="聊天会话"
@@ -66,8 +69,8 @@
           </q-td>
         </template>
       </q-table>
-    </q-card>
-  </div>
+    </admin-section-card>
+  </admin-page>
 </template>
 
 <script setup lang="ts">
@@ -78,7 +81,8 @@ import Message from "@/utils/message";
 import { addSSP, makeRequester } from "@/utils/paginating";
 import { columnDefaults } from "@/utils/table-utils";
 import { QTable } from "quasar";
-
+import ChatChart from "./components/ChatChart.vue"
+ 
 const columns = columnDefaults(
   [
     { name: "id", label: "ID" },

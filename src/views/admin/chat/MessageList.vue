@@ -1,6 +1,9 @@
 <template>
-  <div class="q-pa-sm full-width full-height">
-    <q-card square flat bordered>
+  <admin-page >
+    <admin-section-card>
+      <feedback-chart style="height: 300px"/>
+    </admin-section-card>
+    <admin-section-card>
       <q-table
         ref="tableRef"
         title="聊天消息反馈"
@@ -65,8 +68,8 @@
           </q-td>
         </template>
       </q-table>
-    </q-card>
-  </div>
+    </admin-section-card>
+  </admin-page>
 </template>
 
 <script setup lang="ts">
@@ -78,6 +81,8 @@ import { addSSP, makeRequester } from "@/utils/paginating";
 import { columnDefaults } from "@/utils/table-utils";
 import { QTab, QTable } from "quasar";
 import Message from "@/utils/message";
+
+import FeedbackChart from "./components/FeedbackChart.vue"
 
 const columns = columnDefaults(
   [

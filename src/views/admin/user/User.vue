@@ -1,12 +1,12 @@
 <template>
-  <div class="q-pa-sm full-width full-height">
-    <q-card square class="ll-shadow-3">
+  <admin-page>
+    <admin-section-card>
       <q-card-section>
         <div class="row q-col-gutter-lg">
           <progress-card title="总用户数" caption=" " :value="9999" :progress="1.0" class="col-3" />
           <progress-card
             title="今日注册"
-            caption="今日新注册用户数" 
+            caption="今日新注册用户数"
             :value="9999"
             :progress="0.1"
             color="green"
@@ -30,8 +30,8 @@
           />
         </div>
       </q-card-section>
-    </q-card>
-    <q-card square flat bordered class="q-mt-sm ll-shadow-3">
+    </admin-section-card>
+    <admin-section-card>
       <q-table
         ref="tableRef"
         title="用户管理"
@@ -70,7 +70,7 @@
         <template v-for="field in editables" #[`body-cell-${field}`]="props">
           <q-td :props="props">
             {{ props.row[field] }}
-            <q-icon name="o_edit" color="green" size="4px"/>
+            <q-icon name="o_edit" color="green" size="4px" />
             <q-popup-edit v-model="props.row[field]" v-slot="scope">
               <q-input v-model="scope.value" dense autofocus counter @keyup.enter="scope.set" />
             </q-popup-edit>
@@ -108,8 +108,8 @@
           </q-td>
         </template>
       </q-table>
-    </q-card>
-  </div>
+    </admin-section-card>
+  </admin-page>
 </template>
 
 <script setup lang="ts">
