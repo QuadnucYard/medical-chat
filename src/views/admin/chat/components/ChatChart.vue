@@ -78,7 +78,7 @@ const option: EChartsOption = {
     },
   ],
   yAxis: [{ type: "value", name: "数量", minInterval: 1 }],
-  grid: { bottom: 40, left: 60, right: 60 },
+  grid: { bottom: 20, left: 60, right: 60 },
   series: [
     { name: "总会话数", type: "line" },
     { name: "总消息数", type: "line" },
