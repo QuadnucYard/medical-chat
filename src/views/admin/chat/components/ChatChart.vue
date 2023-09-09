@@ -103,7 +103,7 @@ const option = <EChartsOption>{
       axisPointer: { type: "shadow" },
     },
   ],
-  yAxis: [{ type: "value", name: "数量" }],
+  yAxis: [{ type: "value", name: "数量", minInterval: 1 }],
   series: [
     { name: "总会话数", type: "line" },
     { name: "总消息数", type: "line" },

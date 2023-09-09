@@ -1,6 +1,23 @@
 <template>
   <admin-page>
     <admin-section-card>
+      <q-card-section>
+        <div class="row">
+          <div class="col">
+            <div class="row q-col-gutter-lg">
+              <progress-card title="总投诉" :value="100" :progress="0.7" color="red" class="col-6" />
+              <progress-card title="已处理投诉" :value="100" :progress="0.8" color="green" class="col-6" />
+              <progress-card title="今日投诉" :value="100" :progress="0.8" color="orange" class="col-6" />
+              <progress-card title="今日处理投诉" :value="100" :progress="0.3" color="light-green" class="col-6" />
+            </div>
+          </div>
+          <div class="col-8">
+            <complaint-chart style="height: 160px" />
+          </div>
+        </div>
+      </q-card-section>
+    </admin-section-card>
+    <admin-section-card>
       <q-table
         grid
         ref="tableRef"
@@ -68,13 +85,13 @@
 <script setup lang="ts">
 import { Complaint, getAllComplaints, resolveComplaint } from "@/api/complaint";
 import { Pagination } from "@/api/page";
-import { User, updateUser } from "@/api/user";
 import { TablePagination } from "@/typing/quasar";
 import { formatDate } from "@/utils/date-utils";
 import Message from "@/utils/message";
 import { addSSP, makeRequester } from "@/utils/paginating";
 import { columnDefaults } from "@/utils/table-utils";
 import { QTable } from "quasar";
+import ComplaintChart from "./components/ComplaintChart.vue";
 
 const $q = useQuasar();
 
@@ -107,7 +124,11 @@ const pagination = ref<TablePagination>({
 const loading = ref(false);
 const filter = ref("");
 const resolvedFilter = ref<boolean | null>(false);
-const resToggleColor = ref("primary");
+const resToggleColor = computed(() => {
+  if (resolvedFilter.value === true) return "green";
+  else if (resolvedFilter.value === false) return "orange";
+  else return "teal";
+});
 
 onMounted(addSSP(tableRef));
 
@@ -116,9 +137,6 @@ const getAllComplaintsWrapped = (page: Pagination) => getAllComplaints(page, res
 const onRequest = makeRequester({ rows, pagination, loading }, getAllComplaintsWrapped);
 
 async function onToggleChanged(value: boolean | null) {
-  if (value === true) resToggleColor.value = "green";
-  else if (value === false) resToggleColor.value = "orange";
-  else if (value === null) resToggleColor.value = "teal";
   tableRef.value?.requestServerInteraction();
 }
 
