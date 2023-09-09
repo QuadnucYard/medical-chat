@@ -55,7 +55,7 @@ export type ChatStats = {
 };
 
 // done
-export async function getSessions() {
+export async function getMySessions() {
   return (await api.get<ChatSession[]>("/chat/me")).data;
 }
 
@@ -74,8 +74,8 @@ export async function getSessionDetails(chat_id: int) {
 }
 
 // done
-export async function addQuestion(chat_id: int, question_data: any) {
-  return (await api.post<ChatMessage>(`/chat/${chat_id}`, question_data)).data;
+export async function sendQuestion(chat_id: int, question_data: any) {
+  return (await api.post<ChatMessage[]>(`/chat/${chat_id}`, question_data)).data;
 }
 
 export async function getAllSessions(page: Pagination) {

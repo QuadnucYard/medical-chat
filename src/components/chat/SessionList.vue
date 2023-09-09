@@ -34,7 +34,7 @@
 </template>
 
 <script setup lang="ts">
-import { ChatSession, addSession, deleteSession, getSessions } from "@/api/chat";
+import { ChatSession, addSession, deleteSession, getMySessions } from "@/api/chat";
 import emitter from "@/utils/bus";
 import { Dialog } from "quasar";
 
@@ -46,7 +46,7 @@ const selectedId = ref<int | undefined>(undefined);
 
 onMounted(async () => {
   try {
-    sessions.value = await getSessions();
+    sessions.value = await getMySessions();
   } catch (e) {
     console.log("Not logged in");
   }
@@ -62,7 +62,7 @@ function selectSession(sessionId: int) {
 async function add() {
   try {
     const response = await addSession("123");
-    sessions.value = await getSessions();
+    sessions.value = await getMySessions();
     selectSession(response.id);
   } catch (error) {
     console.log("添加失败", error);
@@ -74,7 +74,7 @@ async function deleteIt(chatId: int) {
     const shouldDelete = await showDeleteConfirmation();
     if (shouldDelete) {
       const response = await deleteSession(chatId);
-      sessions.value = await getSessions();
+      sessions.value = await getMySessions();
     }
     if (chatId == selectedId.value) {
       if (sessions.value.length > 0) {

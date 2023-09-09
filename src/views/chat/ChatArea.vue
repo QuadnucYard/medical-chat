@@ -190,7 +190,7 @@
 </template>
 
 <script setup lang="ts">
-import { ChatSession, addNote, addQuestion, getSessionDetails, updateTitle } from "@/api/chat";
+import { ChatSession, addNote, sendQuestion, getSessionDetails, updateTitle } from "@/api/chat";
 import { postComplaint } from "@/api/complaint";
 import { Recommendation, getRecommendations } from "@/api/recommend";
 import { createShare } from "@/api/share";
@@ -241,19 +241,11 @@ async function onSessionChanged(newValue: int) {
 async function sendMessage() {
   if (sessionId.value && question_message.question.trim() !== "") {
     try {
-      const response = await addQuestion(sessionId.value, {
+      const response = await sendQuestion(sessionId.value, {
         question: question_message.question,
         hint: "",
       });
-      const newQuestion = {
-        chat_id: 0, // 设置聊天会话的ID
-        type: 0, // 设置问题类型
-        content: question_message.question, // 设置问题内容
-        id: 0, // 设置问题的ID
-        send_time: new Date().toISOString(), // 设置发送时间为当前时间
-      };
-      session.value?.messages?.push(newQuestion);
-      session.value?.messages?.push(response);
+      session.value?.messages?.push(...response);
 
       question_message.question = "";
       question_message.hint = "";
