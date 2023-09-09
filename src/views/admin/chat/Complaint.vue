@@ -19,17 +19,17 @@
         @request="onRequest"
       >
         <template #top-right>
-            <q-btn-toggle
-              v-model="resolvedFilter"
-              push
-              :toggle-color="resToggleColor"
-              :options="[
-                { label: '已处理', value: true, icon: 'task' },
-                { label: '待处理', value: false, icon: 'assignment' },
-                { label: '全部', value: null, icon: 'list' },
-              ]"
-              @update:model-value="onToggleChanged"
-            />
+          <q-btn-toggle
+            v-model="resolvedFilter"
+            push
+            :toggle-color="resToggleColor"
+            :options="[
+              { label: '已处理', value: true, icon: 'task' },
+              { label: '待处理', value: false, icon: 'assignment' },
+              { label: '全部', value: null, icon: 'list' },
+            ]"
+            @update:model-value="onToggleChanged"
+          />
         </template>
         <template v-slot:item="props">
           <div
@@ -44,7 +44,7 @@
                       <q-item-label>{{ col.label }}</q-item-label>
                     </q-item-section>
                     <q-item-section side>
-                      <q-item-label v-if="col.name=='category'">
+                      <q-item-label v-if="col.name == 'category'">
                         <q-badge>{{ col.value }}</q-badge>
                       </q-item-label>
                       <q-item-label v-else caption>{{ col.value }}</q-item-label>
@@ -55,7 +55,7 @@
               </q-list>
               <q-separator />
               <q-card-section v-if="!props.row.resolve_time">
-                <q-btn label="处理" color="primary" />
+                <q-btn label="处理" color="primary" @click="handleComplaint(props.row)" />
               </q-card-section>
             </q-card>
           </div>
@@ -66,7 +66,7 @@
 </template>
 
 <script setup lang="ts">
-import { Complaint, getAllComplaints } from "@/api/complaint";
+import { Complaint, getAllComplaints, resolveComplaint } from "@/api/complaint";
 import { Pagination } from "@/api/page";
 import { User, updateUser } from "@/api/user";
 import { TablePagination } from "@/typing/quasar";
@@ -75,6 +75,8 @@ import Message from "@/utils/message";
 import { addSSP, makeRequester } from "@/utils/paginating";
 import { columnDefaults } from "@/utils/table-utils";
 import { QTable } from "quasar";
+
+const $q = useQuasar();
 
 const columns = columnDefaults(
   [
@@ -89,8 +91,6 @@ const columns = columnDefaults(
   ],
   { sortable: true, align: "center" }
 );
-
-const editables = ["title"];
 
 const rows = ref<Complaint[]>([]);
 
@@ -122,11 +122,18 @@ async function onToggleChanged(value: boolean | null) {
   tableRef.value?.requestServerInteraction();
 }
 
-/*TODO*/
-async function onUpdateEdit(user: User) {
-  const res = await updateUser(user.id, user);
-  Object.assign(user, res);
-  Message.success("成功编辑用户信息");
+async function handleComplaint(complaint: Complaint) {
+  $q.dialog({
+    title: "处理投诉",
+    message: "回复处理意见",
+    prompt: { model: "", type: "textarea" },
+    cancel: true,
+    persistent: true,
+  }).onOk(async (data) => {
+    const res = await resolveComplaint(complaint.id, data);
+    Message.success("成功处理用户投诉");
+    Object.assign(complaint, res);
+  });
 }
 </script>
 

@@ -15,7 +15,15 @@ export interface Complaint {
   reply?: string;
 }
 
+export async function postComplaint(complaint_detail: any) {
+  return (await api.postForm<Complaint>("/complaints/", complaint_detail)).data;
+}
+
 export async function getAllComplaints(page: Pagination, resolved: boolean | null) {
   const params = castPagination(page);
   return (await api.get<Page<Complaint>>("/complaints/", { params: { ...params, resolved } })).data;
+}
+
+export async function resolveComplaint(id: int, reply: string) {
+  return (await api.post<Complaint>(`/complaints/${id}`, { reply })).data;
 }

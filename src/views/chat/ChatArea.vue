@@ -140,11 +140,9 @@ import {
   getSessionDetails,
   ChatSession,
   addQuestion,
-  ChatMessage,
-  ChatFeedback,
   updateTitle,
 } from "@/api/chat";
-import { updateComplaint } from "@/api/feedback";
+import { postComplaint } from "@/api/complaint";
 import { formatDate } from "@/utils/date-utils";
 import emitter from "@/utils/bus";
 import MyChatMessage from "@/components/chat/MyChatMessage.vue";
@@ -199,7 +197,7 @@ async function sendMessage() {
 async function addComplain() {
   if (report_detail.value !== "") {
     try {
-      const response = await updateComplaint(report_detail.value);
+      const response = await postComplaint(report_detail.value);
     } catch (error) {
       console.error("Failed to add complain:", error);
     }
