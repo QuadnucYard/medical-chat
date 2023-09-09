@@ -19,7 +19,7 @@
 
 <script setup lang="ts">
 const props = withDefaults(
-  defineProps<{ title: string; caption?: string; value: number; progress: number; color?: string }>(),
+  defineProps<{ title: string; caption?: string; value: number | string; progress: number; color?: string }>(),
   { caption: "", color: "primary" }
 );
 </script>
