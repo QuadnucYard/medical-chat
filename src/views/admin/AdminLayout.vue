@@ -1,7 +1,7 @@
 <template>
   <q-layout view="hHh LpR fFf">
     <q-header class="shadow-1">
-      <app-bar @switch-right="toggleRightDrawer" @switch-left="toggleLeftDrawer" />
+      <admin-tool-bar @switch-right="toggleRightDrawer" @switch-left="toggleLeftDrawer" />
     </q-header>
 
     <q-drawer
@@ -34,10 +34,6 @@
 </template>
 
 <script setup lang="ts">
-import LeftMenu from "@/components/common/LeftMenu.vue";
-import AppBar from "@/components/common/AppBar.vue";
-import UIConfig from "@/components/common/UIConfig.vue";
-
 const leftDrawerOpen = ref(false);
 const rightDrawerOpen = ref(false);
 

@@ -9,7 +9,7 @@ declare module 'vue' {
   export interface GlobalComponents {
     AdminPage: typeof import('./components/common/AdminPage.vue')['default']
     AdminSectionCard: typeof import('./components/common/AdminSectionCard.vue')['default']
-    AppBar: typeof import('./components/common/AppBar.vue')['default']
+    AdminToolBar: typeof import('./components/common/AdminToolBar.vue')['default']
     AppToolBar: typeof import('./components/common/AppToolBar.vue')['default']
     CustomerRelation: typeof import('./components/dashboard/CustomerRelation.vue')['default']
     GaugeIncome: typeof import('./components/dashboard/GaugeIncome.vue')['default']
