@@ -14,6 +14,7 @@ declare module 'vue' {
     GaugeRange: typeof import('./components/dashboard/GaugeRange.vue')['default']
     LeftMenu: typeof import('./components/common/LeftMenu.vue')['default']
     MyChatMessage: typeof import('./components/chat/MyChatMessage.vue')['default']
+    ProgressCard: typeof import('./components/dashboard/ProgressCard.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
     SessionList: typeof import('./components/chat/SessionList.vue')['default']

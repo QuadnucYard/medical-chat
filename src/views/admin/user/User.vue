@@ -1,6 +1,37 @@
 <template>
   <div class="q-pa-sm full-width full-height">
-    <q-card square flat bordered>
+    <q-card square class="ll-shadow-3">
+      <q-card-section>
+        <div class="row q-col-gutter-lg">
+          <progress-card title="总用户数" caption=" " :value="9999" :progress="1.0" class="col-3" />
+          <progress-card
+            title="今日注册"
+            caption="今日新注册用户数" 
+            :value="9999"
+            :progress="0.1"
+            color="green"
+            class="col-3"
+          />
+          <progress-card
+            title="今日登录"
+            caption="今日登录系统用户数"
+            :value="9999"
+            :progress="0.7"
+            color="orange"
+            class="col-3"
+          />
+          <progress-card
+            title="今日活跃"
+            caption="今日聊天用户数"
+            :value="9999"
+            :progress="0.8"
+            color="purple"
+            class="col-3"
+          />
+        </div>
+      </q-card-section>
+    </q-card>
+    <q-card square flat bordered class="q-mt-sm ll-shadow-3">
       <q-table
         ref="tableRef"
         title="用户管理"
@@ -39,6 +70,7 @@
         <template v-for="field in editables" #[`body-cell-${field}`]="props">
           <q-td :props="props">
             {{ props.row[field] }}
+            <q-icon name="o_edit" color="green" size="4px"/>
             <q-popup-edit v-model="props.row[field]" v-slot="scope">
               <q-input v-model="scope.value" dense autofocus counter @keyup.enter="scope.set" />
             </q-popup-edit>
