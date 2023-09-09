@@ -1,9 +1,10 @@
 <template>
-    <div class="q-pa-md">
+  <admin-page>
+    <admin-section-card>
       <q-table
         grid
         ref="tableRef"
-        title="聊天会话"
+        title="投诉管理"
         :rows="rows"
         :columns="columns"
         row-key="id"
@@ -17,103 +18,116 @@
         v-model:pagination="pagination"
         @request="onRequest"
       >
-        <template #top>
-          <div class="q-gutter-md">
-            <q-btn color="green" icon="navigation" label="已处理" unelevated rounded class="l-shadow-2" />
-            <q-btn
-              color="red"
-              icon="delete"
-              label="待处理"
-              unelevated
-              rounded
-              class="l-shadow-2"
+        <template #top-right>
+            <q-btn-toggle
+              v-model="resolvedFilter"
+              push
+              :toggle-color="resToggleColor"
+              :options="[
+                { label: '已处理', value: true, icon: 'task' },
+                { label: '待处理', value: false, icon: 'assignment' },
+                { label: '全部', value: null, icon: 'list' },
+              ]"
+              @update:model-value="onToggleChanged"
             />
-          </div>
-          <q-space />
-          <q-input dense outlined debounce="300" color="primary" v-model="filter">
-            <template #append>
-              <q-icon name="search" />
-            </template>
-          </q-input>
         </template>
         <template v-slot:item="props">
-        <div
-          class="q-pa-xs col-xs-12 col-sm-6 col-md-4 col-lg-3 grid-style-transition"
-          :style="props.selected ? 'transform: scale(0.95);' : ''"
-        >
-          <q-card :class="props.selected ? 'bg-grey-2' : ''">
-            <q-card-section>
-              <q-checkbox dense v-model="props.selected" :label="props.row.name" />
-            </q-card-section>
-            <q-separator />
-            <q-list dense>
-              <q-item v-for="col in props.cols.filter(col => col.name !== 'desc')" :key="col.name">
-                <q-item-section>
-                  <q-item-label>{{ col.label }}</q-item-label>
-                </q-item-section>
-                <q-item-section side>
-                  <q-item-label caption>{{ col.value }}</q-item-label>
-                </q-item-section>
-              </q-item>
-            </q-list>
-          </q-card>
-        </div>
-      </template>
+          <div
+            class="q-pa-xs col-xs-12 col-sm-6 col-md-4 col-lg-3 grid-style-transition"
+            :style="props.selected ? 'transform: scale(0.95);' : ''"
+          >
+            <q-card>
+              <q-list dense>
+                <template v-for="col in props.cols" :key="col.name">
+                  <q-item v-if="props.row[col.name] !== null">
+                    <q-item-section style="min-width: 40px">
+                      <q-item-label>{{ col.label }}</q-item-label>
+                    </q-item-section>
+                    <q-item-section side>
+                      <q-item-label v-if="col.name=='category'">
+                        <q-badge>{{ col.value }}</q-badge>
+                      </q-item-label>
+                      <q-item-label v-else caption>{{ col.value }}</q-item-label>
+                    </q-item-section>
+                    <!-- TODO add a detail view -->
+                  </q-item>
+                </template>
+              </q-list>
+              <q-separator />
+              <q-card-section v-if="!props.row.resolve_time">
+                <q-btn label="处理" color="primary" />
+              </q-card-section>
+            </q-card>
+          </div>
+        </template>
       </q-table>
-    </div>
-  </template>
-  
-  <script setup lang="ts">
-  import { ChatSession, ChatMessage, getAllSessions } from "@/api/chat";
-  import { User, getUsers, updateUser } from "@/api/user";
-  import { TablePagination } from "@/typing/quasar";
-  import { formatDate } from "@/utils/date-utils";
-  import { addSSP, makeRequester } from "@/utils/paginating";
-  import { columnDefaults } from "@/utils/table-utils";
-  import { QTab, QTable } from "quasar";
-  import Message from "@/utils/message";
-  import { date } from 'quasar'
-  
-  const columns = columnDefaults(
+    </admin-section-card>
+  </admin-page>
+</template>
+
+<script setup lang="ts">
+import { Complaint, getAllComplaints } from "@/api/complaint";
+import { Pagination } from "@/api/page";
+import { User, updateUser } from "@/api/user";
+import { TablePagination } from "@/typing/quasar";
+import { formatDate } from "@/utils/date-utils";
+import Message from "@/utils/message";
+import { addSSP, makeRequester } from "@/utils/paginating";
+import { columnDefaults } from "@/utils/table-utils";
+import { QTable } from "quasar";
+
+const columns = columnDefaults(
   [
-    { name: "id", label: "ID"},
-    { name: "user", label: "用户", field: (row: ChatSession)=> row.user.username},
-    { name: "title", label: "标题"},
-    { name: "create_time", label: "注册时间", format: formatDate },
-    { name: "update_time", label: "更新时间", format: formatDate },
-    { name: "login_time", label: "登录时间", format: formatDate }
-  ],{ sortable: true, align: "center" });
-  
-  const editables = ["title"];
-  
-  const rows = ref<ChatSession[]>([]);
-  
-  const tableRef = ref<QTable>();
-  
-  const pagination = ref<TablePagination>({
-    sortBy: null,
-    descending: false,
-    page: 1,
-    rowsPerPage: 20,
-    rowsNumber: 0,
-  }); // It MUST be REF!
-  
-  const loading = ref(false);
-  const filter = ref("");
-  
-  onMounted(addSSP(tableRef));
-  
-  const onRequest = makeRequester({ rows, pagination, loading }, getAllSessions);
-  
-  /*TODO*/ 
-  async function onUpdateEdit(user: User) {
-    const res = await updateUser(user.id, user);
-    Object.assign(user, res);
-    Message.success("成功编辑用户信息");
-  }
-  </script>
-  
-  <style scoped></style>
-  
-  
-  
+    { name: "id", label: "ID" },
+    { name: "user", label: "用户", field: (row: Complaint) => row.user.username },
+    { name: "category", label: "分类" },
+    { name: "content", label: "内容" },
+    { name: "create_time", label: "创建时间", format: formatDate },
+    { name: "resolve_time", label: "处理时间", format: formatDate },
+    { name: "admin", label: "处理者", field: (row: Complaint) => row.admin?.username },
+    { name: "reply", label: "回复" },
+  ],
+  { sortable: true, align: "center" }
+);
+
+const editables = ["title"];
+
+const rows = ref<Complaint[]>([]);
+
+const tableRef = ref<QTable>();
+
+const pagination = ref<TablePagination>({
+  sortBy: null,
+  descending: false,
+  page: 1,
+  rowsPerPage: 20,
+  rowsNumber: 0,
+}); // It MUST be REF!
+
+const loading = ref(false);
+const filter = ref("");
+const resolvedFilter = ref<boolean | null>(false);
+const resToggleColor = ref("primary");
+
+onMounted(addSSP(tableRef));
+
+const getAllComplaintsWrapped = (page: Pagination) => getAllComplaints(page, resolvedFilter.value);
+
+const onRequest = makeRequester({ rows, pagination, loading }, getAllComplaintsWrapped);
+
+async function onToggleChanged(value: boolean | null) {
+  if (value === true) resToggleColor.value = "green";
+  else if (value === false) resToggleColor.value = "orange";
+  else if (value === null) resToggleColor.value = "teal";
+  tableRef.value?.requestServerInteraction();
+}
+
+/*TODO*/
+async function onUpdateEdit(user: User) {
+  const res = await updateUser(user.id, user);
+  Object.assign(user, res);
+  Message.success("成功编辑用户信息");
+}
+</script>
+
+<style scoped></style>
