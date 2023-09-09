@@ -179,9 +179,9 @@
               <q-item-label>{{ recommend.title }}</q-item-label>
               <q-item-label caption lines="2">{{ recommend.content }}</q-item-label>
             </q-item-section>
-            <q-item-secfotion side top>
+            <q-item-section side top>
               <q-item-label caption>{{ formatDateToDay(recommend.add_time) }}</q-item-label>
-            </q-item-secfotion>
+            </q-item-section>
           </q-item>
         </q-list>
       </div>
@@ -191,7 +191,7 @@
 
 <script setup lang="ts">
 import { ChatSession, addNote, addQuestion, getSessionDetails, updateTitle } from "@/api/chat";
-import { updateComplaint } from "@/api/feedback";
+import { postComplaint } from "@/api/complaint";
 import { Recommendation, getRecommendations } from "@/api/recommend";
 import { createShare } from "@/api/share";
 import MyChatMessage from "@/components/chat/MyChatMessage.vue";
@@ -273,7 +273,7 @@ async function send_recommend(title: string) {
 async function addComplain() {
   if (report_detail.value.content) {
     try {
-      const response = await updateComplaint(complain_type.value, report_detail.value.content);
+      const response = await postComplaint(complain_type.value, report_detail.value.content);
       Message.success("发送成功");
       complain_type.value = "";
       report_detail.value.category = "";

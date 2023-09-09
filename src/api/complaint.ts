@@ -23,8 +23,8 @@ export type ComplaintStats = {
   by_date: { date: string; creation: int; resolution: int }[];
 };
 
-export async function postComplaint(complaint_detail: any) {
-  return (await api.postForm<Complaint>("/complaints/", complaint_detail)).data;
+export async function postComplaint(category: string, content: string) {
+  return (await api.post<Complaint>("/complaints/", { category, content })).data;
 }
 
 export async function getAllComplaints(page: Pagination, resolved: boolean | null) {
