@@ -29,7 +29,6 @@ const getHashCode = (str: string) => {
   for (let i = str.length - 1; i >= 0; i--) {
     hash ^= (hash << 5) + str.charCodeAt(i) + (hash >> 2);
   }
-  console.log(str, hash);
   return hash & 0x7fffffff;
 };
 
@@ -127,7 +126,6 @@ const option: EChartsOption = {
 watch(props, () => {
   const data = Object.entries(props.data).map((t) => ({ name: t[0], value: t[1] }));
   chartRef.value?.setOption({ series: [{ data }] });
-  console.log("wwww", data);
 });
 </script>
 
