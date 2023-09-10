@@ -10,7 +10,7 @@
         @click="selectSession(session.id)"
       >
         <q-item-section avatar>
-          <q-avatar color="primary" text-color="white" :rounded="true" class="small-avatar">
+          <q-avatar color="primary" text-color="white" rounded class="small-avatar">
             <q-icon name="account_circle" />
           </q-avatar>
         </q-item-section>
@@ -19,14 +19,12 @@
           <q-item-label>{{ session.title }}</q-item-label>
         </q-item-section>
         <q-item-section side>
-          <q-icon name="delete" class="q-ml-xs" @click="deleteIt(session.id)" />
+          <q-btn flat round push icon="delete" size="sm" class="q-ml-xs" @click.stop="deleteIt(session.id)" />
         </q-item-section>
       </q-item>
-      <q-item clickable v-ripple @click="add()" class="bg-teal-1">
+      <q-item clickable v-ripple @click="add()" class="bg-primary-4">
         <q-item-section>
-          <q-item-label style="text-align: center; background-color: primary; color: black">
-            添加对话
-          </q-item-label>
+          <q-item-label class="text-center"> 添加对话 </q-item-label>
         </q-item-section>
       </q-item>
     </q-list>
@@ -75,10 +73,10 @@ async function deleteIt(chatId: int) {
     if (shouldDelete) {
       const response = await deleteSession(chatId);
       sessions.value = await getMySessions();
-    }
-    if (chatId == selectedId.value) {
-      if (sessions.value.length > 0) {
-        selectSession(sessions.value[0].id);
+      if (chatId == selectedId.value) {
+        if (sessions.value.length > 0) {
+          selectSession(sessions.value[0].id);
+        }
       }
     }
   } catch (error) {
@@ -94,11 +92,11 @@ async function showDeleteConfirmation() {
       message: "确定要删除该会话吗？",
       ok: {
         label: "确认",
-        color: "negative",
+        color: "green-6",
       },
       cancel: {
         label: "取消",
-        color: "grey-8",
+        color: "red-6",
       },
     })
       .onOk(() => resolve(true))

@@ -2,9 +2,15 @@ import api from "./request";
 import { UserPartial } from "./user";
 import { Page, Pagination, castPagination } from "./page";
 
+export enum MessageType {
+  Question = 0,
+  Answer = 1,
+  Note = 2,
+}
+
 export interface ChatMessage {
   chat_id: int;
-  type: int;
+  type: MessageType;
   content: string;
   remark: string;
   id: int;

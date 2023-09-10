@@ -5,8 +5,6 @@
     :avatar="MyAvatar"
     :stamp="formatDate(message.send_time)"
     :sent="message.type === 0"
-    :bg-color="message.type === 1 ? 'amber' : 'primary'"
-    text-color="white"
     class="message-container"
   >
     <div>
@@ -29,7 +27,9 @@
         />
         <q-btn flat round push color="primary" icon="textsms" @click="comment()" />
       </div>
-      <q-item-label style="white-space: pre-wrap">{{ message.content }}</q-item-label>
+      <div class="whitespace-pre-wrap leading-6">
+        {{ message.content }}
+      </div>
     </div>
   </q-chat-message>
 </template>

@@ -8,6 +8,6 @@ export function formatNow() {
   return date.formatDate(new Date(), "YYYY-MM-DD HH:mm:ss");
 }
 
-export function formatDateToDay() {
-  return date.formatDate(new Date(), "YYYY-MM-DD");
+export function formatDateToDay(dat: string) {
+  return date.formatDate(new Date(dat), "YYYY-MM-DD");
 }
