@@ -6,7 +6,7 @@
           <chat-header :session="session" />
 
           <div class="q-pa-md">
-            <my-chat-message v-for="group in messagesGrouped" :messages="group" />
+            <my-chat-message v-for="group in messagesGrouped" :key="group[0].id" :messages="group" />
           </div>
           <chat-input ref="inputRef" :session="session" @message-sent="sendMessage" />
         </q-page>

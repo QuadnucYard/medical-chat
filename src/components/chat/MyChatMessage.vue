@@ -3,10 +3,10 @@
     :name="getMessageName(messages[0])"
     :avatar="MyAvatar"
     :stamp="formatDate(messages.at(-1)!.send_time)"
-    :sent="messages[0].type === 0"
+    :sent="messages[0].type === MessageType.Question"
     class="message-container"
   >
-    <div v-for="msg in messages">
+    <div v-for="msg in messages" :key="msg.id">
       <div class="icon-wrapper" v-if="msg.type === MessageType.Answer">
         <q-btn
           flat
@@ -27,6 +27,9 @@
         <q-btn flat round push color="primary" icon="textsms" @click="comment(msg)" />
       </div>
       <div class="whitespace-pre-wrap leading-5 msg-content" v-html="messageContent(msg)" />
+      <!-- <div class="whitespace-pre-wrap leading-5 msg-content">
+        {{ messageContent(msg) }}
+      </div> -->
     </div>
   </q-chat-message>
 </template>
@@ -42,13 +45,28 @@ const props = defineProps<{ messages: ChatMessage[] }>();
 
 const $q = useQuasar();
 
-const messageContent = (msg: ChatMessage) =>
-msg.content
-    .split(/<br>|\n/)
-    .map((s) => `<p>${s}</p>`)
-    .join("")
-;
+function htmlEscape(text: string) {
+  return text.replace(/[<>"&]/g, function (match, pos, originalText) {
+    switch (match) {
+      case "<":
+        return "&lt;";
+      case ">":
+        return "&gt;";
+      case "&":
+        return "&amp;";
+      case '"':
+        return "&quot;";
+      default:
+        return "";
+    }
+  });
+}
 
+const messageContent = (msg: ChatMessage) =>
+  msg.content
+    .split(/<br>|\n/)
+    .map((s) => `<p>${htmlEscape(s)}</p>`)
+    .join("");
 async function like(msg: ChatMessage) {
   const mark = !msg.own_feedback?.mark_like;
   await sendFeedback(msg, { mark_like: mark });
@@ -80,8 +98,8 @@ async function sendFeedback(msg: ChatMessage, mod: Partial<ChatFeedback>) {
   msg.own_feedback = response;
 }
 
-function getMessageName(message: any): string {
-  return message.type === 1 ? "MedBot" : "Me";
+function getMessageName(message: ChatMessage): string {
+  return message.type === MessageType.Answer ? "MedBot" : "Me";
 }
 </script>
 
