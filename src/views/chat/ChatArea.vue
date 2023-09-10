@@ -6,7 +6,7 @@
           <chat-header :session="session" />
 
           <div class="q-pa-md">
-            <my-chat-message v-for="msg in session.messages" :message="msg" />
+            <my-chat-message v-for="group in messagesGrouped" :messages="group" />
           </div>
           <chat-input ref="inputRef" :session="session" @message-sent="sendMessage" />
         </q-page>
@@ -45,15 +45,9 @@
 
 <script setup lang="ts">
 import { ChatMessage, ChatSession, MessageType, getSessionDetails } from "@/api/chat";
-import MyChatMessage from "@/components/chat/MyChatMessage.vue";
-import RecommendList from "@/components/chat/RecommendList.vue";
-import ChatChart from "../admin/chat/components/ChatChart.vue";
-import ChatHeader from "@/components/chat/ChatHeader.vue";
 import ChatInput from "@/components/chat/ChatInput.vue";
 import ComplainDialog from "@/components/chat/ComplainDialog.vue";
 import ChatNoteDialog from "@/components/chat/ChatNoteDialog.vue";
-import ChatNoteList from "@/components/chat/ChatNoteList.vue";
-import ChatShare from "@/components/chat/ChatShare.vue";
 import emitter from "@/utils/bus";
 
 const sessionId = ref<int | undefined>(undefined);
@@ -71,6 +65,21 @@ const dialogContainerRef = ref<HTMLElement>();
 const notes = computed(() => session.value?.messages?.filter((m) => m.type == MessageType.Note));
 
 const loading = ref(false);
+
+const messagesGrouped = computed(() => {
+  const groups: ChatMessage[][] = [];
+  if (session.value?.messages) {
+    for (const m of session.value?.messages) {
+      if (m.type === MessageType.Note) continue;
+      if (groups.length === 0 || m.type !== groups.at(-1)?.[0].type) {
+        groups.push([m]);
+      } else {
+        groups.at(-1)?.push(m);
+      }
+    }
+  }
+  return groups;
+});
 
 emitter.on("session-changed", onSessionChanged);
 
