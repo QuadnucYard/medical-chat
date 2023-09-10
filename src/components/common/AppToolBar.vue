@@ -33,6 +33,7 @@
 
 <script lang="ts" setup>
 import { logout } from "@/api/login";
+import { getUser } from "@/api/user";
 import { useUserStore } from "@/store/user";
 
 const $router = useRouter();
@@ -56,4 +57,12 @@ async function onLogout() {
   await logout();
   location.reload();
 }
+
+onMounted(async () => {
+  if (userStore.user) {
+    try {
+      userStore.user.data = await getUser();
+    } catch (e) {}
+  }
+});
 </script>

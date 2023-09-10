@@ -44,7 +44,7 @@
         </q-fab>
         <chat-note-list :notes="notes" />
         <complain-dialog ref="complainDialogRef" />
-        <chat-note-dialog ref="noteDialogRef" :session="session" />
+        <chat-note-dialog v-if="session" ref="noteDialogRef" :session="session" />
       </q-drawer>
     </q-layout>
   </div>
@@ -71,11 +71,15 @@ const dialogContainerRef = ref<HTMLElement>();
 
 const notes = computed(() => session.value?.messages?.filter((m) => m.type == MessageType.Note));
 
+const loading = ref(false);
+
 emitter.on("session-changed", onSessionChanged);
 
 async function onSessionChanged(newValue: int) {
+  loading.value = true;
   sessionId.value = newValue;
   session.value = await getSessionDetails(newValue);
+  loading.value = false;
 }
 
 function sendMessage(messages: ChatMessage[]) {
