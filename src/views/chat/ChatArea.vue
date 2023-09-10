@@ -28,13 +28,6 @@
         >
           <q-fab-action
             label-position="right"
-            color="accent"
-            icon="report"
-            label="投诉"
-            @click="complainDialogRef?.show()"
-          />
-          <q-fab-action
-            label-position="right"
             color="primary"
             icon="note"
             label="笔记"
@@ -52,9 +45,15 @@
 
 <script setup lang="ts">
 import { ChatMessage, ChatSession, MessageType, getSessionDetails } from "@/api/chat";
-import type ChatInput from "@/components/chat/ChatInput.vue";
-import type ComplainDialog from "@/components/chat/ComplainDialog.vue";
-import type ChatNoteDialog from "@/components/chat/ChatNoteDialog.vue";
+import MyChatMessage from "@/components/chat/MyChatMessage.vue";
+import RecommendList from "@/components/chat/RecommendList.vue";
+import ChatChart from "../admin/chat/components/ChatChart.vue";
+import ChatHeader from "@/components/chat/ChatHeader.vue";
+import ChatInput from "@/components/chat/ChatInput.vue";
+import ComplainDialog from "@/components/chat/ComplainDialog.vue";
+import ChatNoteDialog from "@/components/chat/ChatNoteDialog.vue";
+import ChatNoteList from "@/components/chat/ChatNoteList.vue";
+import ChatShare from "@/components/chat/ChatShare.vue";
 import emitter from "@/utils/bus";
 
 const sessionId = ref<int | undefined>(undefined);

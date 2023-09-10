@@ -1,7 +1,11 @@
 <template>
   <q-list bordered separator>
     <q-item-label header>推荐话题</q-item-label>
+    <q-separator />
     <q-item v-for="(recommend, index) in recommends" :key="index" @click="sendRecommend(recommend)">
+      <q-item-section avatar>
+        <q-icon color="red" name="whatshot" />
+      </q-item-section>
       <q-item-section>
         <q-item-label>{{ recommend.title }}</q-item-label>
         <q-item-label caption lines="2">{{ recommend.content }}</q-item-label>

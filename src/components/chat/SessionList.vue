@@ -1,6 +1,13 @@
 <template>
   <div class="sidebar">
-    <q-list bordered>
+    <q-banner rounded :class="$q.dark.isActive ? 'bg-grey-9' : 'bg-grey-2'" class="w-96 h-42">
+      <template v-slot:avatar>
+        <img src="@/assets/2.png" style="width: 120px; height: 72px" />
+      </template>
+
+      CatTalk
+    </q-banner>
+    <q-list bordered separator>
       <q-item
         v-for="(session, index) in sessions"
         :key="index"
@@ -22,12 +29,37 @@
           <q-btn flat round push icon="delete" size="sm" class="q-ml-xs" @click.stop="deleteIt(session.id)" />
         </q-item-section>
       </q-item>
-      <q-item clickable v-ripple @click="add()" class="bg-primary-4">
+
+      <q-item clickable v-ripple @click="add()">
+        <q-item-section avatar>
+          <q-icon color="primary" name="add" />
+        </q-item-section>
         <q-item-section>
-          <q-item-label class="text-center"> 添加对话 </q-item-label>
+          <q-item-label> 添加对话 </q-item-label>
+        </q-item-section>
+      </q-item>
+
+      <q-item clickable v-ripple @click="chatSearchDialogRef?.show()">
+        <q-item-section avatar>
+          <q-icon color="primary" name="search" />
+        </q-item-section>
+        <q-item-section>
+          <q-item-label> 查询对话 </q-item-label>
+        </q-item-section>
+      </q-item>
+
+      <q-item clickable v-ripple @click="complainDialogRef?.show()">
+        <q-item-section avatar>
+          <q-icon color="primary" name="send" />
+        </q-item-section>
+        <q-item-section>
+          <q-item-label> 反馈 </q-item-label>
         </q-item-section>
       </q-item>
     </q-list>
+    <q-space />
+    <chat-search-dialog ref="chatSearchDialogRef" />
+    <complain-dialog ref="complainDialogRef" />
   </div>
 </template>
 
@@ -35,12 +67,17 @@
 import { ChatSession, addSession, deleteSession, getMySessions } from "@/api/chat";
 import emitter from "@/utils/bus";
 import { Dialog } from "quasar";
+import ChatSearchDialog from "@/components/chat/ChatSearchDialog.vue";
+import ComplainDialog from "@/components/chat/ComplainDialog.vue";
 
 const $router = useRouter();
 const $route = useRoute();
 
 const sessions = ref<ChatSession[]>([]);
 const selectedId = ref<int | undefined>(undefined);
+
+const chatSearchDialogRef = ref<InstanceType<typeof ChatSearchDialog>>();
+const complainDialogRef = ref<InstanceType<typeof ComplainDialog>>();
 
 onMounted(async () => {
   try {

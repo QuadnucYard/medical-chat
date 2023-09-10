@@ -24,6 +24,7 @@
         {{ $q.fullscreen.isActive ? "窗口" : "全屏" }}
       </q-tooltip>
     </q-btn>
+
     <q-btn flat round dense icon="person">
       <!-- <q-badge color="red" rounded floating>4</q-badge> -->
       <q-menu>
