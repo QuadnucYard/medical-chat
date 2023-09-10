@@ -29,7 +29,6 @@ const inputMessage = reactive({
 });
 
 async function sendMessage() {
-  console.log("send");
   if (inputMessage.question.trim() === "") return;
   const response = await sendQuestion(props.session.id, {
     question: inputMessage.question.trim(),

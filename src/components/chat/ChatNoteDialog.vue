@@ -45,6 +45,13 @@ async function addBookNote(session_id: int) {
     Message.warning("请添加笔记信息哦");
   }
 }
+
+function show() {
+  visible.value = true;
+  console.log("show")
+}
+
+defineExpose({ show });
 </script>
 
 <style scoped></style>
