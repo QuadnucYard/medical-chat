@@ -1,49 +1,106 @@
 <template>
-  <q-layout view="lHh Lpr lFf">
-    <q-page-container>
-      <q-page class="flex flex-center bg-grey-2">
-        <q-card class="q-pa-md shadow-2 my_card" bordered>
-          <q-form @submit="onSubmit">
-            <q-card-section class="text-center">
-              <div class="text-grey-9 text-h5 text-weight-bold">注册</div>
-              <div class="text-grey-8">注册以开启medtalk</div>
-            </q-card-section>
-            <q-card-section>
-              <q-input
-                dense
-                outlined
-                v-model="form.username"
-                label="用户名"
-                :rules="usernameRules"
-              ></q-input>
-              <q-input
-                dense
-                outlined
-                class="q-mt-md"
-                v-model="form.password"
-                type="password"
-                label="密码"
-                :rules="passwordRules"
-              ></q-input>
-              <!-- <q-input dense outlined v-model="form.mail" label="邮箱"></q-input> -->
-            </q-card-section>
-            <q-card-section>
-              <q-btn
-                type="submit"
-                style="border-radius: 8px"
-                color="dark"
-                rounded
-                size="md"
-                label="注册"
-                no-caps
-                class="full-width"
-              ></q-btn>
-            </q-card-section>
-          </q-form>
+  <div class="q-pa-md">
+    <q-parallax :height="730">
+      <template v-slot:media>
+        <video width="720" height="440" poster="@/assets/login-video.mp4" autoplay loop muted>
+          <source type="video/mp4" src="@/assets/login-video.mp4" />
+        </video>
+      </template>
+
+      <div class="w-1/2 mx-auto">
+        <q-card flat class="bg-white text-black">
+          <div class="row">
+            <div class="col-md-6 col-xs-12 q-pa-md" style="width: 50%; height: 50%">
+              <q-img
+                class="w-full h-full mx-auto object-cover"
+                placeholder-src="@/assets/1.png"
+                src="@/assets/1.png"
+                spinner-color="white"
+              ></q-img>
+            </div>
+            <div class="col-md-6 col-xs-12">
+              <div class="q-pa-md">
+                <q-card-section>
+                  <div class="text-h6 q-pb-md text-blue-8 text-center text-weight-bolder">MedTalk!</div>
+                  <div class="text-subtitle text-blue-8 text-center text-weight-bolder">遇见您的智慧医疗专家</div>
+                </q-card-section>
+                <q-tabs v-model="tab" class="text-teal">
+                  <q-tab label="用户名注册" name="one" />
+                  <q-tab label="手机号注册" name="two" />
+                </q-tabs>
+                <q-separator />
+                <q-tab-panels v-model="tab" animated>
+                  <q-tab-panel name="one">
+                    <q-form @submit="onSubmit1" @reset="onReset" class="q-gutter-md">
+                      <q-input
+                        filled
+                        v-model="form.username"
+                        label="用户名"
+                        lazy-rules
+                        :rules="[(val) => (val && val.length > 0) || '请输入您的用户名']"
+                      />
+                      <q-input
+                        filled
+                        type="password"
+                        v-model="form.password"
+                        label="密码"
+                        lazy-rules
+                        :rules="[(val) => (val !== null && val !== '') || '请输入您的密码']"
+                      />
+                      <div class="button-container">
+                        <q-btn label="注册" type="submit" color="primary" />
+                        <q-btn label="重置" type="reset" color="primary" flat class="q-ml-sm" />
+                        <q-btn
+                          label="已有账号？点击登录"
+                          color="primary"
+                          flat
+                          class="q-ml-sm"
+                          size="sm"
+                          @click="toLogin"
+                        />
+                      </div>
+                    </q-form>
+                  </q-tab-panel>
+
+                  <q-tab-panel name="two">
+                    <q-form @submit="onSubmit2" @reset="onReset" class="q-gutter-md">
+                      <q-input
+                        filled
+                        v-model="form.username"
+                        label="用户名"
+                        lazy-rules
+                        :rules="[(val) => (val && val.length > 0) || '请输入您的用户名']"
+                      />
+                      <q-input
+                        filled
+                        type="password"
+                        v-model="form.password"
+                        label="手机号"
+                        lazy-rules
+                        :rules="[(val) => (val !== null && val !== '') || '请输入您的手机号']"
+                      />
+                      <div class="button-container">
+                        <q-btn label="注册" type="submit" color="primary" />
+                        <q-btn label="重置" type="reset" color="primary" flat class="q-ml-sm" />
+                        <q-btn
+                          label="已有账号？点击登录"
+                          color="primary"
+                          flat
+                          class="q-ml-sm"
+                          size="sm"
+                          @click="toLogin"
+                        />
+                      </div>
+                    </q-form>
+                  </q-tab-panel>
+                </q-tab-panels>
+              </div>
+            </div>
+          </div>
         </q-card>
-      </q-page>
-    </q-page-container>
-  </q-layout>
+      </div>
+    </q-parallax>
+  </div>
 </template>
 
 <script setup lang="ts">
@@ -55,13 +112,14 @@ import { useUserStore } from "@/store/user";
 const $router = useRouter();
 const userStore = useUserStore();
 
-const form = reactive({ username: "", password: "", mail: "" });
+const form = reactive({ username: "", password: "", mail: "", phone: "" });
+let tab = ref("one");
 
 const usernameRules = [(val: string) => val?.length > 0 || "请输入用户名"];
 const passwordRules = [(val: string) => val?.length > 0 || "请输入密码"];
 // const mailRules = [(val: string) => val?.length > 0 || "请输入您的邮箱"];
 
-async function onSubmit() {
+async function onSubmit1() {
   const userStore = useUserStore();
   try {
     Notify.create({ type: "info", message: "提交注册信息" });
@@ -82,12 +140,41 @@ async function onSubmit() {
     console.log("注册失败", error);
   }
 }
+async function onSubmit2() {
+  const userStore = useUserStore();
+  try {
+    Notify.create({ type: "info", message: "提交注册信息" });
+    const response = await register(form.username, form.password);
+    const userData = response;
+    if (!userData) {
+      Notify.create({ type: "negative", message: "注册失败" });
+      return;
+    }
+
+    Notify.create({
+      type: "positive",
+      message: `注册成功！欢迎 ${userData.username[0] + "*".repeat(userData.username.length - 1)}`,
+    });
+
+    $router.push({ name: "login" });
+  } catch (error) {
+    console.log("注册失败", error);
+  }
+}
+function onReset() {
+  form.username = "";
+  form.password = "";
+  form.phone = "";
+}
+function toLogin() {
+  $router.push("login");
+}
 </script>
 
 <style lang="scss">
-.my_card {
-  width: 25rem;
-  border-radius: 8px;
-  box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+.button-container {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
 }
 </style>

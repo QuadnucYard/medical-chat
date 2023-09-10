@@ -11,6 +11,11 @@
         <q-tooltip> 后台管理 </q-tooltip>
       </q-btn>
     </template>
+
+    <q-btn flat round dense icon="feed" @click="showSiteInfo">
+      <q-tooltip> 关于我们 </q-tooltip>
+    </q-btn>
+
     <q-btn flat round dense icon="person">
       <q-badge color="red" rounded floating>4</q-badge>
       <q-menu>
@@ -50,6 +55,10 @@ const toAdmin = () => {
 
 const showUserInfo = () => {
   $router.push({ name: "user-info" });
+};
+
+const showSiteInfo = () => {
+  $router.push({ name: "site-info" });
 };
 
 async function onLogout() {
