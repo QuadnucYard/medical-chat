@@ -30,5 +30,6 @@ declare module 'vue' {
     RouterView: typeof import('vue-router')['RouterView']
     SessionList: typeof import('./components/chat/SessionList.vue')['default']
     UIConfig: typeof import('./components/common/UIConfig.vue')['default']
+    WordCloud: typeof import('./components/dashboard/WordCloud.vue')['default']
   }
 }

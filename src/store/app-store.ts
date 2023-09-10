@@ -18,6 +18,7 @@ export const appMenu = defineStore("menus", {
           { label: "业务配置", page: "business_config" },
           { label: "客户管理", page: "customer_list" },
           { label: "订单管理", page: "order" },
+          { label: "问答管理", page: "admin-question" },
         ],
       },
       {
