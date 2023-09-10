@@ -8,7 +8,7 @@
     class="message-container"
   >
     <div>
-      <div class="icon-wrapper" v-if="message.type === 1">
+      <div class="icon-wrapper" v-if="message.type === MessageType.Answer">
         <q-btn
           flat
           round
@@ -27,17 +27,14 @@
         />
         <q-btn flat round push color="primary" icon="textsms" @click="comment()" />
       </div>
-      <div class="whitespace-pre-wrap leading-6">
-        {{ message.content }}
-      </div>
+      <div class="whitespace-pre-wrap leading-5 msg-content" v-html="messageContent" />
     </div>
   </q-chat-message>
 </template>
 
 <script setup lang="ts">
 import MyAvatar from "@/assets/chatbot.jpg";
-import UserAvatar from "@/assets/knight.png";
-import { ChatMessage, ChatFeedback } from "@/api/chat";
+import { ChatMessage, ChatFeedback, MessageType } from "@/api/chat";
 import { addFeedback } from "@/api/chat";
 import Message from "@/utils/message";
 import { formatDate } from "@/utils/date-utils";
@@ -45,6 +42,13 @@ import { formatDate } from "@/utils/date-utils";
 const props = defineProps<{ message: ChatMessage }>();
 
 const $q = useQuasar();
+
+const messageContent = computed(() =>
+  props.message.content
+    .split(/<br>|\n/)
+    .map((s) => `<p>${s}</p>`)
+    .join("")
+);
 
 async function like() {
   const mark = !props.message.own_feedback?.mark_like;
@@ -101,5 +105,17 @@ function getMessageName(message: any): string {
 }
 .message-container:hover .icon-wrapper {
   opacity: 1; /* 鼠标悬停时显示图标 */
+}
+</style>
+<style lang="scss">
+.msg-content {
+  p + p {
+    margin-top: 0.75ex;
+  }
+  a {
+    color: var(--q-primary-dark) !important;
+    font-weight: bolder;
+    cursor: pointer;
+  }
 }
 </style>

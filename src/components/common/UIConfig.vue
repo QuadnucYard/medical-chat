@@ -34,6 +34,7 @@ function changePrimaryColor(color: string) {
   setCssVar("chat-message-sent-bg", lighten(color, 65));
   setCssVar("chat-message-received-bg", lighten(color, 80));
   setCssVar("primary-4", lighten(color, 60));
+  setCssVar("primary-dark", lighten(color, -20));
 }
 
 onBeforeMount(() => {
