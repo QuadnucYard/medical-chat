@@ -1,5 +1,5 @@
 <template>
-  <popoto style="height: calc(100vh - 50px); background: #333" />
+  <popoto style="height: calc(100vh - 50px);" />
 </template>
 
 <script setup lang="ts"></script>
