@@ -17,6 +17,13 @@ export interface User {
 
 export type UserPartial = Pick<User, "id" | "username" | "avatar_url">;
 
+export type UserStats = {
+  total: int;
+  register_today: int;
+  login_today: int;
+  active_today: int;
+};
+
 export async function getUser() {
   return (await api.get<User>("/users/me")).data;
 }
@@ -36,4 +43,8 @@ export async function updateUserMe(user_data: any) {
 
 export async function updateUserMeAvatar(user_avatar: File) {
   return (await api.postForm<User>("/users/me/avatar", { file: user_avatar })).data;
+}
+
+export async function getUserStats() {
+  return (await api.get<UserStats>("/users/stat")).data;
 }
