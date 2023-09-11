@@ -123,14 +123,36 @@ driver
 .my-ppt-container-results {
   float: right;
   max-width: 400px;
-  height: calc(100vh - 100px);
-  span {
-    margin-right: 1em;
-  }
+}
+
+.ppt-container-results {
+  max-height: calc(100vh - 200px);
+}
+
+.ppt-container-graph {
+  height: calc(100vh - 160px);
 }
 
 .ppt-section-header {
   height: 40px;
   line-height: 40px;
+}
+
+.ppt-container-query,
+.ppt-container-cypher {
+  margin-top: 0;
+  position: relative;
+  height: 30px;
+  line-height: 30px;
+  padding: 0;
+}
+</style>
+<style lang="scss">
+.ppt-result-attribute-div span {
+  margin-right: 1em !important;
+  &:nth-child(1) {
+    color: wheat;
+    font-weight: bold;
+  }
 }
 </style>
