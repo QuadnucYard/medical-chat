@@ -25,7 +25,7 @@
           icon="thumb_down"
           @click="dislike()"
         />
-        <q-btn flat round push color="primary" icon="textsms" @click="comment()" />
+        <q-btn flat round push color="dark" icon="textsms" @click="comment()" />
       </div>
       <div class="whitespace-pre-wrap leading-5 msg-content" v-html="messageContent" />
     </div>
@@ -41,7 +41,18 @@ import { formatDate } from "@/utils/date-utils";
 
 const props = defineProps<{ message: ChatMessage }>();
 
+const scrollContainer = ref(null);
+const scrollArea = ref(null);
+
 const $q = useQuasar();
+
+// 滚动到最新消息
+const scrollToBottom = () => {
+  // 使用 $nextTick 来确保 DOM 更新完毕后执行滚动
+  nextTick(() => {
+    scrollContainer.value.scrollTop = scrollArea.value.scrollHeight;
+  });
+};
 
 const messageContent = computed(() =>
   props.message.content
@@ -84,6 +95,7 @@ async function sendFeedback(mod: Partial<ChatFeedback>) {
 function getMessageName(message: any): string {
   return message.type === 1 ? "MedBot" : "Me";
 }
+defineExpose({ scrollToBottom });
 </script>
 <style scoped lang="scss">
 .message-container {

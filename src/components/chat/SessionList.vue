@@ -9,8 +9,8 @@
     </q-banner>
     <q-list bordered separator>
       <q-item
-        v-for="(session, index) in sessions"
-        :key="index"
+        v-for="session in sessions"
+        :key="session.id"
         :class="{ 'q-item-selected': selectedId === session.id }"
         clickable
         v-ripple
@@ -23,7 +23,8 @@
         </q-item-section>
 
         <q-item-section>
-          <q-item-label>{{ session.title }}</q-item-label>
+          <q-item-label v-if="session.title">{{ session.title }}</q-item-label>
+          <q-item-label v-else>新的聊天</q-item-label>
         </q-item-section>
         <q-item-section side>
           <q-btn flat round push icon="delete" size="sm" class="q-ml-xs" @click.stop="deleteIt(session.id)" />
@@ -39,15 +40,6 @@
         </q-item-section>
       </q-item>
 
-      <q-item clickable v-ripple @click="chatSearchDialogRef?.show()">
-        <q-item-section avatar>
-          <q-icon color="primary" name="search" />
-        </q-item-section>
-        <q-item-section>
-          <q-item-label> 查询对话 </q-item-label>
-        </q-item-section>
-      </q-item>
-
       <q-item clickable v-ripple @click="complainDialogRef?.show()">
         <q-item-section avatar>
           <q-icon color="primary" name="send" />
@@ -58,7 +50,6 @@
       </q-item>
     </q-list>
     <q-space />
-    <chat-search-dialog ref="chatSearchDialogRef" />
     <complain-dialog ref="complainDialogRef" />
     <q-space />
 
@@ -72,7 +63,6 @@
 import { ChatSession, addSession, deleteSession, getMySessions } from "@/api/chat";
 import emitter from "@/utils/bus";
 import { Dialog } from "quasar";
-import ChatSearchDialog from "@/components/chat/ChatSearchDialog.vue";
 import ComplainDialog from "@/components/chat/ComplainDialog.vue";
 
 const $router = useRouter();
@@ -101,7 +91,7 @@ function selectSession(sessionId: int) {
 
 async function add() {
   try {
-    const response = await addSession("123");
+    const response = await addSession("");
     sessions.value = await getMySessions();
     selectSession(response.id);
   } catch (error) {

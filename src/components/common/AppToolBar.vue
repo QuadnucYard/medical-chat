@@ -17,7 +17,6 @@
     </q-btn>
 
     <q-btn flat round dense icon="person">
-      <q-badge color="red" rounded floating>4</q-badge>
       <q-menu>
         <q-list style="min-width: 100px" dense>
           <q-item clickable v-close-popup>

@@ -4,9 +4,10 @@
     <q-separator />
     <q-item v-for="(recommend, index) in recommends" :key="index" clickable @click="sendRecommend(recommend.title)">
       <q-item-section avatar>
-        <q-icon color="red" name="whatshot" />
+        <q-icon color="red" name="whatshot" class="icon" />
       </q-item-section>
-      <q-item-section>
+
+      <q-item-section class="label-section">
         <q-item-label>{{ recommend.title }}</q-item-label>
         <q-item-label
           caption

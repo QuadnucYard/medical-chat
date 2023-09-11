@@ -44,7 +44,7 @@
 </template>
 
 <script setup lang="ts">
-import { ChatMessage, ChatSession, MessageType, getSessionDetails } from "@/api/chat";
+import { ChatMessage, ChatSession, MessageType, getSessionDetails, updateTitle } from "@/api/chat";
 import MyChatMessage from "@/components/chat/MyChatMessage.vue";
 import RecommendList from "@/components/chat/RecommendList.vue";
 import ChatChart from "../admin/chat/components/ChatChart.vue";
@@ -83,6 +83,10 @@ async function onSessionChanged(newValue: int) {
 
 function sendMessage(messages: ChatMessage[]) {
   session.value?.messages?.push(...messages);
+  if (session.value?.title === "") {
+    const default_title = messages[0].content.substring(0, 10);
+    updateTitle(session.value.id, default_title);
+  }
   nextTick(() => {
     dialogContainerRef.value!.scrollTop = dialogContainerRef.value!.scrollHeight;
   });

@@ -4,6 +4,9 @@
 
 <script setup lang="ts">
 import { createShare } from "@/api/share";
+import { ChatSession } from "@/api/chat";
+
+const props = defineProps<{ session: ChatSession }>();
 
 const share_data = ref({
   chat_id: 0,
