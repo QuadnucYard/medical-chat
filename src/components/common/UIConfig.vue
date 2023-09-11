@@ -5,6 +5,13 @@
         <q-toggle v-model="dark" color="green" label="暗色模式" @click="$q.dark.toggle" />
       </q-card-section>
     </q-card>
+
+    <q-card square flat>
+      <q-card-section>
+        <q-toggle v-model="backgroundpic" color="green" label="背景图片" @click="$q.dark.toggle" />
+      </q-card-section>
+    </q-card>
+
     <q-card square flat>
       <q-card-section>
         <div class="text-subtitle2">修改主题色</div>

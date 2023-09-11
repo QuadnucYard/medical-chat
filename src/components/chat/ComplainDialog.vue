@@ -1,9 +1,9 @@
 <template>
   <q-dialog v-model="visible" persistent>
-    <q-card style="min-width: 350px">
+    <q-card style="min-width: 600px;min-height=600px">
       <q-card-section>
         <div class="text-h6" style="display: flex; align-items: center">
-          <span style="flex: 1">您的投诉</span>
+          <span style="flex: 1">您的反馈</span>
           <q-btn-dropdown color="primary" :label="complain_type" style="margin-left: auto">
             <q-list>
               <q-item clickable v-close-popup @click="onItemClick('信息不准确')">
@@ -18,9 +18,9 @@
                 </q-item-section>
               </q-item>
 
-              <q-item clickable v-close-popup @click="onItemClick('相应时间长')">
+              <q-item clickable v-close-popup @click="onItemClick('响应时间长')">
                 <q-item-section>
-                  <q-item-label>相应时间长</q-item-label>
+                  <q-item-label>响应时间长</q-item-label>
                 </q-item-section>
               </q-item>
 
@@ -35,7 +35,14 @@
       </q-card-section>
 
       <q-card-section class="q-pt-none">
-        <q-input type="textarea" v-model="report_detail.content" filled color="white" @keyup.enter="visible = false" />
+        <q-input
+          type="textarea"
+          style="min-height=600px"
+          v-model="report_detail.content"
+          filled
+          color="white"
+          @keyup.enter="visible = false"
+        />
       </q-card-section>
 
       <q-card-actions align="right" class="text-primary">
@@ -66,22 +73,22 @@ async function addComplain() {
   if (report_detail.value.content) {
     try {
       const response = await postComplaint(complain_type.value, report_detail.value.content);
-      Message.success("发送成功");
+      Message.success("您的反馈是我们前进的动力");
       complain_type.value = "";
       report_detail.value.category = "";
       report_detail.value.content = "";
     } catch (error) {
-      Message.error("发送投诉信息失败");
+      Message.error("发送反馈信息失败");
       console.error("Failed to add complain:", error);
     }
   } else {
-    Message.warning("请输入完整投诉信息哦");
+    Message.warning("请输入完整反馈信息哦");
   }
 }
 
 function show() {
   visible.value = true;
-  console.log("show")
+  console.log("show");
 }
 
 defineExpose({ show });

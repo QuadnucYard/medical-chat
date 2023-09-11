@@ -21,8 +21,9 @@
       <div>电子邮件：kaadttc@gmail.com <br />电话：18800261307</div>
     </div>
   </div>
-
-  <h2 style="text-align: center">Our Team</h2>
+  <div class="text-container">
+    <h2 style="text-align: center; color: white">Our Team</h2>
+  </div>
   <div class="row">
     <div class="column">
       <div class="card">
@@ -94,7 +95,7 @@ html {
 .about-section {
   padding: 50px;
   text-align: center;
-  background-color: #474e5d;
+  background-color: #add8e6;
   color: white;
 }
 
@@ -134,5 +135,11 @@ html {
     width: 100%;
     display: block;
   }
+}
+.row {
+  background: #add8e6;
+}
+.text-container {
+  background: #add8e6;
 }
 </style>

@@ -1,7 +1,7 @@
 <template>
   <q-chat-message
     :name="getMessageName(messages[0])"
-    avatar="/chatbot.jpg"
+    :avatar="messages[0].type === MessageType.Answer ? '/chatbot.jpg' : 'default-user.png'"
     :stamp="formatDate(messages.at(-1)!.send_time)"
     :sent="messages[0].type === MessageType.Question"
     class="message-container"
@@ -101,7 +101,6 @@ function getMessageName(message: ChatMessage): string {
   return message.type === MessageType.Answer ? "MedBot" : "Me";
 }
 </script>
-
 <style scoped lang="scss">
 .message-container {
   position: relative;
@@ -133,7 +132,6 @@ function getMessageName(message: ChatMessage): string {
     font-weight: bolder;
     cursor: pointer;
     @apply hover:underline decoration-dotted decoration-2;
-
   }
 }
 </style>

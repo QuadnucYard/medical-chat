@@ -7,7 +7,7 @@
       dense
       placeholder="在此输入消息..."
       @keyup.enter="sendMessage"
-      class="fixed bottom-0 w-1/2"
+      class="fixed bottom-0 w-1/2 my-custom-input"
     >
       <template v-slot:append>
         <q-btn round dense flat icon="send" @click="sendMessage" />
@@ -41,10 +41,14 @@ async function sendMessage() {
 
 function manualSend(question: string) {
   inputMessage.question = question;
-  sendMessage();
+  // sendMessage();
 }
 
 defineExpose({ manualSend });
 </script>
 
-<style scoped></style>
+<style scoped>
+.my-custom-input {
+  background-color: #add8e6;
+}
+</style>

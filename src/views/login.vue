@@ -6,7 +6,6 @@
           <source type="video/mp4" src="/login-video.mp4" />
         </video>
       </template>
-
       <div class="w-1/2 mx-auto">
         <q-card flat class="bg-white text-black">
           <div class="row">

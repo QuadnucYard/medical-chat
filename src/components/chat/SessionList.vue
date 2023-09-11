@@ -1,6 +1,6 @@
 <template>
   <div class="sidebar">
-    <q-banner rounded :class="$q.dark.isActive ? 'bg-grey-9' : 'bg-grey-2'" class="w-96 h-42">
+    <q-banner rounded :class="$q.dark.isActive ? 'bg-grey-9' : 'bg-grey-2'" class="h-42">
       <template v-slot:avatar>
         <img src="/2.png" style="width: 120px; height: 72px" />
       </template>
@@ -18,7 +18,7 @@
       >
         <q-item-section avatar>
           <q-avatar color="primary" text-color="white" rounded class="small-avatar">
-            <q-icon name="account_circle" />
+            <q-icon name="headset_mic" />
           </q-avatar>
         </q-item-section>
 
@@ -60,6 +60,11 @@
     <q-space />
     <chat-search-dialog ref="chatSearchDialogRef" />
     <complain-dialog ref="complainDialogRef" />
+    <q-space />
+
+    <q-chip clickable @click="toGroup" color="primary" text-color="white" icon="groups">
+      <span class="chip-text">加入群组</span>
+    </q-chip>
   </div>
 </template>
 
@@ -141,7 +146,9 @@ async function showDeleteConfirmation() {
       .onDismiss(() => reject(new Error("Confirmation dialog dismissed.")));
   });
 }
-
+function toGroup() {
+  window.location.href = "https://jq.qq.com/?_wv=1027&k=43b8mqv";
+}
 emitter.on("session-title-changed", ({ id, title }) => {
   const session = sessions.value.find((t) => t.id == id);
   if (session) session.title = title;
@@ -152,5 +159,10 @@ emitter.on("session-title-changed", ({ id, title }) => {
 .q-item-selected {
   background-color: #f0f0f0; /* 修改选中项的背景颜色 */
   font-weight: bold; /* 修改选中项的字体加粗 */
+}
+.centered-section {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 </style>
