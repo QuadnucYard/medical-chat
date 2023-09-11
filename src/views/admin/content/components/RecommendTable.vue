@@ -43,12 +43,11 @@
                     <q-item-label>{{ col.label }}</q-item-label>
                   </q-item-section>
                   <q-item-section side>
-                    <q-item-label v-if="col.name == 'category'">
-                      <q-badge>{{ col.value }}</q-badge>
+                    <q-item-label v-if="col.name == 'content'">
+                      <detail-view :text="props.row.content" :limit="30" />
                     </q-item-label>
-                    <q-item-label v-else caption>{{ col.value }}</q-item-label>
+                    <q-item-label v-else >{{ col.value }}</q-item-label>
                   </q-item-section>
-                  <!-- TODO add a detail view -->
                 </q-item>
               </template>
             </q-list>
@@ -112,7 +111,7 @@ const newContent = ref("");
 const columns = columnDefaults(
   [
     { name: "id", label: "ID" },
-    { name: "title", label: "分类" },
+    { name: "title", label: "标题" },
     { name: "content", label: "内容" },
     { name: "creator", label: "创建者", field: (row: RecommendationMore) => row.creator.username },
     { name: "add_time", label: "创建时间", format: formatDate },

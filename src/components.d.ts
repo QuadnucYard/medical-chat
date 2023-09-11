@@ -19,6 +19,7 @@ declare module 'vue' {
     ChatShare: typeof import('./components/chat/ChatShare.vue')['default']
     ComplainDialog: typeof import('./components/chat/ComplainDialog.vue')['default']
     CustomerRelation: typeof import('./components/dashboard/CustomerRelation.vue')['default']
+    DetailView: typeof import('./components/common/DetailView.vue')['default']
     GaugeIncome: typeof import('./components/dashboard/GaugeIncome.vue')['default']
     GaugeRange: typeof import('./components/dashboard/GaugeRange.vue')['default']
     LeftMenu: typeof import('./components/common/LeftMenu.vue')['default']
