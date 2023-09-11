@@ -109,6 +109,11 @@ const routes: RouteRecordRaw[] = [
         name: "admin-complaint",
         component: () => import("@/views/admin/chat/ComplaintPage.vue"),
       },
+      {
+        path: "kg",
+        name: "admin-kg",
+        component: () => import("@/views/admin/content/KGViewPage.vue"),
+      },
     ],
   },
 ];

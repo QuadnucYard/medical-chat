@@ -40,6 +40,11 @@ export const appMenu = defineStore("menus", {
           { label: "用户管理", page: "admin-user" },
         ],
       },
+      {
+        icon: "o_bubble_chart",
+        label: "数据管理",
+        children: [{ label: "知识库", page: "admin-kg" }],
+      },
     ],
   }),
   // getters: {
