@@ -2,7 +2,7 @@
   <q-chat-message
     v-if="message.type !== 2"
     :name="getMessageName(message)"
-    :avatar="MyAvatar"
+    :avatar="message.type === 1 ? ChatAvatar : 'default-user.png'"
     :stamp="formatDate(message.send_time)"
     :sent="message.type === 0"
     class="message-container"
@@ -33,7 +33,7 @@
 </template>
 
 <script setup lang="ts">
-import MyAvatar from "@/assets/chatbot.jpg";
+import ChatAvatar from "@/assets/chatbot.jpg";
 import { ChatMessage, ChatFeedback, MessageType } from "@/api/chat";
 import { addFeedback } from "@/api/chat";
 import Message from "@/utils/message";
@@ -85,7 +85,6 @@ function getMessageName(message: any): string {
   return message.type === 1 ? "MedBot" : "Me";
 }
 </script>
-
 <style scoped lang="scss">
 .message-container {
   position: relative;
