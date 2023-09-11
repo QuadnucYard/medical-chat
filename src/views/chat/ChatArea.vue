@@ -97,7 +97,7 @@ function sendMessage(messages: ChatMessage[]) {
   });
 }
 
-async function sendRecommend(title: string) {
+function sendRecommend(title: string) {
   inputRef.value?.manualSend(title);
 }
 </script>

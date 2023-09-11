@@ -30,7 +30,7 @@ import { formatDateToDay } from "@/utils/date-utils";
 
 const recommends = ref<Recommendation[]>([]);
 
-const props = defineProps<{}>();
+// const props = defineProps<{}>();
 
 const emit = defineEmits<{ send: [string] }>();
 
