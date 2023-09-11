@@ -116,9 +116,9 @@ async function onSubmit() {
     Message.success(`登录成功！`);
 
     if ($route.query.redirect) {
-      $router.push($route.query.redirect as string);
+      $router.replace($route.query.redirect as string);
     } else {
-      $router.push({ name: "chat" });
+      $router.replace({ name: "chat" });
     }
   } catch (error) {
     console.log("登录失败", error);
@@ -130,7 +130,7 @@ function onReset() {
   form.password = "";
 }
 function toRegister() {
-  $router.push("register");
+  $router.replace({ name: "register", query: $route.query });
 }
 </script>
 

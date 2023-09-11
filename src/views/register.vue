@@ -47,18 +47,6 @@
                         lazy-rules
                         :rules="[(val) => val?.length > 0 || '请输入您的密码']"
                       />
-                      <div class="button-container">
-                        <q-btn label="注册" type="submit" color="primary" />
-                        <q-btn label="重置" type="reset" color="primary" flat class="q-ml-sm" />
-                        <q-btn
-                          label="已有账号？点击登录"
-                          color="primary"
-                          flat
-                          class="q-ml-sm"
-                          size="sm"
-                          @click="toLogin"
-                        />
-                      </div>
                     </q-tab-panel>
 
                     <q-tab-panel name="two">
@@ -96,11 +84,11 @@
 
 <script setup lang="ts">
 import { register } from "@/api/login";
-import { getUser } from "@/api/user";
 import { Notify } from "quasar";
 import { useUserStore } from "@/store/user";
 
 const $router = useRouter();
+const $route = useRoute();
 const userStore = useUserStore();
 
 const form = reactive({ username: "", password: "", mail: "", phone: "" });
@@ -123,31 +111,10 @@ async function onSubmit1() {
 
     Notify.create({
       type: "positive",
-      message: `注册成功！欢迎 ${userData.username[0] + "*".repeat(userData.username.length - 1)}`,
+      message: `注册成功！`,
     });
 
-    $router.push({ name: "login" });
-  } catch (error) {
-    console.log("注册失败", error);
-  }
-}
-async function onSubmit2() {
-  const userStore = useUserStore();
-  try {
-    Notify.create({ type: "info", message: "提交注册信息" });
-    const response = await register(form.username, form.password);
-    const userData = response;
-    if (!userData) {
-      Notify.create({ type: "negative", message: "注册失败" });
-      return;
-    }
-
-    Notify.create({
-      type: "positive",
-      message: `注册成功！欢迎 ${userData.username[0] + "*".repeat(userData.username.length - 1)}`,
-    });
-
-    $router.push({ name: "login" });
+    $router.replace({ name: "login", query: $route.query });
   } catch (error) {
     console.log("注册失败", error);
   }
@@ -158,7 +125,7 @@ function onReset() {
   form.phone = "";
 }
 function toLogin() {
-  $router.push("login");
+  $router.replace({ name: "login", query: $route.query });
 }
 </script>
 
