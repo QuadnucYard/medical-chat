@@ -1,6 +1,6 @@
 <template>
   <admin-page>
-    <admin-section-card>
+    <admin-section-card v-if="stats">
       <q-card-section>
         <div class="row q-col-gutter-lg">
           <progress-card
@@ -48,12 +48,7 @@
 import { UserStats, getUserStats } from "@/api/user";
 import UserTable from "./components/UserTable.vue";
 
-const stats = ref<UserStats>({
-  total: 0,
-  register_today: 0,
-  login_today: 0,
-  active_today: 0,
-});
+const stats = ref<UserStats>();
 
 onMounted(updateStats);
 

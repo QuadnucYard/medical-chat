@@ -1,6 +1,6 @@
 <template>
   <admin-page>
-    <admin-section-card>
+    <admin-section-card v-if="stats">
       <q-card-section>
         <div class="row">
           <div class="col">
@@ -72,7 +72,7 @@
         </div>
       </q-card-section>
     </admin-section-card>
-    <admin-section-card>
+    <admin-section-card v-if="stats">
       <!-- <q-card-section> -->
       <feedback-chart :data="stats" style="height: 240px" />
       <!-- </q-card-section> -->
@@ -89,21 +89,7 @@ import FeedbackChart from "./components/FeedbackChart.vue";
 import FeedbackGauge from "./components/FeedbackGauge.vue";
 import FeedbackTable from "./components/FeedbackTable.vue";
 
-const stats = ref<FeedbackStats>({
-  total: 0,
-  total_like: 0,
-  total_dislike: 0,
-  total_comment: 0,
-  total_today: 0,
-  total_like_today: 0,
-  total_dislike_today: 0,
-  total_comment_today: 0,
-  total_yesterday: 0,
-  total_like_yesterday: 0,
-  total_dislike_yesterday: 0,
-  total_comment_yesterday: 0,
-  by_date: [],
-});
+const stats = ref<FeedbackStats>();
 
 onMounted(updateStats);
 
