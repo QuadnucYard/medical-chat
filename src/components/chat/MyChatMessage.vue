@@ -64,7 +64,7 @@ function htmlEscape(text: string) {
 const messageContent = (msg: ChatMessage) =>
   msg.content
     .split(/<br>|\n/)
-    .map((s) => `<p>${htmlEscape(s)}</p>`)
+    .map((s) => `<p>${s}</p>`)
     .join("");
 async function like(msg: ChatMessage) {
   const mark = !msg.own_feedback?.mark_like;
@@ -132,6 +132,8 @@ function getMessageName(message: ChatMessage): string {
     color: var(--q-primary-dark) !important;
     font-weight: bolder;
     cursor: pointer;
+    @apply hover:underline decoration-dotted decoration-2;
+
   }
 }
 </style>
