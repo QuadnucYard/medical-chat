@@ -1,7 +1,7 @@
 <template>
   <q-chat-message
     :name="getMessageName(messages[0])"
-    :avatar="MyAvatar"
+    avatar="/chatbot.jpg"
     :stamp="formatDate(messages.at(-1)!.send_time)"
     :sent="messages[0].type === MessageType.Question"
     class="message-container"
@@ -35,7 +35,6 @@
 </template>
 
 <script setup lang="ts">
-import MyAvatar from "@/assets/chatbot.jpg";
 import { ChatMessage, ChatFeedback, MessageType } from "@/api/chat";
 import { addFeedback } from "@/api/chat";
 import Message from "@/utils/message";

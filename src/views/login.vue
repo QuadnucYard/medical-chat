@@ -2,8 +2,8 @@
   <div class="q-pa-md">
     <q-parallax :height="730">
       <template v-slot:media>
-        <video width="720" height="440" poster="@/assets/login-video.mp4" autoplay loop muted>
-          <source type="video/mp4" src="@/assets/login-video.mp4" />
+        <video width="720" height="440" poster="/login-video.mp4" autoplay loop muted>
+          <source type="video/mp4" src="/login-video.mp4" />
         </video>
       </template>
 
@@ -13,8 +13,8 @@
             <div class="col-md-6 col-xs-12 q-pa-md" style="width: 50%; height: 50%">
               <q-img
                 class="w-full h-full mx-auto object-cover"
-                placeholder-src="@/assets/1.png"
-                src="@/assets/1.png"
+                placeholder-src="/1.png"
+                src="/1.png"
                 spinner-color="white"
               ></q-img>
             </div>
@@ -29,15 +29,15 @@
                   <q-tab label="手机号登录" name="two" />
                 </q-tabs>
                 <q-separator />
-                <q-tab-panels v-model="tab" animated>
-                  <q-tab-panel name="one">
-                    <q-form @submit="onSubmit" @reset="onReset" class="q-gutter-md">
+                <q-form @submit="onSubmit" @reset="onReset" class="q-gutter-md">
+                  <q-tab-panels v-model="tab" animated>
+                    <q-tab-panel name="one">
                       <q-input
                         filled
                         v-model="form.username"
                         label="用户名"
                         lazy-rules
-                        :rules="[(val) => (val && val.length > 0) || '请输入您的用户名']"
+                        :rules="[(val) => val?.length > 0 || '请输入您的用户名']"
                       />
                       <q-input
                         filled
@@ -45,31 +45,17 @@
                         v-model="form.password"
                         label="密码"
                         lazy-rules
-                        :rules="[(val) => (val !== null && val !== '') || '请输入您的密码']"
+                        :rules="[(val) => val?.length > 0 || '请输入您的密码']"
                       />
-                      <div class="button-container">
-                        <q-btn label="登录" type="submit" color="primary" />
-                        <q-btn label="重置" type="reset" color="primary" flat class="q-ml-sm" />
-                        <q-btn
-                          label="没有账户？点击注册"
-                          color="primary"
-                          flat
-                          class="q-ml-sm"
-                          size="sm"
-                          @click="toRegister"
-                        />
-                      </div>
-                    </q-form>
-                  </q-tab-panel>
+                    </q-tab-panel>
 
-                  <q-tab-panel name="two">
-                    <q-form @submit="onSubmit" @reset="onReset" class="q-gutter-md">
+                    <q-tab-panel name="two">
                       <q-input
                         filled
                         v-model="form.username"
                         label="用户名"
                         lazy-rules
-                        :rules="[(val) => (val && val.length > 0) || '请输入您的用户名']"
+                        :rules="[(val) => val?.length > 0 || '请输入您的用户名']"
                       />
                       <q-input
                         filled
@@ -77,23 +63,23 @@
                         v-model="form.password"
                         label="手机号"
                         lazy-rules
-                        :rules="[(val) => (val !== null && val !== '') || '请输入您的手机号']"
+                        :rules="[(val) => val?.length > 0 || '请输入您的手机号']"
                       />
-                      <div class="button-container">
-                        <q-btn label="登录" type="submit" color="primary" />
-                        <q-btn label="重置" type="reset" color="primary" flat class="q-ml-sm" />
-                        <q-btn
-                          label="没有账户？点击注册"
-                          color="primary"
-                          flat
-                          class="q-ml-sm"
-                          size="sm"
-                          @click="toRegister"
-                        />
-                      </div>
-                    </q-form>
-                  </q-tab-panel>
-                </q-tab-panels>
+                    </q-tab-panel>
+                  </q-tab-panels>
+                  <div class="button-container">
+                    <q-btn label="登录" type="submit" color="primary" />
+                    <q-btn label="重置" type="reset" color="primary" flat class="q-ml-sm" />
+                    <q-btn
+                      label="没有账户？点击注册"
+                      color="primary"
+                      flat
+                      class="q-ml-sm"
+                      size="sm"
+                      @click="toRegister"
+                    />
+                  </div>
+                </q-form>
               </div>
             </div>
           </div>
@@ -113,10 +99,6 @@ const $route = useRoute();
 
 const form = reactive({ username: "", password: "" });
 let tab = ref("one");
-
-const usernameRules = [(val: string) => val?.length > 0 || "请输入用户名"];
-const passwordRules = [(val: string) => val?.length > 0 || "请输入密码"];
-const phoneRules = [(val: string) => val?.length > 0 || "请输入手机号"];
 
 async function onSubmit() {
   console.log(arguments);
