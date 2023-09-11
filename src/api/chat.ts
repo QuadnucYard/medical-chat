@@ -2,10 +2,17 @@ import api from "./request";
 import { UserPartial } from "./user";
 import { Page, Pagination, castPagination } from "./page";
 
+export enum MessageType {
+  Question = 0,
+  Answer = 1,
+  Note = 2,
+}
+
 export interface ChatMessage {
   chat_id: int;
-  type: int;
+  type: MessageType;
   content: string;
+  remark: string;
   id: int;
   send_time: string;
   own_feedback?: ChatFeedback;
@@ -54,7 +61,7 @@ export type ChatStats = {
 };
 
 // done
-export async function getSessions() {
+export async function getMySessions() {
   return (await api.get<ChatSession[]>("/chat/me")).data;
 }
 
@@ -73,8 +80,8 @@ export async function getSessionDetails(chat_id: int) {
 }
 
 // done
-export async function addQuestion(chat_id: int, question_data: any) {
-  return (await api.post<ChatMessage>(`/chat/${chat_id}`, question_data)).data;
+export async function sendQuestion(chat_id: int, question_data: any) {
+  return (await api.post<ChatMessage[]>(`/chat/${chat_id}`, question_data)).data;
 }
 
 export async function getAllSessions(page: Pagination) {
@@ -93,6 +100,10 @@ export async function getAllFeedbacks(page: Pagination) {
 
 export async function updateTitle(chat_id: int, new_title: string) {
   return (await api.put<ChatSession>(`/chat/${chat_id}`, { title: new_title })).data;
+}
+
+export async function addNote(chat_id: int, content: string, remark: string) {
+  return (await api.post<ChatMessage>(`/chat/${chat_id}/note`, { content, remark })).data;
 }
 
 export async function getChatStats() {

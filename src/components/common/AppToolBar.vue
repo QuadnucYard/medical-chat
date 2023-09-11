@@ -11,6 +11,11 @@
         <q-tooltip> 后台管理 </q-tooltip>
       </q-btn>
     </template>
+
+    <q-btn flat round dense icon="feed" @click="showSiteInfo">
+      <q-tooltip> 关于我们 </q-tooltip>
+    </q-btn>
+
     <q-btn flat round dense icon="person">
       <q-badge color="red" rounded floating>4</q-badge>
       <q-menu>
@@ -33,6 +38,7 @@
 
 <script lang="ts" setup>
 import { logout } from "@/api/login";
+import { getUser } from "@/api/user";
 import { useUserStore } from "@/store/user";
 
 const $router = useRouter();
@@ -51,9 +57,21 @@ const showUserInfo = () => {
   $router.push({ name: "user-info" });
 };
 
+const showSiteInfo = () => {
+  $router.push({ name: "site-info" });
+};
+
 async function onLogout() {
   console.log("logout");
   await logout();
   location.reload();
 }
+
+onMounted(async () => {
+  if (userStore.user) {
+    try {
+      userStore.user.data = await getUser();
+    } catch (e) {}
+  }
+});
 </script>

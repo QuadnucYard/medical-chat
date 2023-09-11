@@ -23,27 +23,9 @@
         </q-popup-edit>
       </q-td>
     </template>
-    <template #body-cell-is_superuser="props">
+    <template #body-cell-msg="props">
       <q-td :props="props">
-        <q-checkbox
-          dense
-          v-model="props.row.is_superuser"
-          checked-icon="star"
-          unchecked-icon="star_border"
-          indeterminate-icon="help"
-          color="red"
-          :disable="true"
-        />
-      </q-td>
-    </template>
-    <template #body-cell-valid="props">
-      <q-td :props="props">
-        <q-checkbox dense size="sm" v-model="props.row.valid" />
-      </q-td>
-    </template>
-    <template #body-cell-handle="props">
-      <q-td :props="props">
-        <q-btn flat dense round color="green" icon="o_edit" size="sm" @click="onUpdateEdit(props.row)" />
+        <detail-view :text="props.row.msg.content" :limit="10" />
       </q-td>
     </template>
   </q-table>
@@ -65,7 +47,7 @@ const columns = columnDefaults(
     {
       name: "msg",
       label: "消息",
-      field: (row: ChatFeedbackDetailed) => row.msg.content.slice(0, 10),
+      field: (row: ChatFeedbackDetailed) => row.msg.content,
     },
     { name: "mark_like", label: "👍", format: (val) => (val ? "👍" : "") },
     { name: "mark_dislike", label: "👎", format: (val) => (val ? "👎" : "") },

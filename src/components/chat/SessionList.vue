@@ -1,6 +1,13 @@
 <template>
   <div class="sidebar">
-    <q-list bordered>
+    <q-banner rounded :class="$q.dark.isActive ? 'bg-grey-9' : 'bg-grey-2'" class="h-42">
+      <template v-slot:avatar>
+        <img src="/2.png" style="width: 120px; height: 72px" />
+      </template>
+
+      CatTalk
+    </q-banner>
+    <q-list bordered separator>
       <q-item
         v-for="(session, index) in sessions"
         :key="index"
@@ -10,8 +17,8 @@
         @click="selectSession(session.id)"
       >
         <q-item-section avatar>
-          <q-avatar color="primary" text-color="white" :rounded="true" class="small-avatar">
-            <q-icon name="account_circle" />
+          <q-avatar color="primary" text-color="white" rounded class="small-avatar">
+            <q-icon name="headset_mic" />
           </q-avatar>
         </q-item-section>
 
@@ -19,24 +26,54 @@
           <q-item-label>{{ session.title }}</q-item-label>
         </q-item-section>
         <q-item-section side>
-          <q-icon name="delete" class="q-ml-xs" @click="deleteIt(session.id)" />
+          <q-btn flat round push icon="delete" size="sm" class="q-ml-xs" @click.stop="deleteIt(session.id)" />
         </q-item-section>
       </q-item>
-      <q-item clickable v-ripple @click="add()" class="bg-teal-1">
+
+      <q-item clickable v-ripple @click="add()">
+        <q-item-section avatar>
+          <q-icon color="primary" name="add" />
+        </q-item-section>
         <q-item-section>
-          <q-item-label style="text-align: center; background-color: primary; color: black">
-            添加对话
-          </q-item-label>
+          <q-item-label> 添加对话 </q-item-label>
+        </q-item-section>
+      </q-item>
+
+      <q-item clickable v-ripple @click="chatSearchDialogRef?.show()">
+        <q-item-section avatar>
+          <q-icon color="primary" name="search" />
+        </q-item-section>
+        <q-item-section>
+          <q-item-label> 查询对话 </q-item-label>
+        </q-item-section>
+      </q-item>
+
+      <q-item clickable v-ripple @click="complainDialogRef?.show()">
+        <q-item-section avatar>
+          <q-icon color="primary" name="send" />
+        </q-item-section>
+        <q-item-section>
+          <q-item-label> 反馈 </q-item-label>
         </q-item-section>
       </q-item>
     </q-list>
+    <q-space />
+    <chat-search-dialog ref="chatSearchDialogRef" />
+    <complain-dialog ref="complainDialogRef" />
+    <q-space />
+
+    <q-chip clickable @click="toGroup" color="primary" text-color="white" icon="groups">
+      <span class="chip-text">加入群组</span>
+    </q-chip>
   </div>
 </template>
 
 <script setup lang="ts">
-import { ChatSession, addSession, deleteSession, getSessions } from "@/api/chat";
+import { ChatSession, addSession, deleteSession, getMySessions } from "@/api/chat";
 import emitter from "@/utils/bus";
 import { Dialog } from "quasar";
+import ChatSearchDialog from "@/components/chat/ChatSearchDialog.vue";
+import ComplainDialog from "@/components/chat/ComplainDialog.vue";
 
 const $router = useRouter();
 const $route = useRoute();
@@ -44,9 +81,12 @@ const $route = useRoute();
 const sessions = ref<ChatSession[]>([]);
 const selectedId = ref<int | undefined>(undefined);
 
+const chatSearchDialogRef = ref<InstanceType<typeof ChatSearchDialog>>();
+const complainDialogRef = ref<InstanceType<typeof ComplainDialog>>();
+
 onMounted(async () => {
   try {
-    sessions.value = await getSessions();
+    sessions.value = await getMySessions();
   } catch (e) {
     console.log("Not logged in");
   }
@@ -62,7 +102,7 @@ function selectSession(sessionId: int) {
 async function add() {
   try {
     const response = await addSession("123");
-    sessions.value = await getSessions();
+    sessions.value = await getMySessions();
     selectSession(response.id);
   } catch (error) {
     console.log("添加失败", error);
@@ -74,11 +114,11 @@ async function deleteIt(chatId: int) {
     const shouldDelete = await showDeleteConfirmation();
     if (shouldDelete) {
       const response = await deleteSession(chatId);
-      sessions.value = await getSessions();
-    }
-    if (chatId == selectedId.value) {
-      if (sessions.value.length > 0) {
-        selectSession(sessions.value[0].id);
+      sessions.value = await getMySessions();
+      if (chatId == selectedId.value) {
+        if (sessions.value.length > 0) {
+          selectSession(sessions.value[0].id);
+        }
       }
     }
   } catch (error) {
@@ -94,11 +134,11 @@ async function showDeleteConfirmation() {
       message: "确定要删除该会话吗？",
       ok: {
         label: "确认",
-        color: "negative",
+        color: "green-6",
       },
       cancel: {
         label: "取消",
-        color: "grey-8",
+        color: "red-6",
       },
     })
       .onOk(() => resolve(true))
@@ -106,7 +146,9 @@ async function showDeleteConfirmation() {
       .onDismiss(() => reject(new Error("Confirmation dialog dismissed.")));
   });
 }
-
+function toGroup() {
+  window.location.href = "https://jq.qq.com/?_wv=1027&k=43b8mqv";
+}
 emitter.on("session-title-changed", ({ id, title }) => {
   const session = sessions.value.find((t) => t.id == id);
   if (session) session.title = title;
@@ -117,5 +159,10 @@ emitter.on("session-title-changed", ({ id, title }) => {
 .q-item-selected {
   background-color: #f0f0f0; /* 修改选中项的背景颜色 */
   font-weight: bold; /* 修改选中项的字体加粗 */
+}
+.centered-section {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 </style>

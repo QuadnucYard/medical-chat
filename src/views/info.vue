@@ -1,8 +1,8 @@
 <template>
-  <div class="row q-col-gutter-sm m-4">
+  <div class="row q-col-gutter-sm m-4" style="background-color: lightblue">
     <div class="col-lg-8 col-md-8 col-xs-12 col-sm-12">
-      <q-card class="card-bg text-white no-shadow" bordered v-if="user">
-        <q-btn color="dark" label="返回主页" router-link to="/chat" />
+      <q-card class="card-bg-blue text-white no-shadow" bordered v-if="user">
+        <q-btn color="lightblue" label="返回主页" router-link to="/chat" />
         <q-card-section class="text-h6">
           <div class="text-h6">更新页面</div>
           <div class="text-subtitle2">补充信息 帮助我们更好地为您服务！</div>
@@ -13,7 +13,9 @@
               <q-item-section side>
                 <q-btn round @click="uploadState = !uploadState" title="点击上传新头像">
                   <q-avatar size="200px" class="shadow-2">
-                    <img :src="imgPrefix + user.avatar_url" />
+                    <!-- <img v-if="user.avatar_url.length > 0" :src="imgPrefix + user.avatar_url" /> -->
+                    <!-- <img v-else src="/default-user.png" /> -->
+                    <img src="/default-user.png" />
                   </q-avatar>
                 </q-btn>
               </q-item-section>
@@ -30,29 +32,22 @@
 
             <q-item class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
               <q-item-section>
-                <q-input
-                  dark
-                  color="white"
-                  dense
-                  v-model="user.username"
-                  label="您的用户名"
-                  readonly
-                />
+                <q-input dark color="white" dense v-model="user.username" label="您的用户名" readonly />
               </q-item-section>
             </q-item>
             <q-item class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
               <q-item-section>
-                <q-input dark color="white" dense v-model="user.email" label="您的邮箱" />
+                <q-input dark color="blue" dense v-model="user.email" label="您的邮箱" />
               </q-item-section>
             </q-item>
             <q-item class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
               <q-item-section>
-                <q-input dark color="white" dense v-model="user.phone" label="您的号码" />
+                <q-input dark color="blue" dense v-model="user.phone" label="您的号码" />
               </q-item-section>
             </q-item>
             <q-item class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
               <q-item-section>
-                <q-input dark color="white" dense v-model="user.name" label="您的昵称" />
+                <q-input dark color="blue" dense v-model="user.name" label="您的昵称" />
               </q-item-section>
             </q-item>
             <q-item class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
@@ -68,7 +63,7 @@
                   color="white"
                   round
                   v-model="password_dict.current_password"
-                  label="Current Password"
+                  label="当前密码"
                 />
               </q-item-section>
             </q-item>
@@ -80,7 +75,7 @@
       </q-card>
     </div>
     <div class="col-lg-4 col-md-4 col-xs-12 col-sm-12">
-      <q-card class="card-bg text-white no-shadow" bordered>
+      <q-card class="card-bg-rose text-black no-shadow" bordered>
         <q-card-section class="text-center bg-transparent">
           <q-avatar size="100px" class="shadow-10">
             <img
@@ -99,7 +94,7 @@
     </div>
 
     <div class="col-lg-8 col-md-8 col-xs-12 col-sm-12">
-      <q-card class="card-bg text-white no-shadow" bordered>
+      <q-card class="card-bg-blue text-white no-shadow" bordered>
         <q-card-section class="text-h6 q-pa-sm">
           <div class="text-h6">更改密码</div>
         </q-card-section>
@@ -114,10 +109,10 @@
                 dark
                 dense
                 outlined
-                color="white"
+                color="black"
                 round
                 v-model="password_dict.new_password"
-                label="New Password"
+                label="新密码"
               />
             </q-item-section>
           </q-item>
@@ -132,9 +127,9 @@
                 dense
                 outlined
                 round
-                color="white"
+                color="black"
                 v-model="password_dict.confirm_new_password"
-                label="Confirm New Password"
+                label="确认新密码"
               />
             </q-item-section>
           </q-item>
@@ -144,15 +139,6 @@
         </q-card-actions>
       </q-card>
     </div>
-
-    <q-fab icon="add" direction="up" color="accent">
-      <q-fab-action color="primary" icon="person_add" />
-      <q-fab-action color="primary" icon="mail" />
-    </q-fab>
-    <q-fab color="secondary" push icon="keyboard_arrow_right" direction="right">
-      <q-fab-action color="primary" @click="onClick" icon="mail" />
-      <q-fab-action color="accent" @click="onClick" icon="alarm" />
-    </q-fab>
   </div>
   <!-- </q-page> -->
 </template>
@@ -224,8 +210,10 @@ async function uploadAvatar(files: File[]) {
 </script>
 
 <style scoped>
-.card-bg {
-  --my-primary-color: var(--q-color-primary);
-  background-color: var(--my-primary-color);
+.card-bg-blue {
+  background-color: lightblue;
+}
+.card-bg-rose {
+  background-color: #d5b2b6;
 }
 </style>

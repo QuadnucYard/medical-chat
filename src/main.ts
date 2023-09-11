@@ -13,6 +13,7 @@ import "quasar/src/css/index.sass";
 
 import "./styles/index.scss";
 import "./styles/app.sass";
+import "./styles/theme.scss";
 
 const app = createApp(App);
 app.use(router).use(pinia);

@@ -36,6 +36,12 @@ const routes: RouteRecordRaw[] = [
         component: () => import("@/views/info.vue"),
         meta: { keepalive: false, requireAuth: true },
       },
+      {
+        path: "/site/info",
+        name: "site-info",
+        component: () => import("@/views/siteinfo.vue"),
+        meta: { keepalive: false, requireAuth: true },
+      },
     ],
   },
   {
@@ -72,6 +78,16 @@ const routes: RouteRecordRaw[] = [
         path: "order",
         name: "order",
         component: () => import("@/views/admin/content/OrderPage.vue"),
+      },
+      {
+        path: "question",
+        name: "admin-question",
+        component: () => import("@/views/admin/content/QuestionPage.vue"),
+      },
+      {
+        path: "recommend",
+        name: "admin-recommend",
+        component: () => import("@/views/admin/content/RecommendPage.vue"),
       },
       {
         path: "user",
