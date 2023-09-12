@@ -12,10 +12,8 @@
             <q-item class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
               <q-item-section side>
                 <q-btn round @click="uploadState = !uploadState" title="点击上传新头像">
-                  <q-avatar size="200px" class="shadow-2">
-                    <!-- <img v-if="user.avatar_url.length > 0" :src="imgPrefix + user.avatar_url" /> -->
-                    <!-- <img v-else src="/default-user.png" /> -->
-                    <img src="/default-user.png" />
+                  <q-avatar size="100px" class="shadow-2">
+                    <img :src="getUserAvatar(user)" />
                   </q-avatar>
                 </q-btn>
               </q-item-section>
@@ -146,6 +144,7 @@
 <script setup lang="ts">
 import { User, getUser, updateUserMe, updateUserMeAvatar } from "@/api/user";
 import Message from "@/utils/message";
+import { getUserAvatar } from "@/utils/avatar";
 
 const user = ref<User>();
 const password_dict = reactive({

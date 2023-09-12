@@ -1,7 +1,7 @@
 <template>
   <q-chat-message
     :name="getMessageName(messages[0])"
-    :avatar="messages[0].type === MessageType.Answer ? '/chatbot.jpg' : 'default-user.png'"
+    :avatar="messages[0].type === MessageType.Answer ? '/chatbot.jpg' : getUserAvatar(userStore.user?.data)"
     :stamp="formatDate(messages.at(-1)!.send_time)"
     :sent="messages[0].type === MessageType.Question"
     class="message-container"
@@ -39,10 +39,13 @@ import { ChatMessage, ChatFeedback, MessageType } from "@/api/chat";
 import { addFeedback } from "@/api/chat";
 import Message from "@/utils/message";
 import { formatDate } from "@/utils/date-utils";
+import { getUserAvatar } from "@/utils/avatar";
+import { useUserStore } from "@/store/user";
 
 const props = defineProps<{ messages: ChatMessage[] }>();
 
 const $q = useQuasar();
+const userStore = useUserStore();
 
 function htmlEscape(text: string) {
   return text.replace(/[<>"&]/g, function (match, pos, originalText) {

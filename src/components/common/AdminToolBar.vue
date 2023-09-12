@@ -25,8 +25,11 @@
       </q-tooltip>
     </q-btn>
 
-    <q-btn flat round dense icon="person">
+    <q-btn flat round dense>
       <!-- <q-badge color="red" rounded floating>4</q-badge> -->
+      <q-avatar size="32px">
+          <img :src="getUserAvatar(userStore.user?.data)" />
+        </q-avatar>
       <q-menu>
         <q-list dense style="min-width: 100px">
           <q-item clickable v-close-popup>
@@ -37,6 +40,7 @@
           </q-item>
         </q-list>
       </q-menu>
+      <q-tooltip> 用户 </q-tooltip>
     </q-btn>
     <q-btn flat round dense class="q-mr-xs" icon="o_settings" @click="emit('switch-right')">
       <q-tooltip> 个性化 </q-tooltip>
@@ -48,6 +52,7 @@
 import { logout } from "@/api/login";
 import { appMenu } from "@/store/app-store";
 import { useUserStore } from "@/store/user";
+import { getUserAvatar } from "@/utils/avatar";
 
 const $router = useRouter();
 const $route = useRoute();

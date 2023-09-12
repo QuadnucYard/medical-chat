@@ -16,7 +16,10 @@
       <q-tooltip> 关于我们 </q-tooltip>
     </q-btn>
     <template v-if="userStore.user?.data">
-      <q-btn flat round dense icon="person">
+      <q-btn flat round dense>
+        <q-avatar size="32px">
+          <img :src="getUserAvatar(userStore.user.data)" />
+        </q-avatar>
         <!-- <q-badge color="red" rounded floating>4</q-badge> -->
         <q-menu>
           <q-list style="min-width: 100px" dense>
@@ -36,20 +39,6 @@
         <q-tooltip> 登录 </q-tooltip>
       </q-btn>
     </template>
-
-    <q-btn flat round dense icon="person">
-      <q-menu>
-        <q-list style="min-width: 100px" dense>
-          <q-item clickable v-close-popup>
-            <q-item-section @click="showUserInfo">个人信息</q-item-section>
-          </q-item>
-          <q-item clickable v-close-popup>
-            <q-item-section @click="onLogout">退出</q-item-section>
-          </q-item>
-        </q-list>
-      </q-menu>
-      <q-tooltip> 用户 </q-tooltip>
-    </q-btn>
     <q-btn flat round dense class="q-mr-xs" icon="o_settings" @click="emit('switch-right')">
       <q-tooltip> 个性化 </q-tooltip>
     </q-btn>
@@ -61,6 +50,7 @@ import { logout } from "@/api/login";
 import { getUser } from "@/api/user";
 import { useUserStore } from "@/store/user";
 import { toLogin } from "@/utils/router-utils";
+import { getUserAvatar } from "@/utils/avatar";
 
 const $router = useRouter();
 const userStore = useUserStore();
@@ -69,6 +59,8 @@ const emit = defineEmits<{
   "switch-left": [];
   "switch-right": [];
 }>();
+
+const loggedIn = computed(() => Boolean(userStore.user?.data));
 
 const toAdmin = () => {
   $router.push({ name: "admin" });

@@ -16,7 +16,6 @@ declare module 'vue' {
     ChatNoteDialog: typeof import('./components/chat/ChatNoteDialog.vue')['default']
     ChatNoteList: typeof import('./components/chat/ChatNoteList.vue')['default']
     ChatSearchDialog: typeof import('./components/chat/ChatSearchDialog.vue')['default']
-    ChatShare: typeof import('./components/chat/ChatShare.vue')['default']
     ChatShareDialog: typeof import('./components/chat/ChatShareDialog.vue')['default']
     ComplainDialog: typeof import('./components/chat/ComplainDialog.vue')['default']
     CustomerRelation: typeof import('./components/dashboard/CustomerRelation.vue')['default']
