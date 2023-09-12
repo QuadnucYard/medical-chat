@@ -3,7 +3,7 @@
     <q-parallax :height="720">
       <!-- <template v-slot:media>
         <video width="720" height="440" poster="/login-video.mp4" autoplay loop muted>
-          <source type="video/mp4" src="/login-video.mp4" />
+          <source type="video/mp4" src="/img/login-video.mp4" />
         </video>
       </template> -->
       <div class="w-1/2 mx-auto">
@@ -12,8 +12,8 @@
             <div class="col-md-6 col-xs-12 q-pa-md" style="width: 50%; height: 50%">
               <q-img
                 class="w-full h-full mx-auto object-cover"
-                placeholder-src="/1.png"
-                src="/1.png"
+                placeholder-src="/img/bot.jpg"
+                src="/img/bot.jpg"
                 spinner-color="white"
               ></q-img>
             </div>

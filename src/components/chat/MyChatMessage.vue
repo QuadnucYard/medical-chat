@@ -1,7 +1,7 @@
 <template>
   <q-chat-message
     :name="getMessageName(messages[0])"
-    :avatar="messages[0].type === MessageType.Answer ? '/chatbot.jpg' : getUserAvatar(userStore.user?.data)"
+    :avatar="messages[0].type === MessageType.Answer ? '/img/chatbot.jpg' : getUserAvatar(userStore.user?.data)"
     :stamp="formatDate(messages.at(-1)!.send_time)"
     :sent="messages[0].type === MessageType.Question"
     class="message-container"
