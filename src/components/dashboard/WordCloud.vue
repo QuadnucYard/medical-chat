@@ -15,7 +15,7 @@ echarts.use([ToolboxComponent, TooltipComponent, GridComponent, CanvasRenderer, 
 
 type EChartsOption = echarts.ComposeOption<ToolboxComponentOption | TooltipComponentOption | GridComponentOption>;
 
-const props = defineProps<{ data: { [key: string]: int } }>();
+const props = defineProps<{ data: { [key: string]: int }, maskImage?: string }>();
 
 const chartRef = ref<InstanceType<typeof VChart>>();
 
@@ -33,6 +33,9 @@ const getHashCode = (str: string) => {
 };
 
 const hue = (params: any) => (getHashCode(params.name) / 5) % 360;
+
+const maskImage = new Image();
+if (props.maskImage) maskImage.src = props.maskImage;
 
 const option: EChartsOption = {
   tooltip: {},
@@ -60,7 +63,7 @@ const option: EChartsOption = {
       // A silhouette image which the white area will be excluded from drawing texts.
       // The shape option will continue to apply as the shape of the cloud to grow.
 
-      // maskImage: maskImage,
+      maskImage: props.maskImage ? maskImage : undefined,
 
       // Folllowing left/top/width/height/right/bottom are used for positioning the word cloud
       // Default to be put in the center and has 75% x 80% size.

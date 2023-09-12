@@ -17,6 +17,6 @@ export async function logout() {
   return (await api.post("/auth/logout")).data;
 }
 
-export async function auth() {
-  return (await api.post("/auth")).data;
+export async function auth(admin?: boolean, perm?: string) {
+  return (await api.post("/auth", { admin, perm })).data;
 }

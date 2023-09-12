@@ -20,7 +20,7 @@
         <q-item-label caption>{{ formatDateToDay(recommend.add_time) }}</q-item-label>
       </q-item-section>
     </q-item>
-    <chat-input-dialog ref="chatInputRef" />
+    <!-- <chat-input-dialog ref="chatInputRef" /> -->
   </q-list>
 </template>
 

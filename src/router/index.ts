@@ -2,6 +2,7 @@ import { useUserStore } from "@/store/user";
 import { RouteRecordRaw, Router, createRouter, createWebHistory } from "vue-router";
 import routes from "./routes";
 import { auth } from "@/api/login";
+import { AxiosError } from "axios";
 
 const router: Router = createRouter({
   history: createWebHistory(import.meta.env.VITE_BASE_URL),
@@ -9,15 +10,24 @@ const router: Router = createRouter({
 });
 
 router.beforeEach(async (to, from, next) => {
-  console.log("beforeEach", to.meta.requireAuth);
-  if (to.meta.requireAuth) {
+  console.log("beforeEach", from, to, to.meta);
+  if (to.fullPath === "/") {
+    next("chat");
+    return;
+  }
+  if (to.meta.requireAuth || to.fullPath.startsWith("/admin")) {
     const userStore = useUserStore();
     if (userStore.user) {
       try {
-        await auth();
+        await auth(to.fullPath.startsWith("/admin"), to.meta.perm as any);
         next();
-      } catch (err) {
-        next({ name: "login", query: { redirect: to.fullPath } });
+      } catch (e) {
+        const err = e as AxiosError;
+        if (err.response?.status == 400) {
+          next({ name: "404" }); // Pretend that the page is not existent
+        } else {
+          next({ name: "login", query: { redirect: to.fullPath } }); // Need login
+        }
       }
     } else {
       next({ name: "login", query: { redirect: to.fullPath } });
