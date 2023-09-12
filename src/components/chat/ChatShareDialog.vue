@@ -68,7 +68,6 @@ const max_uses_options = ["1", "3", "7", "10", "无限"];
 let readonly_model = ref("只可读");
 
 const form = ref({
-  chat_id: props.session.id,
   expire_days: 1,
   max_uses: props.session.link?.max_uses ?? 1,
   readonly: true,
@@ -84,7 +83,7 @@ async function createLink() {
       form.value.readonly = false;
     }
     const response = await createShare({
-      chat_id: form.value.chat_id,
+      chat_id: props.session.id,
       expire_days: form.value.expire_days,
       max_uses: form.value.max_uses,
       readonly: form.value.readonly,
@@ -115,7 +114,6 @@ async function copyLink() {
 
 function show() {
   visible.value = true;
-  console.log("show");
 }
 
 defineExpose({ show });

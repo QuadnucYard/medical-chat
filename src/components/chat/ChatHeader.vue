@@ -10,9 +10,16 @@
       style="font-size: 28px"
       placeholder="新的聊天"
     >
-      <template v-slot:hint> 编辑文本以更改标题 </template>
-      <template v-slot:append>
-        <q-btn flat round push icon="link" @click="chatShareDialogRef?.show()" />
+      <template #hint> 编辑文本以更改标题 </template>
+      <template #after>
+        <q-btn
+          flat
+          round
+          push
+          icon="link"
+          @click="chatShareDialogRef?.show()"
+          :color="session.link?.valid ? 'primary' : undefined"
+        />
       </template>
     </q-input>
     <chat-share-dialog ref="chatShareDialogRef" :session="session" />
