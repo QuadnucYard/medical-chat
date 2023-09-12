@@ -101,6 +101,11 @@ const routes: RouteRecordRaw[] = [
         component: () => import("@/views/admin/chat/MessagePage.vue"),
       },
       {
+        path: "share",
+        name: "admin-share",
+        component: () => import("@/views/admin/chat/SharePage.vue"),
+      },
+      {
         path: "complaint",
         name: "admin-complaint",
         component: () => import("@/views/admin/chat/ComplaintPage.vue"),

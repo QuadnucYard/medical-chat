@@ -29,6 +29,7 @@ export const appMenu = defineStore("menus", {
           { label: "会话管理", page: "admin-chat" },
           { label: "对话管理", page: "admin-message" },
           { label: "投诉管理", page: "admin-complaint" },
+          { label: "分享管理", page: "admin-share" },
         ],
       },
       {

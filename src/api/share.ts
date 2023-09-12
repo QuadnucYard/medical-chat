@@ -1,3 +1,4 @@
+import { Page, Pagination, castPagination } from "./page";
 import api from "./request";
 
 export interface SharedLink {
@@ -20,4 +21,13 @@ export async function deleteShare(id: string) {
 
 export async function accessShare(id: string) {
   return (await api.get<SharedLink>(`/share/${id}`)).data;
+}
+
+export async function updateShare(id: string, payload: { max_uses?: int; readonly?: boolean; valid?: boolean }) {
+  return (await api.put<SharedLink>(`/share/${id}`, payload)).data;
+}
+
+export async function getAllShares(page: Pagination) {
+  const params = castPagination(page);
+  return (await api.get<Page<SharedLink>>(`/share/`, { params })).data;
 }
