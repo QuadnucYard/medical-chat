@@ -9,13 +9,10 @@
             <q-chat-message
               name="medbot"
               avatar="/img/chatbot.jpg"
-              :text="['您好！我是Med, 您的AI医生。请告诉我你希望我帮忙的问题。']"
-              :stamp="formatDate(session.create_time)"
-            />
-            <q-chat-message
-              name="medbot"
-              avatar="/img/chatbot.jpg"
-              :text="['您可以这么问我：什么人容易患高血压或是有什么药可以治疗感冒吗？']"
+              :text="[
+                '您好！我是Med，您的AI医生。请告诉我你希望我帮忙的问题。',
+                '您可以这么问我：什么人容易患高血压或是有什么药可以治疗感冒吗？',
+              ]"
               :stamp="formatDate(session.create_time)"
             />
             <my-chat-message v-for="group in messagesGrouped" :key="group[0].id" :messages="group" />

@@ -39,7 +39,7 @@
               <q-btn round dense flat icon="content_copy" @click="copyLink()" ref="copyBtnRef" />
             </template>
           </q-field>
-          <div >当前使用次数：{{ session.link.use_times }}</div>
+          <div class="text-caption">当前使用次数：{{ session.link.use_times }}</div>
         </div>
       </q-card-section>
 

@@ -105,7 +105,7 @@ async function sendFeedback(msg: ChatMessage, mod: Partial<ChatFeedback>) {
 }
 
 function getMessageName(message: ChatMessage): string {
-  return message.type === MessageType.Answer ? "MedBot" : "Me";
+  return message.type === MessageType.Answer ? "MedBot" : userStore.user?.data?.username ?? "Me";
 }
 </script>
 <style scoped lang="scss">

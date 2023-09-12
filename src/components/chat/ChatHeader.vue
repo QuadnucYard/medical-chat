@@ -26,10 +26,14 @@
 
     <div class="row">
       <q-chip outline color="primary" text-color="white" icon="event">
-        创建时间：{{ formatDate(session.create_time) }}
+        创建时间 | {{ formatDate(session.create_time) }}
       </q-chip>
       <q-chip outline color="primary" text-color="white" icon="event">
-        更新时间：{{ formatDate(session.update_time) }}
+        更新时间 | {{ formatDate(session.update_time) }}
+      </q-chip>
+      <q-space />
+      <q-chip outline color="primary" text-color="white" icon="person">
+        {{ session.user.username }}
       </q-chip>
     </div>
   </div>
