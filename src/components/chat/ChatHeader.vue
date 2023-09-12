@@ -47,7 +47,8 @@ const chatShareDialogRef = ref<InstanceType<typeof ChatShareDialog>>();
 async function update_title(chat_id: int, title: string) {
   if (title !== "") {
     emitter.emit("session-title-changed", { id: chat_id, title });
-    const response = await updateTitle(chat_id, title);
+    const titleWithoutTags = title.replace(/<a>|\/<a>/gi, "");
+    const response = await updateTitle(chat_id, titleWithoutTags);
     Object.assign(props.session, response);
   }
 }
