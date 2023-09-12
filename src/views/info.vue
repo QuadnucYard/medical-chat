@@ -197,7 +197,7 @@ async function updatePassword(user_details: any) {
   }
 }
 
-async function uploadAvatar(files: File[]) {
+async function uploadAvatar(files: readonly File[]) {
   const file = files[0];
   if (file) {
     user.value = await updateUserMeAvatar(file);
@@ -206,6 +206,7 @@ async function uploadAvatar(files: File[]) {
   } else {
     Message.warning("你没有选择文件！");
   }
+  return { url: "" };
 }
 </script>
 

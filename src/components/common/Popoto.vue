@@ -51,13 +51,16 @@ import "neo4j-driver/lib/browser/neo4j-web.js";
 const driver = neo4j.driver(import.meta.env.VITE_NEO4J_URL, neo4j.auth.basic("neo4j", "Citrus130649"));
 
 popoto.runner.DRIVER = driver;
-popoto.graph.link.SHOW_MARKER = true;
+(popoto.graph.link as any).SHOW_MARKER = true;
 
 // Activate the option to fit the text inside the nodes
 popoto.graph.USE_FIT_TEXT = true;
 
 // Add action in toolbar to toggle the fit text option
-popoto.tools.TOGGLE_FIT_TEXT = true;
+(popoto.tools as any).TOGGLE_FIT_TEXT = true;
+
+// Change the number of displayed results:
+(popoto.query as any).RESULTS_PAGE_SIZE = 25;
 
 // Define the list of label provider to customize the graph behavior:
 popoto.provider.node.Provider = {
@@ -88,9 +91,6 @@ popoto.provider.node.Provider = {
   },
 };
 
-// Change the number of displayed results:
-popoto.query.RESULTS_PAGE_SIZE = 25;
-
 const rescount = ref(0);
 
 // Add a listener on returned result count to update count in page
@@ -102,7 +102,7 @@ driver
     // Start the generation using parameter as root label of the query.
     popoto.start("Disease");
   })
-  .catch(function (error) {
+  .catch(function (error: any) {
     console.error(error);
   });
 </script>

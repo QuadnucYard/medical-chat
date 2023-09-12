@@ -71,7 +71,7 @@ const $route = useRoute();
 const sessions = ref<ChatSession[]>([]);
 const selectedId = ref<int | undefined>(undefined);
 
-const chatSearchDialogRef = ref<InstanceType<typeof ChatSearchDialog>>();
+// const chatSearchDialogRef = ref<InstanceType<typeof ChatSearchDialog>>();
 const complainDialogRef = ref<InstanceType<typeof ComplainDialog>>();
 
 onMounted(async () => {
