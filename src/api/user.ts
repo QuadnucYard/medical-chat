@@ -26,7 +26,7 @@ export type UserStats = {
   active_today: int;
 };
 
-export async function getUser() {
+export async function getUserMe() {
   return (await api.get<User>("/users/me")).data;
 }
 

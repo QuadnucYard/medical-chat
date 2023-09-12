@@ -85,11 +85,9 @@
 <script setup lang="ts">
 import { register } from "@/api/login";
 import { Notify } from "quasar";
-import { useUserStore } from "@/store/user";
 
 const $router = useRouter();
 const $route = useRoute();
-const userStore = useUserStore();
 
 const form = reactive({ username: "", password: "", mail: "", phone: "" });
 let tab = ref("one");

@@ -1,7 +1,7 @@
 <template>
   <q-chat-message
     :name="getMessageName(messages[0])"
-    :avatar="messages[0].type === MessageType.Answer ? '/img/chatbot.jpg' : getUserAvatar(userStore.user?.data)"
+    :avatar="messages[0].type === MessageType.Answer ? '/img/chatbot.jpg' : userStore.avatar"
     :stamp="formatDate(messages.at(-1)!.send_time)"
     :sent="messages[0].type === MessageType.Question"
     class="message-container"
@@ -43,7 +43,6 @@ import { ChatMessage, ChatFeedback, MessageType } from "@/api/chat";
 import { addFeedback } from "@/api/chat";
 import Message from "@/utils/message";
 import { formatDate } from "@/utils/date-utils";
-import { getUserAvatar } from "@/utils/avatar";
 import { useUserStore } from "@/store/user";
 
 const props = defineProps<{ messages: ChatMessage[] }>();
@@ -106,7 +105,7 @@ async function sendFeedback(msg: ChatMessage, mod: Partial<ChatFeedback>) {
 }
 
 function getMessageName(message: ChatMessage): string {
-  return message.type === MessageType.Answer ? "MedBot" : userStore.user?.data?.username ?? "Me";
+  return message.type === MessageType.Answer ? "MedBot" : userStore.user?.username ?? "Me";
 }
 </script>
 <style scoped lang="scss">

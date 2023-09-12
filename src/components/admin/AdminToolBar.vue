@@ -28,8 +28,8 @@
     <q-btn flat round dense>
       <!-- <q-badge color="red" rounded floating>4</q-badge> -->
       <q-avatar size="32px">
-          <img :src="getUserAvatar(userStore.user?.data)" />
-        </q-avatar>
+        <img :src="userStore.avatar" />
+      </q-avatar>
       <q-menu>
         <q-list dense style="min-width: 100px">
           <q-item clickable v-close-popup>
@@ -50,10 +50,8 @@
 
 <script lang="ts" setup>
 import { logout } from "@/api/login";
-import { getUser } from "@/api/user";
 import { appMenu } from "@/store/app-store";
 import { useUserStore } from "@/store/user";
-import { getUserAvatar } from "@/utils/avatar";
 
 const $router = useRouter();
 const $route = useRoute();
@@ -91,11 +89,5 @@ async function onLogout() {
   $router.push({ name: "login" });
 }
 
-onMounted(async () => {
-  if (userStore.user) {
-    try {
-      userStore.user.data = await getUser();
-    } catch (e) {}
-  }
-});
+onMounted(userStore.fetch);
 </script>

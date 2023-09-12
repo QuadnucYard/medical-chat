@@ -6,7 +6,7 @@
 
     <q-space />
 
-    <template v-if="userStore.user?.data?.is_superuser">
+    <template v-if="userStore.user?.is_superuser">
       <q-btn flat round dense class="q-mr-xs" icon="supervisor_account" @click="toAdmin()">
         <q-tooltip> 后台管理 </q-tooltip>
       </q-btn>
@@ -15,10 +15,10 @@
     <q-btn flat round dense icon="feed" @click="showSiteInfo">
       <q-tooltip> 关于我们 </q-tooltip>
     </q-btn>
-    <template v-if="userStore.user?.data">
+    <template v-if="userStore.user">
       <q-btn flat round dense>
         <q-avatar size="32px">
-          <img :src="getUserAvatar(userStore.user.data)" />
+          <img :src="userStore.avatar" />
         </q-avatar>
         <!-- <q-badge color="red" rounded floating>4</q-badge> -->
         <q-menu>
@@ -47,10 +47,8 @@
 
 <script lang="ts" setup>
 import { logout } from "@/api/login";
-import { getUser } from "@/api/user";
 import { useUserStore } from "@/store/user";
 import { toLogin } from "@/utils/router-utils";
-import { getUserAvatar } from "@/utils/avatar";
 
 const $router = useRouter();
 const userStore = useUserStore();
@@ -60,7 +58,7 @@ const emit = defineEmits<{
   "switch-right": [];
 }>();
 
-const loggedIn = computed(() => Boolean(userStore.user?.data));
+const loggedIn = computed(() => Boolean(userStore.user));
 
 const toAdmin = () => {
   $router.push({ name: "admin" });
@@ -81,11 +79,5 @@ async function onLogout() {
   $router.push({ name: "login" });
 }
 
-onMounted(async () => {
-  if (userStore.user) {
-    try {
-      userStore.user.data = await getUser();
-    } catch (e) {}
-  }
-});
+onMounted(userStore.fetch);
 </script>

@@ -77,7 +77,7 @@ const selectedId = ref<int | undefined>(undefined);
 const complainDialogRef = ref<InstanceType<typeof ComplainDialog>>();
 
 const isUserMe = (user_id: int)=> {
-  return user_id === userStore.user?.data?.id;
+  return user_id === userStore.user?.id;
 }
 
 onMounted(async () => {

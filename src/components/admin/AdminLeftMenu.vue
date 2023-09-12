@@ -11,7 +11,13 @@
     >
       <q-list>
         <template v-for="page in module.children" :key="page.page">
-          <q-item v-if="hasPerm(page.perm)" class="left-menu-item" clickable v-ripple :to="{ name: page.page }">
+          <q-item
+            v-if="userStore.hasPerm(page.perm)"
+            class="left-menu-item"
+            clickable
+            v-ripple
+            :to="{ name: page.page }"
+          >
             <q-item-section avatar>
               <q-icon :name="page.icon" />
             </q-item-section>
@@ -29,8 +35,4 @@ import { useUserStore } from "@/store/user";
 
 const menus = appMenu().menus;
 const userStore = useUserStore();
-
-const hasPerm = (name?: string) => {
-  return name === undefined || userStore.user?.data?.role.perms.find((t) => t.name === name) !== undefined;
-};
 </script>

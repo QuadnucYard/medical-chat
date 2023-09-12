@@ -10,7 +10,7 @@
               <q-item-section side>
                 <q-btn round @click="uploadState = !uploadState" title="点击上传新头像">
                   <q-avatar size="100px" class="shadow-2">
-                    <img :src="getUserAvatar(user)" />
+                    <img :src="userStore.avatar" />
                   </q-avatar>
                 </q-btn>
               </q-item-section>
@@ -134,9 +134,11 @@
 </template>
 
 <script setup lang="ts">
-import { User, getUser, updateUserMe, updateUserMeAvatar } from "@/api/user";
+import { User, getUserMe, updateUserMe, updateUserMeAvatar } from "@/api/user";
+import { useUserStore } from "@/store/user";
 import Message from "@/utils/message";
-import { getUserAvatar } from "@/utils/avatar";
+
+const userStore = useUserStore();
 
 const user = ref<User>();
 const password_dict = reactive({
@@ -145,18 +147,12 @@ const password_dict = reactive({
   confirm_new_password: "",
 });
 
-const imgPrefix = import.meta.env.VITE_APP_BASE_API + "/";
 const uploadState = ref(false);
 
 onMounted(async () => {
-  try {
-    user.value = await getUser();
-  } catch (e) {
-    console.log("get user_details error");
-  }
-
-  // hotTopics.value = await getTopics();
+  user.value = await userStore.fetch();
 });
+
 async function update(user_details: any) {
   try {
     Message.info("提交更新信息");

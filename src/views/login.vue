@@ -89,7 +89,7 @@
 </template>
 <script setup lang="ts">
 import { login } from "@/api/login";
-import { getUser } from "@/api/user";
+import { getUserMe } from "@/api/user";
 import Message from "@/utils/message";
 import { useUserStore } from "@/store/user";
 
@@ -109,9 +109,9 @@ async function onSubmit() {
     const token = `${token_type} ${access_token}`;
     userStore.login({ token }); // 存token
     // 获取用户
-    const user = await getUser();
+    const user = await getUserMe();
     console.log("获取用户", user);
-    userStore.login({ token, data: user });
+    userStore.login({ token, user });
     Message.success(`登录成功！`);
 
     if ($route.query.redirect) {

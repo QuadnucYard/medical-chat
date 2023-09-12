@@ -19,8 +19,8 @@ const service = axios.create({
 service.interceptors.request.use(
   (config) => {
     const userStore = useUserStore();
-    if (userStore.user?.token) {
-      config.headers["Authorization"] = userStore.user.token; // 让每个请求携带自定义token
+    if (userStore.token) {
+      config.headers["Authorization"] = userStore.token; // 让每个请求携带自定义token
     }
     // config.headers["Content-Type"] = "application/json";
     return config;
