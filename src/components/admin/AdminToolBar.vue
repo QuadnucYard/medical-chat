@@ -50,6 +50,7 @@
 
 <script lang="ts" setup>
 import { logout } from "@/api/login";
+import { getUser } from "@/api/user";
 import { appMenu } from "@/store/app-store";
 import { useUserStore } from "@/store/user";
 import { getUserAvatar } from "@/utils/avatar";
@@ -90,7 +91,11 @@ async function onLogout() {
   $router.push({ name: "login" });
 }
 
-onMounted(() => {
-  console.log($route);
+onMounted(async () => {
+  if (userStore.user) {
+    try {
+      userStore.user.data = await getUser();
+    } catch (e) {}
+  }
 });
 </script>
