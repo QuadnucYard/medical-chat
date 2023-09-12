@@ -1,8 +1,10 @@
 <template>
-  <div class="row q-col-gutter-sm m-4" style="background-color: lightblue">
+  <div class="row q-col-gutter-sm p-4 bg-primary-1">
     <div class="col-lg-8 col-md-8 col-xs-12 col-sm-12">
-      <q-card class="card-bg-blue text-black no-shadow" bordered v-if="user">
-        <q-banner rounded class="bg-blue text-dark text-center"> 更新您的信息 </q-banner>
+      <q-card class="bg-primary-2 no-shadow" bordered v-if="user">
+        <q-banner rounded class="text-center bg-primary-3">
+          <span class="text-h5"> 更新您的信息</span>
+        </q-banner>
 
         <q-card-section class="q-pa-sm">
           <q-list class="row">
@@ -27,22 +29,22 @@
 
             <q-item class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
               <q-item-section>
-                <q-input filled stack-label dense v-model="user.username" label="您的用户名" readonly />
+                <q-input filled stack dense v-model="user.username" label="您的用户名" readonly />
               </q-item-section>
             </q-item>
             <q-item class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
               <q-item-section>
-                <q-input filled stack-label dense v-model="user.email" label="您的邮箱" />
+                <q-input filled stack dense v-model="user.email" label="您的邮箱" />
               </q-item-section>
             </q-item>
             <q-item class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
               <q-item-section>
-                <q-input filled stack-label dense v-model="user.phone" label="您的号码" />
+                <q-input filled stack dense v-model="user.phone" label="您的号码" />
               </q-item-section>
             </q-item>
             <q-item class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
               <q-item-section>
-                <q-input filled stack-label dense v-model="user.name" label="您的昵称" />
+                <q-input filled stack dense v-model="user.name" label="您的昵称" />
               </q-item-section>
             </q-item>
             <q-item class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
@@ -54,7 +56,7 @@
                   type="password"
                   dense
                   filled
-                  stack-label
+                  stack
                   v-model="password_dict.current_password"
                   label="当前密码"
                 />
@@ -63,12 +65,12 @@
           </q-list>
         </q-card-section>
         <q-card-actions align="right">
-          <q-btn class="text-capitalize bg-info text-black" @click="update">更新您的信息</q-btn>
+          <q-btn color="primary" @click="update">更新您的信息</q-btn>
         </q-card-actions>
       </q-card>
     </div>
     <div class="col-lg-4 col-md-4 col-xs-12 col-sm-12">
-      <q-card class="card-bg-rose text-black no-shadow" bordered>
+      <q-card class="bg-primary-2 no-shadow" bordered>
         <q-card-section class="text-center bg-transparent">
           <q-avatar size="100px" class="shadow-10">
             <img
@@ -87,7 +89,7 @@
     </div>
 
     <div class="col-lg-8 col-md-8 col-xs-12 col-sm-12">
-      <q-card class="card-bg-blue text-black no-shadow" bordered>
+      <q-card class="bg-primary-2 no-shadow" bordered>
         <q-card-section class="text-h6 q-pa-sm">
           <div class="text-h6">更改密码</div>
         </q-card-section>
@@ -102,7 +104,7 @@
                 dense
                 filled
                 color="blue"
-                stack-label
+                stack
                 v-model="password_dict.new_password"
                 label="新密码"
               />
@@ -117,7 +119,7 @@
                 type="password"
                 filled
                 dense
-                stack-label
+                stack
                 v-model="password_dict.confirm_new_password"
                 label="确认新密码"
               />
@@ -125,7 +127,7 @@
           </q-item>
         </q-card-section>
         <q-card-actions align="right">
-          <q-btn class="text-capitalize bg-info text-black" @click="updatePassword">更改密码</q-btn>
+          <q-btn color="primary" @click="updatePassword">更改密码</q-btn>
         </q-card-actions>
       </q-card>
     </div>
@@ -134,7 +136,7 @@
 </template>
 
 <script setup lang="ts">
-import { User, getUserMe, updateUserMe, updateUserMeAvatar } from "@/api/user";
+import { User, updateUserMe, updateUserMeAvatar } from "@/api/user";
 import { useUserStore } from "@/store/user";
 import Message from "@/utils/message";
 
@@ -197,11 +199,4 @@ async function uploadAvatar(files: readonly File[]) {
 }
 </script>
 
-<style scoped>
-.card-bg-blue {
-  background-color: rgb(207 250 254);
-}
-.card-bg-rose {
-  background-color: rgb(207 250 254);
-}
-</style>
+<style scoped></style>
