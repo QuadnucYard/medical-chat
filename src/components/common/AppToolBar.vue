@@ -85,7 +85,8 @@ const showSiteInfo = () => {
 async function onLogout() {
   console.log("logout");
   await logout();
-  location.reload();
+  userStore.logout();
+  $router.push({ name: "login" });
 }
 
 onMounted(async () => {

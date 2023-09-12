@@ -47,11 +47,13 @@
 <script lang="ts" setup>
 import { logout } from "@/api/login";
 import { appMenu } from "@/store/app-store";
+import { useUserStore } from "@/store/user";
 
 const $router = useRouter();
 const $route = useRoute();
 const $q = useQuasar();
 const menus = appMenu().menus;
+const userStore = useUserStore();
 
 const emit = defineEmits<{
   "switch-left": [];
@@ -79,7 +81,8 @@ const showUserInfo = () => {
 async function onLogout() {
   console.log("logout");
   await logout();
-  location.reload();
+  userStore.logout();
+  $router.push({ name: "login" });
 }
 
 onMounted(() => {
