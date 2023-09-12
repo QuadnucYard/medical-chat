@@ -64,14 +64,6 @@ function htmlEscape(text: string) {
   });
 }
 
-onMounted(async () => {
-  try {
-    user.value = await getUser();
-  } catch (e) {
-    console.log("get user_details error");
-  }
-});
-
 const messageContent = (msg: ChatMessage) =>
   msg.content
     .split(/<br>|\n/)
