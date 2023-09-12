@@ -11,6 +11,9 @@ import "@quasar/extras/material-icons-outlined/material-icons-outlined.css";
 // Import Quasar css
 import "quasar/src/css/index.sass";
 
+// Import Popoto css
+import "popoto/dist/popoto.min.css"
+
 import "./styles/index.scss";
 import "./styles/app.sass";
 import "./styles/theme.scss";

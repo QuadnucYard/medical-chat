@@ -34,7 +34,9 @@ function changePrimaryColor(color: string) {
   setCssVar("primary", color);
   setCssVar("chat-message-sent-bg", lighten(color, 65));
   setCssVar("chat-message-received-bg", lighten(color, 80));
-  setCssVar("primary-4", lighten(color, 60));
+  for (let i = 1; i <= 10; i++) {
+    setCssVar(`primary-${i}`, lighten(color, (7 - i) * 15));
+  }
   setCssVar("primary-dark", lighten(color, -20));
 }
 

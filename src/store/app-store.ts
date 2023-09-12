@@ -19,6 +19,7 @@ export const appMenu = defineStore("menus", {
           { label: "客户管理", page: "customer_list" },
           { label: "订单管理", page: "order" },
           { label: "问答管理", page: "admin-question" },
+          { label: "推荐管理", page: "admin-recommend" },
         ],
       },
       {
@@ -38,6 +39,11 @@ export const appMenu = defineStore("menus", {
           { label: "角色管理", page: "role" },
           { label: "用户管理", page: "admin-user" },
         ],
+      },
+      {
+        icon: "o_bubble_chart",
+        label: "数据管理",
+        children: [{ label: "知识库", page: "admin-kg" }],
       },
     ],
   }),

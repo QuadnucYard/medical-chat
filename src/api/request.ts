@@ -53,7 +53,8 @@ service.interceptors.response.use(
       Message.error("接口请求失败");
       return Promise.reject(error);
     }
-    if (code === 401) {
+    if (code === 400) {
+    } else if (code === 401) {
       console.log("401 Unauthorized");
       const userStore = useUserStore();
       userStore.logout();

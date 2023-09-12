@@ -1,6 +1,6 @@
 <template>
   <admin-page>
-    <admin-section-card>
+    <admin-section-card v-if="stats">
       <q-card-section>
         <div class="row">
           <div class="col">
@@ -56,15 +56,7 @@ import { ChatStats, getChatStats } from "@/api/chat";
 import ChatChart from "./components/ChatChart.vue";
 import ChatTable from "./components/ChatTable.vue";
 
-const stats = ref<ChatStats>({
-  total_chats: 0,
-  total_messages: 0,
-  total_chats_today: 0,
-  total_messages_today: 0,
-  total_chats_yesterday: 0,
-  total_messages_yesterday: 0,
-  by_date: [],
-});
+const stats = ref<ChatStats>();
 
 onMounted(updateStats);
 

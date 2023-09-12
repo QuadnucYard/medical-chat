@@ -48,7 +48,6 @@ async function addBookNote(session_id: int) {
 
 function show() {
   visible.value = true;
-  console.log("show")
 }
 
 defineExpose({ show });

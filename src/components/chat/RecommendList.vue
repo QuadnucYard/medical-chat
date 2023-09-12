@@ -2,7 +2,7 @@
   <q-list bordered separator>
     <q-item-label header>推荐话题</q-item-label>
     <q-separator />
-    <q-item v-for="(recommend, index) in recommends" :key="index" clickable @click="sendRecommend(recommend.title)">
+    <q-item v-for="recommend in recommends" :key="recommend.id" clickable @click="sendRecommend(recommend.title)">
       <q-item-section avatar>
         <q-icon color="red" name="whatshot" class="icon" />
       </q-item-section>
@@ -21,7 +21,7 @@
         <q-item-label caption>{{ formatDateToDay(recommend.add_time) }}</q-item-label>
       </q-item-section>
     </q-item>
-    <chat-input-dialog ref="chatInputRef" />
+    <!-- <chat-input-dialog ref="chatInputRef" /> -->
   </q-list>
 </template>
 
@@ -31,7 +31,7 @@ import { formatDateToDay } from "@/utils/date-utils";
 
 const recommends = ref<Recommendation[]>([]);
 
-const props = defineProps<{}>();
+// const props = defineProps<{}>();
 
 const emit = defineEmits<{ send: [string] }>();
 

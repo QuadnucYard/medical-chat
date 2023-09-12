@@ -1,6 +1,6 @@
 <template>
   <admin-page>
-    <admin-section-card>
+    <admin-section-card v-if="stats">
       <q-card-section>
         <div class="row">
           <div class="col">
@@ -15,8 +15,8 @@
               />
               <progress-card
                 title="今日投诉"
-                :value="stats.total_today / stats.total"
-                :progress="1"
+                :value="stats.total_today"
+                :progress="stats.total_today / (stats.total - stats.resolved)"
                 color="orange"
                 class="col-6"
               />
@@ -46,13 +46,7 @@ import { ComplaintStats, getComplaintStats } from "@/api/complaint";
 import ComplaintChart from "./components/ComplaintChart.vue";
 import ComplaintTable from "./components/ComplaintTable.vue";
 
-const stats = ref<ComplaintStats>({
-  total: 0,
-  total_today: 0,
-  resolved: 0,
-  resolved_today: 0,
-  by_date: [],
-});
+const stats = ref<ComplaintStats>();
 
 onMounted(updateStats);
 

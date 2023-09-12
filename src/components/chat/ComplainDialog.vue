@@ -88,7 +88,6 @@ async function addComplain() {
 
 function show() {
   visible.value = true;
-  console.log("show");
 }
 
 defineExpose({ show });

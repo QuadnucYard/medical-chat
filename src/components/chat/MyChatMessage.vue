@@ -1,64 +1,69 @@
 <template>
   <q-chat-message
-    v-if="message.type !== 2"
-    :name="getMessageName(message)"
-    :avatar="message.type === 1 ? ChatAvatar : myAvatar"
-    :stamp="formatDate(message.send_time)"
-    :sent="message.type === 0"
+    :name="getMessageName(messages[0])"
+    :avatar="messages[0].type === MessageType.Answer ? '/chatbot.jpg' : 'default-user.png'"
+    :stamp="formatDate(messages.at(-1)!.send_time)"
+    :sent="messages[0].type === MessageType.Question"
     class="message-container"
   >
-    <div>
-      <div class="icon-wrapper" v-if="message.type === MessageType.Answer">
+    <div v-for="msg in messages" :key="msg.id">
+      <div class="icon-wrapper" v-if="msg.type === MessageType.Answer">
         <q-btn
           flat
           round
           push
-          :color="message.own_feedback?.mark_like ? 'primary' : 'dark'"
+          :color="msg.own_feedback?.mark_like ? 'primary' : 'dark'"
           icon="thumb_up"
-          @click="like()"
+          @click="like(msg)"
         />
         <q-btn
           flat
           round
           push
-          :color="message.own_feedback?.mark_dislike ? 'primary' : 'dark'"
+          :color="msg.own_feedback?.mark_dislike ? 'primary' : 'dark'"
           icon="thumb_down"
-          @click="dislike()"
+          @click="dislike(msg)"
         />
-        <q-btn flat round push color="dark" icon="textsms" @click="comment()" />
+        <q-btn flat round push color="primary" icon="textsms" @click="comment(msg)" />
       </div>
-      <div class="whitespace-pre-wrap leading-5 msg-content" v-html="messageContent" />
+      <div class="whitespace-pre-wrap leading-5 msg-content" v-html="messageContent(msg)" />
+      <!-- <div class="whitespace-pre-wrap leading-5 msg-content">
+        {{ messageContent(msg) }}
+      </div> -->
     </div>
   </q-chat-message>
 </template>
 
 <script setup lang="ts">
-import ChatAvatar from "@/assets/chatbot.jpg";
-import { ChatMessage, ChatFeedback, MessageType, ChatSession } from "@/api/chat";
+import { ChatMessage, ChatFeedback, MessageType } from "@/api/chat";
 import { addFeedback } from "@/api/chat";
 import Message from "@/utils/message";
 import { formatDate } from "@/utils/date-utils";
 import { User, getUser } from "@/api/user";
 
-const props = defineProps<{ message: ChatMessage }>();
-const user = ref<User>();
-const session = ref<ChatSession | undefined>(undefined);
-
-const scrollContainer = ref(null);
-const scrollArea = ref(null);
+const props = defineProps<{ messages: ChatMessage[] }>();
 
 const imgPrefix = import.meta.env.VITE_APP_BASE_API + "/";
 const myAvatar = user.value ? imgPrefix + user.value?.avatar_url : "/default-user.png";
 
 const $q = useQuasar();
 
-// 滚动到最新消息
-const scrollToBottom = () => {
-  // 使用 $nextTick 来确保 DOM 更新完毕后执行滚动
-  nextTick(() => {
-    scrollContainer.value.scrollTop = scrollArea.value.scrollHeight;
+function htmlEscape(text: string) {
+  return text.replace(/[<>"&]/g, function (match, pos, originalText) {
+    switch (match) {
+      case "<":
+        return "&lt;";
+      case ">":
+        return "&gt;";
+      case "&":
+        return "&amp;";
+      case '"':
+        return "&quot;";
+      default:
+        return "";
+    }
   });
-};
+}
 
 onMounted(async () => {
   try {
@@ -68,48 +73,45 @@ onMounted(async () => {
   }
 });
 
-const messageContent = computed(() =>
-  props.message.content
+const messageContent = (msg: ChatMessage) =>
+  msg.content
     .split(/<br>|\n/)
     .map((s) => `<p>${s}</p>`)
-    .join("")
-);
-
-async function like() {
-  const mark = !props.message.own_feedback?.mark_like;
-  await sendFeedback({ mark_like: mark });
+    .join("");
+async function like(msg: ChatMessage) {
+  const mark = !msg.own_feedback?.mark_like;
+  await sendFeedback(msg, { mark_like: mark });
 }
-async function dislike() {
-  const mark = !props.message.own_feedback?.mark_dislike;
-  await sendFeedback({ mark_dislike: mark });
+async function dislike(msg: ChatMessage) {
+  const mark = !msg.own_feedback?.mark_dislike;
+  await sendFeedback(msg, { mark_dislike: mark });
 }
 
-async function comment() {
+async function comment(msg: ChatMessage) {
   $q.dialog({
     title: "评价",
     message: "感谢您的反馈",
     prompt: {
-      model: props.message.own_feedback?.content ?? "",
+      model: msg.own_feedback?.content ?? "",
       isValid: (val) => val.length > 3, // << here is the magic
       type: "text", // optional
     },
     cancel: true,
     persistent: true,
   }).onOk(async (data) => {
-    await sendFeedback({ content: data });
+    await sendFeedback(msg, { content: data });
     Message.success("评价成功！");
   });
 }
 
-async function sendFeedback(mod: Partial<ChatFeedback>) {
-  const response = await addFeedback(Object.assign({}, mod, { msg_id: props.message.id }));
-  props.message.own_feedback = response;
+async function sendFeedback(msg: ChatMessage, mod: Partial<ChatFeedback>) {
+  const response = await addFeedback(Object.assign({}, mod, { msg_id: msg.id }));
+  msg.own_feedback = response;
 }
 
-function getMessageName(message: any): string {
-  return message.type === 1 ? "MedBot" : session.value?.user.username;
+function getMessageName(message: ChatMessage): string {
+  return message.type === MessageType.Answer ? "MedBot" : "Me";
 }
-defineExpose({ scrollToBottom });
 </script>
 <style scoped lang="scss">
 .message-container {
@@ -141,6 +143,7 @@ defineExpose({ scrollToBottom });
     color: var(--q-primary-dark) !important;
     font-weight: bolder;
     cursor: pointer;
+    @apply hover:underline decoration-dotted decoration-2;
   }
 }
 </style>

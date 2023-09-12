@@ -45,9 +45,11 @@
                   <q-item-label v-if="col.name == 'category'">
                     <q-badge>{{ col.value }}</q-badge>
                   </q-item-label>
-                  <q-item-label v-else caption>{{ col.value }}</q-item-label>
+                  <q-item-label v-if="col.name=='content'" >
+                    <detail-view :text="props.row.content" :limit="30" />
+                  </q-item-label>
+                  <q-item-label v-else >{{ col.value }}</q-item-label>
                 </q-item-section>
-                <!-- TODO add a detail view -->
               </q-item>
             </template>
           </q-list>

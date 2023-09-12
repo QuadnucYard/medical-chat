@@ -18,10 +18,7 @@
 </template>
 
 <script setup lang="ts">
-import { ChatSession } from "@/api/chat";
-import Message from "@/utils/message";
-
-const props = defineProps<{ session: ChatSession }>();
+// const props = defineProps<{ session: ChatSession }>();
 
 const visible = ref(false);
 
@@ -33,7 +30,6 @@ function search() {}
 
 function show() {
   visible.value = true;
-  console.log("show");
 }
 
 defineExpose({ show });

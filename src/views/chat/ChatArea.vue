@@ -20,8 +20,7 @@
               :stamp="formatDate(session.create_time)"
               bg-color="amber-7"
             />
-
-            <my-chat-message v-for="msg in session.messages" :message="msg" :session="session" />
+            <my-chat-message v-for="group in messagesGrouped" :key="group[0].id" :messages="group" />
           </div>
           <chat-input ref="inputRef" :session="session" @message-sent="sendMessage" />
         </q-page>
@@ -89,6 +88,21 @@ const notes = computed(() => session.value?.messages?.filter((m) => m.type == Me
 
 const loading = ref(false);
 
+const messagesGrouped = computed(() => {
+  const groups: ChatMessage[][] = [];
+  if (session.value?.messages) {
+    for (const m of session.value?.messages) {
+      if (m.type === MessageType.Note) continue;
+      if (groups.length === 0 || m.type !== groups.at(-1)?.[0].type) {
+        groups.push([m]);
+      } else {
+        groups.at(-1)?.push(m);
+      }
+    }
+  }
+  return groups;
+});
+
 emitter.on("session-changed", onSessionChanged);
 
 async function onSessionChanged(newValue: int) {
@@ -109,7 +123,7 @@ function sendMessage(messages: ChatMessage[]) {
   });
 }
 
-async function sendRecommend(title: string) {
+function sendRecommend(title: string) {
   inputRef.value?.manualSend(title);
 }
 </script>
