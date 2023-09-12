@@ -63,6 +63,7 @@ import ChatNoteDialog from "@/components/chat/ChatNoteDialog.vue";
 import ChatNoteList from "@/components/chat/ChatNoteList.vue";
 import { formatDate } from "@/utils/date-utils";
 import emitter from "@/utils/bus";
+import { date } from "quasar";
 
 const sessionId = ref<int | undefined>(undefined);
 const session = ref<ChatSession | undefined>(undefined);
@@ -80,6 +81,7 @@ const notes = computed(() => session.value?.messages?.filter((m) => m.type == Me
 
 const loading = ref(false);
 
+// 将相邻的消息打包
 const messagesGrouped = computed(() => {
   const groups: ChatMessage[][] = [];
   if (session.value?.messages) {
@@ -100,7 +102,9 @@ emitter.on("session-changed", onSessionChanged);
 async function onSessionChanged(newValue: int) {
   loading.value = true;
   sessionId.value = newValue;
-  session.value = await getSessionDetails(newValue);
+  const resp = await getSessionDetails(newValue);
+  resp.messages?.sort((a, b) => date.getDateDiff(a.send_time, b.send_time));
+  session.value = resp
   loading.value = false;
 }
 

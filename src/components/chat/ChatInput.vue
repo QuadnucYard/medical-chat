@@ -32,12 +32,13 @@ const inputMessage = reactive({
 
 async function sendMessage() {
   if (inputMessage.question.trim() === "") return;
-  const response = await sendQuestion(props.session.id, {
+  const payload = {
     question: inputMessage.question.trim(),
     hint: "",
-  });
+  }
   inputMessage.question = "";
   inputMessage.hint = "";
+  const response = await sendQuestion(props.session.id, payload);
   emit("message-sent", response);
 }
 

@@ -70,6 +70,7 @@ function htmlEscape(text: string) {
 
 const messageContent = (msg: ChatMessage) =>
   msg.content
+  .replace(/<a>(.*)<\/a>/, `<a href="https://zh.wikipedia.org/wiki/$1">$1</a>`)
     .split(/<br>|\n/)
     .map((s) => `<p>${s}</p>`)
     .join("");
