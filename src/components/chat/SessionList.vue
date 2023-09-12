@@ -3,8 +3,8 @@
     <q-banner rounded :class="$q.dark.isActive ? 'bg-grey-9' : 'bg-grey-2'" class="h-42">
       <template v-slot:avatar>
         <img
-          src="https://img.freepik.com/free-vector/hospital-logo-design-vector-medical-cross_53876-136743.jpg?w=740&t=st=1693359039~exp=1693359639~hmac=e1c4b87396670f03b3fad1745015b3048e9f7224a5785073d789e63ae23c82be"
-          style="width: 90px; height: 72px"
+          src="/img/hospital-logo.webp"
+          style="height: 50px"
         />
       </template>
     </q-banner>
@@ -18,7 +18,7 @@
         @click="selectSession(session.id)"
       >
         <q-item-section avatar>
-          <q-avatar color="primary" text-color="white" rounded class="small-avatar">
+          <q-avatar color="primary" :text-color="isUserMe(session.user_id) ? 'white' : 'lime'" rounded class="small-avatar">
             <q-icon name="headset_mic" />
           </q-avatar>
         </q-item-section>
@@ -65,15 +65,20 @@ import { ChatSession, addSession, deleteSession, getMySessions } from "@/api/cha
 import emitter from "@/utils/bus";
 import { Dialog } from "quasar";
 import ComplainDialog from "@/components/chat/ComplainDialog.vue";
+import { useUserStore } from "@/store/user";
 
 const $router = useRouter();
 const $route = useRoute();
+const userStore = useUserStore()
 
 const sessions = ref<ChatSession[]>([]);
 const selectedId = ref<int | undefined>(undefined);
 
-// const chatSearchDialogRef = ref<InstanceType<typeof ChatSearchDialog>>();
 const complainDialogRef = ref<InstanceType<typeof ComplainDialog>>();
+
+const isUserMe = (user_id: int)=> {
+  return user_id === userStore.user?.data?.id;
+}
 
 onMounted(async () => {
   try {
@@ -81,7 +86,6 @@ onMounted(async () => {
   } catch (e) {
     console.log("Not logged in");
   }
-  // hotTopics.value = await getTopics();
 });
 
 function selectSession(sessionId: int) {

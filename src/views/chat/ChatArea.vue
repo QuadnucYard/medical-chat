@@ -11,14 +11,12 @@
               avatar="/img/chatbot.jpg"
               :text="['您好！我是Med, 您的AI医生。请告诉我你希望我帮忙的问题。']"
               :stamp="formatDate(session.create_time)"
-              bg-color="amber-7"
             />
             <q-chat-message
               name="medbot"
               avatar="/img/chatbot.jpg"
               :text="['您可以这么问我：什么人容易患高血压或是有什么药可以治疗感冒吗？']"
               :stamp="formatDate(session.create_time)"
-              bg-color="amber-7"
             />
             <my-chat-message v-for="group in messagesGrouped" :key="group[0].id" :messages="group" />
           </div>
@@ -31,7 +29,7 @@
             <recommend-list @send="sendRecommend" />
           </div>
         </q-scroll-area>
-        <q-fab
+        <!-- <q-fab
           v-model="fabLeft"
           vertical-actions-align="left"
           color="primary"
@@ -48,7 +46,7 @@
             @click="noteDialogRef?.show()"
           />
           <q-fab-action label-position="right" color="primary" icon="note" label="显示当前会话笔记" />
-        </q-fab>
+        </q-fab> -->
         <chat-note-list :notes="notes" />
         <complain-dialog ref="complainDialogRef" />
         <chat-note-dialog v-if="session" ref="noteDialogRef" :session="session" />

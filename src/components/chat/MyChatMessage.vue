@@ -24,12 +24,16 @@
           icon="thumb_down"
           @click="dislike(msg)"
         />
-        <q-btn flat round push color="primary" icon="textsms" @click="comment(msg)" />
+        <q-btn
+          flat
+          round
+          push
+          :color="msg.own_feedback?.content.length ? 'primary' : 'dark'"
+          icon="textsms"
+          @click="comment(msg)"
+        />
       </div>
       <div class="whitespace-pre-wrap leading-5 msg-content" v-html="messageContent(msg)" />
-      <!-- <div class="whitespace-pre-wrap leading-5 msg-content">
-        {{ messageContent(msg) }}
-      </div> -->
     </div>
   </q-chat-message>
 </template>
