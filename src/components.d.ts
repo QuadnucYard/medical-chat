@@ -7,8 +7,29 @@ export {}
 
 declare module 'vue' {
   export interface GlobalComponents {
+    AdminPage: typeof import('./components/common/AdminPage.vue')['default']
+    AdminSectionCard: typeof import('./components/common/AdminSectionCard.vue')['default']
+    AdminToolBar: typeof import('./components/common/AdminToolBar.vue')['default']
+    AppToolBar: typeof import('./components/common/AppToolBar.vue')['default']
+    ChatHeader: typeof import('./components/chat/ChatHeader.vue')['default']
+    ChatInput: typeof import('./components/chat/ChatInput.vue')['default']
+    ChatNoteDialog: typeof import('./components/chat/ChatNoteDialog.vue')['default']
+    ChatNoteList: typeof import('./components/chat/ChatNoteList.vue')['default']
+    ChatSearchDialog: typeof import('./components/chat/ChatSearchDialog.vue')['default']
+    ChatShare: typeof import('./components/chat/ChatShare.vue')['default']
     ChatShareDialog: typeof import('./components/chat/ChatShareDialog.vue')['default']
+    ComplainDialog: typeof import('./components/chat/ComplainDialog.vue')['default']
+    CustomerRelation: typeof import('./components/dashboard/CustomerRelation.vue')['default']
+    GaugeIncome: typeof import('./components/dashboard/GaugeIncome.vue')['default']
+    GaugeRange: typeof import('./components/dashboard/GaugeRange.vue')['default']
+    LeftMenu: typeof import('./components/common/LeftMenu.vue')['default']
+    MyChatMessage: typeof import('./components/chat/MyChatMessage.vue')['default']
+    ProgressCard: typeof import('./components/dashboard/ProgressCard.vue')['default']
+    RecommendList: typeof import('./components/chat/RecommendList.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
+    SessionList: typeof import('./components/chat/SessionList.vue')['default']
+    UIConfig: typeof import('./components/common/UIConfig.vue')['default']
+    WordCloud: typeof import('./components/dashboard/WordCloud.vue')['default']
   }
 }

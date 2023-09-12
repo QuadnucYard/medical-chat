@@ -1,6 +1,7 @@
 import api from "./request";
 import { UserPartial } from "./user";
 import { Page, Pagination, castPagination } from "./page";
+import { SharedLink } from "./share";
 
 export enum MessageType {
   Question = 0,
@@ -27,6 +28,7 @@ export interface ChatSession {
   update_time: string;
   messages?: ChatMessage[];
   user: UserPartial;
+  link?: SharedLink;
 }
 
 export interface ChatFeedbackUpdate {
