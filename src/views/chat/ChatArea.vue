@@ -6,7 +6,22 @@
           <chat-header :session="session" />
 
           <div class="q-pa-md">
-            <my-chat-message v-for="msg in session.messages" :message="msg" />
+            <q-chat-message
+              name="medbot"
+              :avatar="ChatAvatar"
+              :text="['您好！我是Med, 您的AI医生。请告诉我你希望我帮忙的问题。']"
+              :stamp="formatDate(session.create_time)"
+              bg-color="amber-7"
+            />
+            <q-chat-message
+              name="medbot"
+              :avatar="ChatAvatar"
+              :text="['您可以这么问我：什么人容易患高血压或是有什么药可以治疗感冒吗？']"
+              :stamp="formatDate(session.create_time)"
+              bg-color="amber-7"
+            />
+
+            <my-chat-message v-for="msg in session.messages" :message="msg" :session="session" />
           </div>
           <chat-input ref="inputRef" :session="session" @message-sent="sendMessage" />
         </q-page>
@@ -48,11 +63,13 @@ import { ChatMessage, ChatSession, MessageType, getSessionDetails, updateTitle }
 import MyChatMessage from "@/components/chat/MyChatMessage.vue";
 import RecommendList from "@/components/chat/RecommendList.vue";
 import ChatChart from "../admin/chat/components/ChatChart.vue";
+import ChatAvatar from "@/assets/chatbot.jpg";
 import ChatHeader from "@/components/chat/ChatHeader.vue";
 import ChatInput from "@/components/chat/ChatInput.vue";
 import ComplainDialog from "@/components/chat/ComplainDialog.vue";
 import ChatNoteDialog from "@/components/chat/ChatNoteDialog.vue";
 import ChatNoteList from "@/components/chat/ChatNoteList.vue";
+import { formatDate } from "@/utils/date-utils";
 import ChatShare from "@/components/chat/ChatShare.vue";
 import emitter from "@/utils/bus";
 

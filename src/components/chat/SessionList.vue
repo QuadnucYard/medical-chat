@@ -2,10 +2,11 @@
   <div class="sidebar">
     <q-banner rounded :class="$q.dark.isActive ? 'bg-grey-9' : 'bg-grey-2'" class="h-42">
       <template v-slot:avatar>
-        <img src="@/assets/2.png" style="width: 120px; height: 72px" />
+        <img
+          src="https://img.freepik.com/free-vector/hospital-logo-design-vector-medical-cross_53876-136743.jpg?w=740&t=st=1693359039~exp=1693359639~hmac=e1c4b87396670f03b3fad1745015b3048e9f7224a5785073d789e63ae23c82be"
+          style="width: 90px; height: 72px"
+        />
       </template>
-
-      CatTalk
     </q-banner>
     <q-list bordered separator>
       <q-item

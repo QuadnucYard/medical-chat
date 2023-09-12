@@ -2,7 +2,7 @@
   <q-chat-message
     v-if="message.type !== 2"
     :name="getMessageName(message)"
-    :avatar="message.type === 1 ? ChatAvatar : 'default-user.png'"
+    :avatar="message.type === 1 ? ChatAvatar : myAvatar"
     :stamp="formatDate(message.send_time)"
     :sent="message.type === 0"
     class="message-container"
@@ -34,15 +34,21 @@
 
 <script setup lang="ts">
 import ChatAvatar from "@/assets/chatbot.jpg";
-import { ChatMessage, ChatFeedback, MessageType } from "@/api/chat";
+import { ChatMessage, ChatFeedback, MessageType, ChatSession } from "@/api/chat";
 import { addFeedback } from "@/api/chat";
 import Message from "@/utils/message";
 import { formatDate } from "@/utils/date-utils";
+import { User, getUser } from "@/api/user";
 
 const props = defineProps<{ message: ChatMessage }>();
+const user = ref<User>();
+const session = ref<ChatSession | undefined>(undefined);
 
 const scrollContainer = ref(null);
 const scrollArea = ref(null);
+
+const imgPrefix = import.meta.env.VITE_APP_BASE_API + "/";
+const myAvatar = user.value ? imgPrefix + user.value?.avatar_url : "/default-user.png";
 
 const $q = useQuasar();
 
@@ -53,6 +59,14 @@ const scrollToBottom = () => {
     scrollContainer.value.scrollTop = scrollArea.value.scrollHeight;
   });
 };
+
+onMounted(async () => {
+  try {
+    user.value = await getUser();
+  } catch (e) {
+    console.log("get user_details error");
+  }
+});
 
 const messageContent = computed(() =>
   props.message.content
@@ -93,7 +107,7 @@ async function sendFeedback(mod: Partial<ChatFeedback>) {
 }
 
 function getMessageName(message: any): string {
-  return message.type === 1 ? "MedBot" : "Me";
+  return message.type === 1 ? "MedBot" : session.value?.user.username;
 }
 defineExpose({ scrollToBottom });
 </script>

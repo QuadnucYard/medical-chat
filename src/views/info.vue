@@ -1,12 +1,9 @@
 <template>
   <div class="row q-col-gutter-sm m-4" style="background-color: lightblue">
     <div class="col-lg-8 col-md-8 col-xs-12 col-sm-12">
-      <q-card class="card-bg-blue text-white no-shadow" bordered v-if="user">
-        <q-btn color="lightblue" label="返回主页" router-link to="/chat" />
-        <q-card-section class="text-h6">
-          <div class="text-h6">更新页面</div>
-          <div class="text-subtitle2">补充信息 帮助我们更好地为您服务！</div>
-        </q-card-section>
+      <q-card class="card-bg-blue text-black no-shadow" bordered v-if="user">
+        <q-banner rounded class="bg-blue text-dark text-center"> 更新您的信息 </q-banner>
+
         <q-card-section class="q-pa-sm">
           <q-list class="row">
             <q-item class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
@@ -32,22 +29,22 @@
 
             <q-item class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
               <q-item-section>
-                <q-input dark color="white" dense v-model="user.username" label="您的用户名" readonly />
+                <q-input filled stack-label dense v-model="user.username" label="您的用户名" readonly />
               </q-item-section>
             </q-item>
             <q-item class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
               <q-item-section>
-                <q-input dark color="blue" dense v-model="user.email" label="您的邮箱" />
+                <q-input filled stack-label dense v-model="user.email" label="您的邮箱" />
               </q-item-section>
             </q-item>
             <q-item class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
               <q-item-section>
-                <q-input dark color="blue" dense v-model="user.phone" label="您的号码" />
+                <q-input filled stack-label dense v-model="user.phone" label="您的号码" />
               </q-item-section>
             </q-item>
             <q-item class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
               <q-item-section>
-                <q-input dark color="blue" dense v-model="user.name" label="您的昵称" />
+                <q-input filled stack-label dense v-model="user.name" label="您的昵称" />
               </q-item-section>
             </q-item>
             <q-item class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
@@ -57,11 +54,9 @@
               <q-item-section>
                 <q-input
                   type="password"
-                  dark
                   dense
-                  outlined
-                  color="white"
-                  round
+                  filled
+                  stack-label
                   v-model="password_dict.current_password"
                   label="当前密码"
                 />
@@ -70,7 +65,7 @@
           </q-list>
         </q-card-section>
         <q-card-actions align="right">
-          <q-btn class="text-capitalize bg-info text-white" @click="update">更新您的信息</q-btn>
+          <q-btn class="text-capitalize bg-info text-black" @click="update">更新您的信息</q-btn>
         </q-card-actions>
       </q-card>
     </div>
@@ -94,7 +89,7 @@
     </div>
 
     <div class="col-lg-8 col-md-8 col-xs-12 col-sm-12">
-      <q-card class="card-bg-blue text-white no-shadow" bordered>
+      <q-card class="card-bg-blue text-black no-shadow" bordered>
         <q-card-section class="text-h6 q-pa-sm">
           <div class="text-h6">更改密码</div>
         </q-card-section>
@@ -106,11 +101,10 @@
             <q-item-section>
               <q-input
                 type="password"
-                dark
                 dense
-                outlined
-                color="black"
-                round
+                filled
+                color="blue"
+                stack-label
                 v-model="password_dict.new_password"
                 label="新密码"
               />
@@ -123,11 +117,9 @@
             <q-item-section>
               <q-input
                 type="password"
-                dark
+                filled
                 dense
-                outlined
-                round
-                color="black"
+                stack-label
                 v-model="password_dict.confirm_new_password"
                 label="确认新密码"
               />
@@ -135,7 +127,7 @@
           </q-item>
         </q-card-section>
         <q-card-actions align="right">
-          <q-btn class="text-capitalize bg-info text-white" @click="updatePassword">更改密码</q-btn>
+          <q-btn class="text-capitalize bg-info text-black" @click="updatePassword">更改密码</q-btn>
         </q-card-actions>
       </q-card>
     </div>
@@ -211,9 +203,9 @@ async function uploadAvatar(files: File[]) {
 
 <style scoped>
 .card-bg-blue {
-  background-color: lightblue;
+  background-color: rgb(207 250 254);
 }
 .card-bg-rose {
-  background-color: #d5b2b6;
+  background-color: rgb(207 250 254);
 }
 </style>
