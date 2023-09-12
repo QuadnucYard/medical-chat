@@ -8,19 +8,10 @@
       <q-card-section>
         <q-row>
           <q-col cols="1">
-            <q-select v-model="share_data.expire_time" :options="expire_time_options" label="有效天数" />
+            <q-select v-model="share_data.expire_days" :options="expire_time_options" label="有效天数" dense />
           </q-col>
           <q-col cols="1">
-            <q-select v-model="share_data.max_uses" :options="max_uses_options" label="最多使用次数" />
-          </q-col>
-          <q-col cols="1">
-            <q-toggle
-              :label="readonly_model"
-              color="pink"
-              false-value="可更改"
-              true-value="只可读"
-              v-model="readonly_model"
-            />
+            <q-select v-model="share_data.max_uses" :options="max_uses_options" label="最多使用次数" dense />
           </q-col>
         </q-row>
       </q-card-section>
@@ -47,8 +38,8 @@ let readonly_model = ref("只可读");
 
 const share_data = ref({
   chat_id: props.session.id,
-  expire_time: "",
-  max_uses: 0,
+  expire_days: 1,
+  max_uses: 1,
   readonly: true,
 });
 
@@ -61,7 +52,7 @@ async function create_link() {
     }
     const response = await createShare({
       chat_id: share_data.value.chat_id,
-      expire_time: share_data.value.expire_time,
+      expire_days: share_data.value.expire_days,
       max_uses: share_data.value.max_uses,
       readonly: share_data.value.readonly,
     });

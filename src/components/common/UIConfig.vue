@@ -8,12 +8,6 @@
 
     <q-card square flat>
       <q-card-section>
-        <q-toggle v-model="backgroundpic" color="green" label="背景图片" @click="$q.dark.toggle" />
-      </q-card-section>
-    </q-card>
-
-    <q-card square flat>
-      <q-card-section>
         <div class="text-subtitle2">修改主题色</div>
       </q-card-section>
       <q-card-section>
