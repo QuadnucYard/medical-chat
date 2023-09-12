@@ -25,7 +25,7 @@ import VChart from "vue-echarts";
 import type { FeedbackStats } from "@/api/feedback";
 
 echarts.use([
-TitleComponent,
+  TitleComponent,
   DatasetComponent,
   ToolboxComponent,
   TooltipComponent,
@@ -53,6 +53,7 @@ const props = defineProps<{ data: FeedbackStats }>();
 const chartRef = ref<InstanceType<typeof VChart>>();
 
 const option: EChartsOption = {
+  color: ["#f89588", "#7cd6cf", "#9192ab", "#7898e1"],
   title: { text: "聊天反馈统计图" },
   tooltip: {
     trigger: "axis",

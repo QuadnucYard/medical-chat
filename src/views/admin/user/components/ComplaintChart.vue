@@ -53,6 +53,7 @@ const props = defineProps<{ data: ComplaintStats }>();
 const chartRef = ref<InstanceType<typeof VChart>>();
 
 const option: EChartsOption = {
+  color: ["#63b2ee", "#76da91"],
   title: { text: "投诉统计图" },
   tooltip: {
     trigger: "axis",

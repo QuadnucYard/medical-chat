@@ -40,6 +40,7 @@ const gaugeData = [
 ];
 
 const option: EChartsOption = {
+  color: ["#efa666", "#63b2ee", "#9987ce"],
   title: { text: "聊天反馈率统计图" },
   series: [
     {

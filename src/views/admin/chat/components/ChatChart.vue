@@ -53,6 +53,7 @@ const props = defineProps<{ data: ChatStats }>();
 const chartRef = ref<InstanceType<typeof VChart>>();
 
 const option: EChartsOption = {
+  color: ["#0082fc", "#fdd845", "#22ed7c", "#09b0d3", "#1d27c9"],
   title: { text: "聊天会话消息统计图" },
   tooltip: {
     trigger: "axis",
