@@ -2,7 +2,7 @@
   <q-list bordered separator>
     <q-item-label header>推荐话题</q-item-label>
     <q-separator />
-    <q-item v-for="(recommend, index) in recommends" :key="index" clickable @click="sendRecommend(recommend.title)">
+    <q-item v-for="recommend in recommends" :key="recommend.id" clickable @click="sendRecommend(recommend.title)">
       <q-item-section avatar>
         <q-icon color="red" name="whatshot" class="icon" />
       </q-item-section>

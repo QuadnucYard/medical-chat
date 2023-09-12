@@ -9,7 +9,7 @@
 
       <q-card-section>
         <q-list bordered separator v-if="notes">
-          <q-item v-for="msg in notes" >
+          <q-item v-for="msg in notes" :key="msg.id" >
             <q-item-section>{{ msg.content }}</q-item-section>
           </q-item>
         </q-list>
