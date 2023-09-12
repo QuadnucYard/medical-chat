@@ -46,9 +46,11 @@
 <script setup lang="ts">
 import neo4j from "neo4j-driver";
 import * as popoto from "popoto";
-import "neo4j-driver/lib/browser/neo4j-web.js";
 
-const driver = neo4j.driver(import.meta.env.VITE_NEO4J_URL, neo4j.auth.basic("neo4j", "Citrus130649"));
+const driver = neo4j.driver(
+  import.meta.env.VITE_NEO4J_URL,
+  neo4j.auth.basic(import.meta.env.VITE_NEO4J_USERNAME, import.meta.env.VITE_NEO4J_PASSWORD)
+);
 
 popoto.runner.DRIVER = driver;
 (popoto.graph.link as any).SHOW_MARKER = true;
