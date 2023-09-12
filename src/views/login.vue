@@ -1,11 +1,11 @@
 <template>
-  <div class="q-pa-md">
-    <q-parallax :height="730">
-      <template v-slot:media>
+  <div>
+    <q-parallax :height="720">
+      <!-- <template v-slot:media>
         <video width="720" height="440" poster="/login-video.mp4" autoplay loop muted>
           <source type="video/mp4" src="/login-video.mp4" />
         </video>
-      </template>
+      </template> -->
       <div class="w-1/2 mx-auto">
         <q-card flat class="bg-white text-black">
           <div class="row">
@@ -23,7 +23,7 @@
                   <div class="text-h6 q-pb-md text-blue-8 text-center text-weight-bolder">MedTalk!</div>
                   <div class="text-subtitle text-blue-8 text-center text-weight-bolder">遇见您的智慧医疗专家</div>
                 </q-card-section>
-                <q-tabs v-model="tab" class="text-teal">
+                <q-tabs v-model="tab" class="text-primary">
                   <q-tab label="用户名登录" name="one" />
                   <q-tab label="手机号登录" name="two" />
                 </q-tabs>
@@ -66,7 +66,7 @@
                       />
                     </q-tab-panel>
                   </q-tab-panels>
-                  <div class="button-container">
+                  <div>
                     <q-btn label="登录" type="submit" color="primary" />
                     <q-btn label="重置" type="reset" color="primary" flat class="q-ml-sm" />
                     <q-btn
@@ -100,7 +100,6 @@ const form = reactive({ username: "", password: "" });
 let tab = ref("one");
 
 async function onSubmit() {
-  console.log(arguments);
   const userStore = useUserStore();
   try {
     Message.info("提交登录信息");
@@ -134,10 +133,4 @@ function toRegister() {
 }
 </script>
 
-<style lang="scss">
-.button-container {
-  display: flex;
-  justify-content: flex-start;
-  align-items: center;
-}
-</style>
+<style lang="scss"></style>
