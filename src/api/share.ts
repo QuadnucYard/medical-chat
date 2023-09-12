@@ -17,3 +17,7 @@ export async function createShare(share_data: { chat_id: int; expire_days: int; 
 export async function deleteShare(id: string) {
   return (await api.delete<SharedLink>(`/share/${id}`)).data;
 }
+
+export async function accessShare(id: string) {
+  return (await api.get<SharedLink>(`/share/${id}`)).data;
+}

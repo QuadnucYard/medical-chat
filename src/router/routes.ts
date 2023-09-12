@@ -113,6 +113,11 @@ const routes: RouteRecordRaw[] = [
     ],
   },
   {
+    path: "/share/:id",
+    name: "share",
+    component: () => import("@/views/Error404.vue"),
+  },
+  {
     path: "/:catchAll(.*)*",
     name: "404",
     component: () => import("@/views/Error404.vue"),

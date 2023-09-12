@@ -3,6 +3,7 @@ import { RouteRecordRaw, Router, createRouter, createWebHistory } from "vue-rout
 import routes from "./routes";
 import { auth } from "@/api/login";
 import { AxiosError } from "axios";
+import { accessShare } from "@/api/share";
 
 const router: Router = createRouter({
   history: createWebHistory(import.meta.env.VITE_BASE_URL),
@@ -11,15 +12,24 @@ const router: Router = createRouter({
 
 router.beforeEach(async (to, from, next) => {
   console.log("beforeEach", from, to, to.meta);
-  if (to.fullPath === "/") {
+  if (to.path === "/") {
     next("chat");
     return;
   }
-  if (to.meta.requireAuth || to.fullPath.startsWith("/admin")) {
+  if (to.name === "share") {
+    try {
+      const share = await accessShare(to.params.id as string);
+      next({ name: "chat" });
+    } catch (e) {
+      next({ name: "404" });
+    }
+    return;
+  }
+  if (to.meta.requireAuth || to.path.startsWith("/admin")) {
     const userStore = useUserStore();
     if (userStore.user) {
       try {
-        await auth(to.fullPath.startsWith("/admin"), to.meta.perm as any);
+        await auth(to.path.startsWith("/admin"), to.meta.perm as any);
         next();
       } catch (e) {
         const err = e as AxiosError;
