@@ -6,20 +6,18 @@
       expand-separator
       :icon="module.icon"
       :label="module.label"
-      :default-opened="index == 0"
+      :default-opened="true"
       header-class="left-menu-root"
     >
       <q-list>
-        <q-item
-          v-for="page in module.children"
-          class="left-menu-item"
-          clickable
-          v-ripple
-          :to="{ name: page.page }"
-          :key="page.page"
-        >
-          <q-item-section>{{ page.label }}</q-item-section>
-        </q-item>
+        <template v-for="page in module.children" :key="page.page">
+          <q-item v-if="hasPerm(page.perm)" class="left-menu-item" clickable v-ripple :to="{ name: page.page }">
+            <q-item-section avatar>
+              <q-icon :name="page.icon" />
+            </q-item-section>
+            <q-item-section>{{ page.label }}</q-item-section>
+          </q-item>
+        </template>
       </q-list>
     </q-expansion-item>
   </q-list>
@@ -27,6 +25,12 @@
 
 <script lang="ts" setup>
 import { appMenu } from "@/store/app-store";
+import { useUserStore } from "@/store/user";
 
 const menus = appMenu().menus;
+const userStore = useUserStore();
+
+const hasPerm = (name?: string) => {
+  return name === undefined || userStore.user?.data?.role.perms.find((t) => t.name === name) !== undefined;
+};
 </script>
