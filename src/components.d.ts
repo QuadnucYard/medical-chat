@@ -7,9 +7,10 @@ export {}
 
 declare module 'vue' {
   export interface GlobalComponents {
-    AdminPage: typeof import('./components/common/AdminPage.vue')['default']
-    AdminSectionCard: typeof import('./components/common/AdminSectionCard.vue')['default']
-    AdminToolBar: typeof import('./components/common/AdminToolBar.vue')['default']
+    AdminLeftMenu: typeof import('./components/admin/AdminLeftMenu.vue')['default']
+    AdminPage: typeof import('./components/admin/AdminPage.vue')['default']
+    AdminSectionCard: typeof import('./components/admin/AdminSectionCard.vue')['default']
+    AdminToolBar: typeof import('./components/admin/AdminToolBar.vue')['default']
     AppToolBar: typeof import('./components/common/AppToolBar.vue')['default']
     ChatHeader: typeof import('./components/chat/ChatHeader.vue')['default']
     ChatInput: typeof import('./components/chat/ChatInput.vue')['default']
@@ -22,7 +23,7 @@ declare module 'vue' {
     DetailView: typeof import('./components/common/DetailView.vue')['default']
     GaugeIncome: typeof import('./components/dashboard/GaugeIncome.vue')['default']
     GaugeRange: typeof import('./components/dashboard/GaugeRange.vue')['default']
-    LeftMenu: typeof import('./components/common/LeftMenu.vue')['default']
+    LeftMenu: typeof import('./components/admin/LeftMenu.vue')['default']
     MyChatMessage: typeof import('./components/chat/MyChatMessage.vue')['default']
     Popoto: typeof import('./components/common/Popoto.vue')['default']
     ProgressCard: typeof import('./components/dashboard/ProgressCard.vue')['default']

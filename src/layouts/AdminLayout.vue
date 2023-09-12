@@ -12,7 +12,7 @@
       :width="200"
       id="left-menu"
     >
-      <LeftMenu />
+      <admin-left-menu />
     </q-drawer>
 
     <q-drawer

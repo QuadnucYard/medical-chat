@@ -47,28 +47,13 @@ const routes: RouteRecordRaw[] = [
   {
     path: "/admin",
     name: "admin",
-    component: () => import("@/views/admin/AdminLayout.vue"),
+    component: () => import("@/layouts/AdminLayout.vue"),
     meta: { keepalive: false },
     children: [
       {
         path: "index",
         name: "index",
         component: () => import("@/views/admin/content/IndexPage.vue"),
-      },
-      {
-        path: "question",
-        name: "admin-question",
-        component: () => import("@/views/admin/content/QuestionPage.vue"),
-      },
-      {
-        path: "recommend",
-        name: "admin-recommend",
-        component: () => import("@/views/admin/content/RecommendPage.vue"),
-      },
-      {
-        path: "user",
-        name: "admin-user",
-        component: () => import("@/views/admin/user/UserPage.vue"),
       },
       {
         path: "chat",
@@ -86,9 +71,24 @@ const routes: RouteRecordRaw[] = [
         component: () => import("@/views/admin/chat/SharePage.vue"),
       },
       {
+        path: "question",
+        name: "admin-question",
+        component: () => import("@/views/admin/content/QuestionPage.vue"),
+      },
+      {
+        path: "recommend",
+        name: "admin-recommend",
+        component: () => import("@/views/admin/content/RecommendPage.vue"),
+      },
+      {
+        path: "user",
+        name: "admin-user",
+        component: () => import("@/views/admin/user/UserPage.vue"),
+      },
+      {
         path: "complaint",
         name: "admin-complaint",
-        component: () => import("@/views/admin/chat/ComplaintPage.vue"),
+        component: () => import("@/views/admin/user/ComplaintPage.vue"),
       },
       {
         path: "kg",
