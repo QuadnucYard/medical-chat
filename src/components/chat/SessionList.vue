@@ -2,7 +2,7 @@
   <div class="sidebar">
     <q-banner rounded :class="$q.dark.isActive ? 'bg-grey-9' : 'bg-grey-2'" class="h-42">
       <template v-slot:avatar>
-        <img src="@/assets/2.png" style="width: 120px; height: 72px" />
+        <img src="/2.png" style="width: 120px; height: 72px" />
       </template>
 
       CatTalk

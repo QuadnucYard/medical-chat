@@ -45,10 +45,6 @@ const routes: RouteRecordRaw[] = [
     ],
   },
   {
-    path: "/:catchAll(.*)*",
-    component: () => import("@/views/Error404.vue"),
-  },
-  {
     path: "/admin",
     name: "admin",
     component: () => import("@/views/admin/AdminLayout.vue"),
@@ -85,6 +81,11 @@ const routes: RouteRecordRaw[] = [
         component: () => import("@/views/admin/content/QuestionPage.vue"),
       },
       {
+        path: "recommend",
+        name: "admin-recommend",
+        component: () => import("@/views/admin/content/RecommendPage.vue"),
+      },
+      {
         path: "user",
         name: "admin-user",
         component: () => import("@/views/admin/user/UserPage.vue"),
@@ -104,7 +105,17 @@ const routes: RouteRecordRaw[] = [
         name: "admin-complaint",
         component: () => import("@/views/admin/chat/ComplaintPage.vue"),
       },
+      {
+        path: "kg",
+        name: "admin-kg",
+        component: () => import("@/views/admin/content/KGViewPage.vue"),
+      },
     ],
+  },
+  {
+    path: "/:catchAll(.*)*",
+    name: "404",
+    component: () => import("@/views/Error404.vue"),
   },
 ];
 

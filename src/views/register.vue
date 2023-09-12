@@ -2,8 +2,8 @@
   <div class="q-pa-md">
     <q-parallax :height="730">
       <template v-slot:media>
-        <video width="720" height="440" poster="@/assets/login-video.mp4" autoplay loop muted>
-          <source type="video/mp4" src="@/assets/login-video.mp4" />
+        <video width="720" height="440" poster="/login-video.mp4" autoplay loop muted>
+          <source type="video/mp4" src="/login-video.mp4" />
         </video>
       </template>
 
@@ -13,8 +13,8 @@
             <div class="col-md-6 col-xs-12 q-pa-md" style="width: 50%; height: 50%">
               <q-img
                 class="w-full h-full mx-auto object-cover"
-                placeholder-src="@/assets/1.png"
-                src="@/assets/1.png"
+                placeholder-src="/1.png"
+                src="/1.png"
                 spinner-color="white"
               ></q-img>
             </div>
@@ -29,15 +29,15 @@
                   <q-tab label="手机号注册" name="two" />
                 </q-tabs>
                 <q-separator />
-                <q-tab-panels v-model="tab" animated>
-                  <q-tab-panel name="one">
-                    <q-form @submit="onSubmit1" @reset="onReset" class="q-gutter-md">
+                <q-form @submit="onSubmit1" @reset="onReset" class="q-gutter-md">
+                  <q-tab-panels v-model="tab" animated>
+                    <q-tab-panel name="one">
                       <q-input
                         filled
                         v-model="form.username"
                         label="用户名"
                         lazy-rules
-                        :rules="[(val) => (val && val.length > 0) || '请输入您的用户名']"
+                        :rules="[(val) => val?.length > 0 || '请输入您的用户名']"
                       />
                       <q-input
                         filled
@@ -45,31 +45,17 @@
                         v-model="form.password"
                         label="密码"
                         lazy-rules
-                        :rules="[(val) => (val !== null && val !== '') || '请输入您的密码']"
+                        :rules="[(val) => val?.length > 0 || '请输入您的密码']"
                       />
-                      <div class="button-container">
-                        <q-btn label="注册" type="submit" color="primary" />
-                        <q-btn label="重置" type="reset" color="primary" flat class="q-ml-sm" />
-                        <q-btn
-                          label="已有账号？点击登录"
-                          color="primary"
-                          flat
-                          class="q-ml-sm"
-                          size="sm"
-                          @click="toLogin"
-                        />
-                      </div>
-                    </q-form>
-                  </q-tab-panel>
+                    </q-tab-panel>
 
-                  <q-tab-panel name="two">
-                    <q-form @submit="onSubmit2" @reset="onReset" class="q-gutter-md">
+                    <q-tab-panel name="two">
                       <q-input
                         filled
                         v-model="form.username"
                         label="用户名"
                         lazy-rules
-                        :rules="[(val) => (val && val.length > 0) || '请输入您的用户名']"
+                        :rules="[(val) => val?.length > 0 || '请输入您的用户名']"
                       />
                       <q-input
                         filled
@@ -77,23 +63,16 @@
                         v-model="form.password"
                         label="手机号"
                         lazy-rules
-                        :rules="[(val) => (val !== null && val !== '') || '请输入您的手机号']"
+                        :rules="[(val) => val?.length > 0 || '请输入您的手机号']"
                       />
-                      <div class="button-container">
-                        <q-btn label="注册" type="submit" color="primary" />
-                        <q-btn label="重置" type="reset" color="primary" flat class="q-ml-sm" />
-                        <q-btn
-                          label="已有账号？点击登录"
-                          color="primary"
-                          flat
-                          class="q-ml-sm"
-                          size="sm"
-                          @click="toLogin"
-                        />
-                      </div>
-                    </q-form>
-                  </q-tab-panel>
-                </q-tab-panels>
+                    </q-tab-panel>
+                  </q-tab-panels>
+                  <div class="button-container">
+                    <q-btn label="注册" type="submit" color="primary" />
+                    <q-btn label="重置" type="reset" color="primary" flat class="q-ml-sm" />
+                    <q-btn label="已有账号？点击登录" color="primary" flat class="q-ml-sm" size="sm" @click="toLogin" />
+                  </div>
+                </q-form>
               </div>
             </div>
           </div>
@@ -105,11 +84,11 @@
 
 <script setup lang="ts">
 import { register } from "@/api/login";
-import { getUser } from "@/api/user";
 import { Notify } from "quasar";
 import { useUserStore } from "@/store/user";
 
 const $router = useRouter();
+const $route = useRoute();
 const userStore = useUserStore();
 
 const form = reactive({ username: "", password: "", mail: "", phone: "" });
@@ -132,31 +111,10 @@ async function onSubmit1() {
 
     Notify.create({
       type: "positive",
-      message: `注册成功！欢迎 ${userData.username[0] + "*".repeat(userData.username.length - 1)}`,
+      message: `注册成功！`,
     });
 
-    $router.push({ name: "login" });
-  } catch (error) {
-    console.log("注册失败", error);
-  }
-}
-async function onSubmit2() {
-  const userStore = useUserStore();
-  try {
-    Notify.create({ type: "info", message: "提交注册信息" });
-    const response = await register(form.username, form.password);
-    const userData = response;
-    if (!userData) {
-      Notify.create({ type: "negative", message: "注册失败" });
-      return;
-    }
-
-    Notify.create({
-      type: "positive",
-      message: `注册成功！欢迎 ${userData.username[0] + "*".repeat(userData.username.length - 1)}`,
-    });
-
-    $router.push({ name: "login" });
+    $router.replace({ name: "login", query: $route.query });
   } catch (error) {
     console.log("注册失败", error);
   }
@@ -167,7 +125,7 @@ function onReset() {
   form.phone = "";
 }
 function toLogin() {
-  $router.push("login");
+  $router.replace({ name: "login", query: $route.query });
 }
 </script>
 

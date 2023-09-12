@@ -21,7 +21,7 @@
         <q-item-label caption>{{ formatDateToDay(recommend.add_time) }}</q-item-label>
       </q-item-section>
     </q-item>
-    <chat-input-dialog ref="chatInputRef" />
+    <!-- <chat-input-dialog ref="chatInputRef" /> -->
   </q-list>
 </template>
 
@@ -31,7 +31,7 @@ import { formatDateToDay } from "@/utils/date-utils";
 
 const recommends = ref<Recommendation[]>([]);
 
-const props = defineProps<{}>();
+// const props = defineProps<{}>();
 
 const emit = defineEmits<{ send: [string] }>();
 
