@@ -56,26 +56,6 @@ const routes: RouteRecordRaw[] = [
         component: () => import("@/views/admin/content/IndexPage.vue"),
       },
       {
-        path: "customer",
-        name: "customer",
-        component: () => import("@/views/admin/content/CustomerPage.vue"),
-      },
-      {
-        path: "business_config",
-        name: "business_config",
-        component: () => import("@/views/admin/content/BusinessConfigPage.vue"),
-      },
-      {
-        path: "customer_list",
-        name: "customer_list",
-        component: () => import("@/views/admin/content/CustomerList.vue"),
-      },
-      {
-        path: "order",
-        name: "order",
-        component: () => import("@/views/admin/content/OrderPage.vue"),
-      },
-      {
         path: "question",
         name: "admin-question",
         component: () => import("@/views/admin/content/QuestionPage.vue"),
