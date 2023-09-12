@@ -2,10 +2,7 @@
   <div class="sidebar">
     <q-banner rounded :class="$q.dark.isActive ? 'bg-grey-9' : 'bg-grey-2'" class="h-42">
       <template v-slot:avatar>
-        <img
-          src="/img/hospital-logo.webp"
-          style="height: 50px"
-        />
+        <img src="/img/hospital-logo.webp" style="height: 50px" />
       </template>
     </q-banner>
     <q-list bordered separator>
@@ -18,8 +15,8 @@
         @click="selectSession(session.id)"
       >
         <q-item-section avatar>
-          <q-avatar color="primary" :text-color="isUserMe(session.user_id) ? 'white' : 'lime'" rounded class="small-avatar">
-            <q-icon name="headset_mic" />
+          <q-avatar color="primary-5" text-color="white" rounded class="small-avatar">
+            <q-icon :name="isUserMe(session.user_id) ? 'headset_mic' : 'earbuds'" />
           </q-avatar>
         </q-item-section>
 
@@ -69,16 +66,16 @@ import { useUserStore } from "@/store/user";
 
 const $router = useRouter();
 const $route = useRoute();
-const userStore = useUserStore()
+const userStore = useUserStore();
 
 const sessions = ref<ChatSession[]>([]);
 const selectedId = ref<int | undefined>(undefined);
 
 const complainDialogRef = ref<InstanceType<typeof ComplainDialog>>();
 
-const isUserMe = (user_id: int)=> {
+const isUserMe = (user_id: int) => {
   return user_id === userStore.user?.id;
-}
+};
 
 onMounted(async () => {
   try {
