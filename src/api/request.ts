@@ -54,6 +54,7 @@ service.interceptors.response.use(
       return Promise.reject(error);
     }
     if (code === 400) {
+      Message.error(error.response?.data.detail ?? error.message);
     } else if (code === 401) {
       console.log("401 Unauthorized");
       const userStore = useUserStore();
