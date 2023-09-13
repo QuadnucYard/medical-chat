@@ -1,18 +1,20 @@
 <template>
   <admin-page>
-    <question-wordclouds />
-    <admin-section-card v-if="chatStats">
-      <chat-chart :data="chatStats" style="height: 200px" />
-    </admin-section-card>
-    <admin-section-card v-if="feedbackStats">
-      <feedback-chart :data="feedbackStats" style="height: 200px" />
-    </admin-section-card>
     <div class="row">
-      <admin-section-card v-if="feedbackStats" class="col-4">
-        <feedback-gauge :data="feedbackStats" style="height: 200px" />
+      <question-wordclouds class="col" />
+      <admin-section-card v-if="feedbackStats" class="col-3">
+        <feedback-gauge :data="feedbackStats" />
+      </admin-section-card>
+    </div>
+    <admin-section-card v-if="chatStats">
+      <chat-chart :data="chatStats" style="height: 190px" />
+    </admin-section-card>
+    <div class="row" style="height: 200px">
+      <admin-section-card v-if="feedbackStats" class="col">
+        <feedback-chart :data="feedbackStats" />
       </admin-section-card>
       <admin-section-card v-if="complaintStats" class="col">
-        <complaint-chart :data="complaintStats" style="height: 200px" />
+        <complaint-chart :data="complaintStats" />
       </admin-section-card>
     </div>
   </admin-page>
