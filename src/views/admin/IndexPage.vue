@@ -1,5 +1,6 @@
 <template>
   <admin-page>
+    <question-wordclouds />
     <admin-section-card v-if="chatStats">
       <chat-chart :data="chatStats" style="height: 200px" />
     </admin-section-card>
@@ -19,12 +20,13 @@
 
 <script setup lang="ts">
 import { ChatStats, getChatStats } from "@/api/chat";
+import { ComplaintStats, getComplaintStats } from "@/api/complaint";
+import { FeedbackStats, getFeedbackStats } from "@/api/feedback";
 import ChatChart from "./chat/components/ChatChart.vue";
 import FeedbackChart from "./chat/components/FeedbackChart.vue";
 import FeedbackGauge from "./chat/components/FeedbackGauge.vue";
+import QuestionWordclouds from "./content/components/QuestionWordclouds.vue";
 import ComplaintChart from "./user/components/ComplaintChart.vue";
-import { FeedbackStats, getFeedbackStats } from "@/api/feedback";
-import { ComplaintStats, getComplaintStats } from "@/api/complaint";
 
 const chatStats = ref<ChatStats>();
 const feedbackStats = ref<FeedbackStats>();

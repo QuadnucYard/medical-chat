@@ -15,7 +15,7 @@ echarts.use([ToolboxComponent, TooltipComponent, GridComponent, CanvasRenderer, 
 
 type EChartsOption = echarts.ComposeOption<ToolboxComponentOption | TooltipComponentOption | GridComponentOption>;
 
-const props = defineProps<{ data: { [key: string]: int }, maskImage?: string }>();
+const props = defineProps<{ data: { [key: string]: int }; maskImage?: string }>();
 
 const chartRef = ref<InstanceType<typeof VChart>>();
 
