@@ -2,7 +2,7 @@
   <q-toolbar>
     <q-btn flat dense round icon="menu" aria-label="Menu" @click="emit('switch-left')" />
 
-    <q-toolbar-title style="max-width: 160px"> MedTalk! </q-toolbar-title>
+    <q-toolbar-title style="max-width: 160px"> MedChat </q-toolbar-title>
 
     <q-space />
 

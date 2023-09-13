@@ -1,50 +1,50 @@
 <template>
-  <div class="about-section">
+  <div class="about-section bg-primary-2">
     <div>
-      <h1 class="text-h3">关于我们</h1>
+      <h1 class="text-h3" style="text-align: center; color: black">关于我们</h1>
     </div>
     <br />
     <div>
-      <h3 class="text-h7">
+      <h3 class="text-h6" style="text-align: center; color: black">
         我们的使命是通过人工智能技术和医疗专业知识，为用户提供高质量的医疗问答服务。我们希望通过这个系统，帮助用户解答医疗健康方面的疑问，提供准确的医疗建议和指导。
       </h3>
     </div>
     <q-separator></q-separator>
     <div>
-      <h3 class="text-h5">联系我们</h3>
+      <h3 class="text-h5" style="text-align: center; color: black">联系我们</h3>
     </div>
     <div>
-      <h3 class="text-h7">
+      <h3 class="text-h7" style="text-align: center; color: black">
         如果你对我们的医疗问答系统有任何疑问、建议或合作意向，欢迎与我们联系。你可以通过以下方式与我们取得联系：
       </h3>
 
-      <div>电子邮件：kaadttc@gmail.com <br />电话：18800261307</div>
+      <h3 class="text-h7" style="text-align: center; color: black">
+        <div>电子邮件：kaadttc@gmail.com <br />电话：18800261307</div>
+      </h3>
     </div>
   </div>
-  <div class="text-container">
-    <h2 style="text-align: center; color: white">Our Team</h2>
+  <div class="text-container bg-primary-2">
+    <h2 style="text-align: center; color: black">Our Team</h2>
   </div>
-  <div class="row">
+  <div class="row bg-primary-2">
     <div class="column">
       <div class="card">
-        <img src="/img/bot.jpg" alt="Kaa" style="width: 100%" />
+        <img src="/img/kaa.jpg" alt="Kaa" style="width: 100%" />
         <div class="container">
-          <h2>Jane Doe</h2>
-          <p class="title">CEO & Founder</p>
-          <p>Some text that describes me lorem ipsum ipsum lorem.</p>
-          <p>jane@example.com</p>
+          <h2>汤耀辉</h2>
+          <p class="title">弱小无助的开发者</p>
+          <p>kaadttc@gmail.com</p>
         </div>
       </div>
     </div>
 
     <div class="column">
       <div class="card">
-        <img src="/img/bot.jpg" alt="Mike" style="width: 100%" />
+        <img src="/img/chen.jpg" alt="Mike" style="width: 100%" />
         <div class="container">
-          <h2>Mike Ross</h2>
-          <p class="title">Art Director</p>
-          <p>Some text that describes me lorem ipsum ipsum lorem.</p>
-          <p>mike@example.com</p>
+          <h2>陈旭辉</h2>
+          <p class="title">满腔热血的废物</p>
+          <p>Raschel.Chin@gamil.com</p>
         </div>
       </div>
     </div>
@@ -95,7 +95,6 @@ html {
 .about-section {
   padding: 50px;
   text-align: center;
-  background-color: #add8e6;
   color: white;
 }
 
@@ -135,11 +134,5 @@ html {
     width: 100%;
     display: block;
   }
-}
-.row {
-  background: #add8e6;
-}
-.text-container {
-  background: #add8e6;
 }
 </style>

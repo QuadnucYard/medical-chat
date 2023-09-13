@@ -139,7 +139,8 @@ async function showDeleteConfirmation() {
   });
 }
 function toGroup() {
-  window.location.href = "https://jq.qq.com/?_wv=1027&k=43b8mqv";
+  window.location.href =
+    "http://qm.qq.com/cgi-bin/qm/qr?_wv=1027&k=hAp4a2qh6WwF2GFgK8ZZuBYHYSEZKCm3&authKey=UPNvIpsPZm%2FnH7VA%2BNWk8jk8XESHeJP11f%2FBiAF%2FVD%2BPS0gcaYV7ne5L1PHhf10V&noverify=0&group_code=871493533";
 }
 emitter.on("session-title-changed", ({ id, title }) => {
   const session = sessions.value.find((t) => t.id == id);
