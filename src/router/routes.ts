@@ -8,16 +8,24 @@ const routes: RouteRecordRaw[] = [
     meta: { keepalive: false },
   },
   {
-    path: "/auth/login",
-    name: "login",
-    component: () => import("@/views/login.vue"),
+    path: "/auth",
+    name: "auth",
+    component: () => import("@/views/login/LoginPage.vue"),
     meta: { keepalive: false },
-  },
-  {
-    path: "/auth/register",
-    name: "register",
-    component: () => import("@/views/register.vue"),
-    meta: { keepalive: false },
+    children: [
+      {
+        path: "/auth/login",
+        name: "login",
+        component: () => import("@/views/login/Login.vue"),
+        meta: { keepalive: false },
+      },
+      {
+        path: "/auth/register",
+        name: "register",
+        component: () => import("@/views/login/Register.vue"),
+        meta: { keepalive: false },
+      },
+    ],
   },
   {
     path: "/chat",

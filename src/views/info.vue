@@ -68,27 +68,7 @@
           <q-btn color="primary" @click="update">更新您的信息</q-btn>
         </q-card-actions>
       </q-card>
-    </div>
-    <div class="col-lg-4 col-md-4 col-xs-12 col-sm-12">
-      <q-card class="bg-primary-2 no-shadow" bordered>
-        <q-card-section class="text-center bg-transparent">
-          <q-avatar size="100px" class="shadow-10">
-            <img
-              src="https://img.freepik.com/free-vector/hospital-logo-design-vector-medical-cross_53876-136743.jpg?w=740&t=st=1693359039~exp=1693359639~hmac=e1c4b87396670f03b3fad1745015b3048e9f7224a5785073d789e63ae23c82be"
-            />
-          </q-avatar>
-          <div class="text-subtitle2 q-mt-lg">by MedChat</div>
-          <div class="text-h6 q-mt-md">MedChat</div>
-        </q-card-section>
-        <q-card-section>
-          <div class="text-body2 text-justify">
-            作为医疗问答系统，我是您的个人医疗助手。我旨在为您提供准确、可靠的医疗信息和答案，帮助您解答各种健康问题和疑虑。无论是关于常见疾病、症状解释、治疗选项还是预防措施，我都可以为您提供专业建议和指导。我会根据您提供的症状描述和问题，给出可能的诊断建议，但请注意，这不应替代实际就医和专业医生的意见。
-          </div>
-        </q-card-section>
-      </q-card>
-    </div>
 
-    <div class="col-lg-8 col-md-8 col-xs-12 col-sm-12">
       <q-card class="bg-primary-2 no-shadow" bordered>
         <q-card-section class="text-h6 q-pa-sm">
           <div class="text-h6">更改密码</div>
@@ -129,6 +109,24 @@
         <q-card-actions align="right">
           <q-btn color="primary" @click="updatePassword">更改密码</q-btn>
         </q-card-actions>
+      </q-card>
+    </div>
+    <div class="col-lg-4 col-md-4 col-xs-12 col-sm-12">
+      <q-card class="bg-primary-2 no-shadow" bordered>
+        <q-card-section class="text-center bg-transparent">
+          <q-avatar size="100px" class="shadow-10">
+            <img
+              src="https://img.freepik.com/free-vector/hospital-logo-design-vector-medical-cross_53876-136743.jpg?w=740&t=st=1693359039~exp=1693359639~hmac=e1c4b87396670f03b3fad1745015b3048e9f7224a5785073d789e63ae23c82be"
+            />
+          </q-avatar>
+          <div class="text-subtitle2 q-mt-lg">by MedChat</div>
+          <div class="text-h6 q-mt-md">MedChat</div>
+        </q-card-section>
+        <q-card-section>
+          <div class="text-body2 text-justify">
+            作为医疗问答系统，我是您的个人医疗助手。我旨在为您提供准确、可靠的医疗信息和答案，帮助您解答各种健康问题和疑虑。无论是关于常见疾病、症状解释、治疗选项还是预防措施，我都可以为您提供专业建议和指导。我会根据您提供的症状描述和问题，给出可能的诊断建议，但请注意，这不应替代实际就医和专业医生的意见。
+          </div>
+        </q-card-section>
       </q-card>
     </div>
   </div>
