@@ -17,9 +17,6 @@ dependencies:
   echarts-wordcloud:
     specifier: ^2.1.0
     version: registry.npmmirror.com/echarts-wordcloud@2.1.0(echarts@5.4.3)
-  js-cookie:
-    specifier: ^3.0.5
-    version: registry.npmmirror.com/js-cookie@3.0.5
   lodash-es:
     specifier: ^4.17.21
     version: registry.npmmirror.com/lodash-es@4.17.21
@@ -44,6 +41,9 @@ dependencies:
   vue-clipboard3:
     specifier: ^2.0.0
     version: registry.npmmirror.com/vue-clipboard3@2.0.0
+  vue-cookies:
+    specifier: ^1.8.3
+    version: registry.npmmirror.com/vue-cookies@1.8.3
   vue-echarts:
     specifier: ^6.6.1
     version: registry.npmmirror.com/vue-echarts@6.6.1(echarts@5.4.3)(vue@3.3.4)
@@ -55,9 +55,6 @@ devDependencies:
   '@quasar/vite-plugin':
     specifier: ^1.5.0
     version: registry.npmmirror.com/@quasar/vite-plugin@1.5.0(@vitejs/plugin-vue@4.3.4)(quasar@2.12.6)(vite@4.4.9)(vue@3.3.4)
-  '@types/js-cookie':
-    specifier: ^3.0.3
-    version: registry.npmmirror.com/@types/js-cookie@3.0.3
   '@types/lodash-es':
     specifier: ^4.17.9
     version: registry.npmmirror.com/@types/lodash-es@4.17.9
@@ -755,12 +752,6 @@ packages:
     resolution: {integrity: sha512-Nmh0K3iWQJzniTuPRcJn5hxXkfB1T1pgB89SBig5PlJQU5yocazeu4jATJlaA0GYFKWMqDdvYemoSnF2pXgLVA==, registry: http://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/@types/geojson/-/geojson-7946.0.10.tgz}
     name: '@types/geojson'
     version: 7946.0.10
-    dev: true
-
-  registry.npmmirror.com/@types/js-cookie@3.0.3:
-    resolution: {integrity: sha512-Xe7IImK09HP1sv2M/aI+48a20VX+TdRJucfq4vfRVy6nWN8PYPOEnlMRSgxJAgYQIXJVL8dZ4/ilAM7dWNaOww==, registry: http://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/@types/js-cookie/-/js-cookie-3.0.3.tgz}
-    name: '@types/js-cookie'
-    version: 3.0.3
     dev: true
 
   registry.npmmirror.com/@types/lodash-es@4.17.9:
@@ -1896,13 +1887,6 @@ packages:
     hasBin: true
     dev: true
 
-  registry.npmmirror.com/js-cookie@3.0.5:
-    resolution: {integrity: sha512-cEiJEAEoIbWfCZYKWhVwFuvPX1gETRYPw6LlaTKoxD3s2AkXzkCjnp6h0V77ozyqj0jakteJ4YqDJT830+lVGw==, registry: http://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/js-cookie/-/js-cookie-3.0.5.tgz}
-    name: js-cookie
-    version: 3.0.5
-    engines: {node: '>=14'}
-    dev: false
-
   registry.npmmirror.com/jsonc-parser@3.2.0:
     resolution: {integrity: sha512-gfFQZrcTc8CnKXp6Y4/CBT3fTc0OVuDofpre4aEeEpSBPV5X5v4+Vmx+8snU7RLPrNHPKSgLxGo9YuQzz20o+w==, registry: http://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/jsonc-parser/-/jsonc-parser-3.2.0.tgz}
     name: jsonc-parser
@@ -2785,6 +2769,12 @@ packages:
     version: 2.0.0
     dependencies:
       clipboard: registry.npmmirror.com/clipboard@2.0.11
+    dev: false
+
+  registry.npmmirror.com/vue-cookies@1.8.3:
+    resolution: {integrity: sha512-VBRsyRMVdahBgFfh389TMHPmDdr4URDJNMk4FKSCfuNITs7+jitBDhwyL4RJd3WUsfOYNNjPAkfbehyH9AFuoA==, registry: http://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/vue-cookies/-/vue-cookies-1.8.3.tgz}
+    name: vue-cookies
+    version: 1.8.3
     dev: false
 
   registry.npmmirror.com/vue-demi@0.13.11(vue@3.3.4):
