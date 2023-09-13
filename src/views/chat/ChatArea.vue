@@ -103,7 +103,11 @@ async function onSessionChanged(newValue: int) {
   loading.value = true;
   sessionId.value = newValue;
   const resp = await getSessionDetails(newValue);
-  resp.messages?.sort((a, b) => date.getDateDiff(a.send_time, b.send_time));
+  resp.messages?.sort((a, b) => {
+    const diff = date.getDateDiff(a.send_time, b.send_time);
+    if (diff != 0) return diff;
+    return a.id - b.id;
+  });
   session.value = resp
   loading.value = false;
 }
