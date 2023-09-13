@@ -8,16 +8,24 @@ const routes: RouteRecordRaw[] = [
     meta: { keepalive: false },
   },
   {
-    path: "/auth/login",
-    name: "login",
-    component: () => import("@/views/login.vue"),
+    path: "/auth",
+    name: "auth",
+    component: () => import("@/views/login/LoginPage.vue"),
     meta: { keepalive: false },
-  },
-  {
-    path: "/auth/register",
-    name: "register",
-    component: () => import("@/views/register.vue"),
-    meta: { keepalive: false },
+    children: [
+      {
+        path: "/auth/login",
+        name: "login",
+        component: () => import("@/views/login/Login.vue"),
+        meta: { keepalive: false },
+      },
+      {
+        path: "/auth/register",
+        name: "register",
+        component: () => import("@/views/login/Register.vue"),
+        meta: { keepalive: false },
+      },
+    ],
   },
   {
     path: "/chat",
@@ -47,33 +55,28 @@ const routes: RouteRecordRaw[] = [
   {
     path: "/admin",
     name: "admin",
-    component: () => import("@/views/admin/AdminLayout.vue"),
+    component: () => import("@/layouts/AdminLayout.vue"),
     meta: { keepalive: false },
     children: [
       {
         path: "index",
         name: "index",
-        component: () => import("@/views/admin/content/IndexPage.vue"),
+        component: () => import("@/views/admin/IndexPage.vue"),
       },
       {
-        path: "customer",
-        name: "customer",
-        component: () => import("@/views/admin/content/CustomerPage.vue"),
+        path: "chat",
+        name: "admin-chat",
+        component: () => import("@/views/admin/chat/ChatPage.vue"),
       },
       {
-        path: "business_config",
-        name: "business_config",
-        component: () => import("@/views/admin/content/BusinessConfigPage.vue"),
+        path: "message",
+        name: "admin-message",
+        component: () => import("@/views/admin/chat/MessagePage.vue"),
       },
       {
-        path: "customer_list",
-        name: "customer_list",
-        component: () => import("@/views/admin/content/CustomerList.vue"),
-      },
-      {
-        path: "order",
-        name: "order",
-        component: () => import("@/views/admin/content/OrderPage.vue"),
+        path: "share",
+        name: "admin-share",
+        component: () => import("@/views/admin/chat/SharePage.vue"),
       },
       {
         path: "question",
@@ -91,19 +94,9 @@ const routes: RouteRecordRaw[] = [
         component: () => import("@/views/admin/user/UserPage.vue"),
       },
       {
-        path: "chat",
-        name: "admin-chat",
-        component: () => import("@/views/admin/chat/ChatPage.vue"),
-      },
-      {
-        path: "message",
-        name: "admin-message",
-        component: () => import("@/views/admin/chat/MessagePage.vue"),
-      },
-      {
         path: "complaint",
         name: "admin-complaint",
-        component: () => import("@/views/admin/chat/ComplaintPage.vue"),
+        component: () => import("@/views/admin/user/ComplaintPage.vue"),
       },
       {
         path: "kg",
@@ -111,6 +104,11 @@ const routes: RouteRecordRaw[] = [
         component: () => import("@/views/admin/content/KGViewPage.vue"),
       },
     ],
+  },
+  {
+    path: "/share/:id",
+    name: "share",
+    component: () => import("@/views/Error404.vue"),
   },
   {
     path: "/:catchAll(.*)*",

@@ -1,7 +1,7 @@
 <template>
   <q-chat-message
     :name="getMessageName(messages[0])"
-    :avatar="messages[0].type === MessageType.Answer ? '/chatbot.jpg' : 'default-user.png'"
+    :avatar="messages[0].type === MessageType.Answer ? '/img/chatbot.jpg' : userStore.avatar"
     :stamp="formatDate(messages.at(-1)!.send_time)"
     :sent="messages[0].type === MessageType.Question"
     class="message-container"
@@ -12,7 +12,7 @@
           flat
           round
           push
-          :color="msg.own_feedback?.mark_like ? 'primary' : 'dark'"
+          :color="msg.own_feedback?.mark_like ? 'primary' : 'grey'"
           icon="thumb_up"
           @click="like(msg)"
         />
@@ -20,16 +20,20 @@
           flat
           round
           push
-          :color="msg.own_feedback?.mark_dislike ? 'primary' : 'dark'"
+          :color="msg.own_feedback?.mark_dislike ? 'primary' : 'grey'"
           icon="thumb_down"
           @click="dislike(msg)"
         />
-        <q-btn flat round push color="primary" icon="textsms" @click="comment(msg)" />
+        <q-btn
+          flat
+          round
+          push
+          :color="msg.own_feedback?.content.length ? 'primary' : 'grey'"
+          icon="textsms"
+          @click="comment(msg)"
+        />
       </div>
       <div class="whitespace-pre-wrap leading-5 msg-content" v-html="messageContent(msg)" />
-      <!-- <div class="whitespace-pre-wrap leading-5 msg-content">
-        {{ messageContent(msg) }}
-      </div> -->
     </div>
   </q-chat-message>
 </template>
@@ -39,10 +43,12 @@ import { ChatMessage, ChatFeedback, MessageType } from "@/api/chat";
 import { addFeedback } from "@/api/chat";
 import Message from "@/utils/message";
 import { formatDate } from "@/utils/date-utils";
+import { useUserStore } from "@/store/user";
 
 const props = defineProps<{ messages: ChatMessage[] }>();
 
 const $q = useQuasar();
+const userStore = useUserStore();
 
 function htmlEscape(text: string) {
   return text.replace(/[<>"&]/g, function (match, pos, originalText) {
@@ -63,6 +69,7 @@ function htmlEscape(text: string) {
 
 const messageContent = (msg: ChatMessage) =>
   msg.content
+    .replace(/<a>(.*)<\/a>/, `<a href="https://zh.wikipedia.org/wiki/$1">$1</a>`)
     .split(/<br>|\n/)
     .map((s) => `<p>${s}</p>`)
     .join("");
@@ -98,7 +105,7 @@ async function sendFeedback(msg: ChatMessage, mod: Partial<ChatFeedback>) {
 }
 
 function getMessageName(message: ChatMessage): string {
-  return message.type === MessageType.Answer ? "MedBot" : "Me";
+  return message.type === MessageType.Answer ? "MedBot" : userStore.user?.username ?? "Me";
 }
 </script>
 <style scoped lang="scss">
@@ -108,12 +115,12 @@ function getMessageName(message: ChatMessage): string {
 
 .icon-wrapper {
   position: absolute;
-  left: 10px;
-  bottom: -30px; /* 调整图标与消息之间的水平间距 */
+  left: 100%;
+  bottom: 0;
+  display: flex;
+  align-items: center;
   opacity: 0; /* 初始时将图标隐藏 */
   transition: opacity 0.3s ease; /* 添加平滑过渡效果 */
-  display: flex; /* 将图标容器设置为弹性布局 */
-  align-items: center; /* 垂直居中对齐图标 */
   > .icon {
     margin-right: 10px; /* 调整thumb-up图标与thumb-down图标之间的间距 */
   }

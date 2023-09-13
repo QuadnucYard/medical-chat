@@ -13,7 +13,6 @@
     "axios": "^1.5.0",
     "echarts": "^5.4.3",
     "echarts-wordcloud": "^2.1.0",
-    "js-cookie": "^3.0.5",
     "lodash-es": "^4.17.21",
     "mitt": "^3.0.1",
     "neo4j-driver": "^4.4.11",
@@ -21,12 +20,13 @@
     "popoto": "^4.0.3",
     "quasar": "^2.12.6",
     "vue": "^3.3.4",
+    "vue-clipboard3": "^2.0.0",
+    "vue-cookies": "^1.8.3",
     "vue-echarts": "^6.6.1",
     "vue-router": "^4.2.4"
   },
   "devDependencies": {
     "@quasar/vite-plugin": "^1.5.0",
-    "@types/js-cookie": "^3.0.3",
     "@types/lodash-es": "^4.17.9",
     "@types/node": "^20.6.0",
     "@types/popoto": "^3.0.0",

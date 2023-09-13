@@ -19,8 +19,8 @@ const service = axios.create({
 service.interceptors.request.use(
   (config) => {
     const userStore = useUserStore();
-    if (userStore.user?.token) {
-      config.headers["Authorization"] = userStore.user.token; // 让每个请求携带自定义token
+    if (userStore.token) {
+      config.headers["Authorization"] = userStore.token; // 让每个请求携带自定义token
     }
     // config.headers["Content-Type"] = "application/json";
     return config;
@@ -54,6 +54,7 @@ service.interceptors.response.use(
       return Promise.reject(error);
     }
     if (code === 400) {
+      Message.error(error.response?.data.detail ?? error.message);
     } else if (code === 401) {
       console.log("401 Unauthorized");
       const userStore = useUserStore();

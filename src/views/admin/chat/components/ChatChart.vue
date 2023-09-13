@@ -1,10 +1,12 @@
 <template>
-  <v-chart ref="chartRef" :option="option" />
+  <v-chart ref="chartRef" :option="option" autoresize />
 </template>
 
 <script setup lang="ts">
 import * as echarts from "echarts/core";
 import {
+  TitleComponent,
+  TitleComponentOption,
   DatasetComponent,
   DatasetComponentOption,
   ToolboxComponent,
@@ -23,6 +25,7 @@ import VChart from "vue-echarts";
 import type { ChatStats } from "@/api/chat";
 
 echarts.use([
+  TitleComponent,
   DatasetComponent,
   ToolboxComponent,
   TooltipComponent,
@@ -35,6 +38,7 @@ echarts.use([
 ]);
 
 type EChartsOption = echarts.ComposeOption<
+  | TitleComponentOption
   | DatasetComponentOption
   | ToolboxComponentOption
   | TooltipComponentOption
@@ -49,6 +53,8 @@ const props = defineProps<{ data: ChatStats }>();
 const chartRef = ref<InstanceType<typeof VChart>>();
 
 const option: EChartsOption = {
+  color: ["#0082fc", "#fdd845", "#22ed7c", "#09b0d3", "#1d27c9"],
+  title: { text: "聊天会话消息统计图" },
   tooltip: {
     trigger: "axis",
     axisPointer: {

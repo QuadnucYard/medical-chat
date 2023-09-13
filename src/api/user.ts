@@ -1,4 +1,5 @@
 import { Page, Pagination, castPagination } from "./page";
+import { Role } from "./role";
 import api from "./request";
 
 export interface User {
@@ -13,6 +14,7 @@ export interface User {
   update_time: any;
   is_superuser: boolean;
   valid: boolean;
+  role: Role;
 }
 
 export type UserPartial = Pick<User, "id" | "username" | "avatar_url">;
@@ -24,7 +26,7 @@ export type UserStats = {
   active_today: int;
 };
 
-export async function getUser() {
+export async function getUserMe() {
   return (await api.get<User>("/users/me")).data;
 }
 

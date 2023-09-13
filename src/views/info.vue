@@ -1,21 +1,18 @@
 <template>
-  <div class="row q-col-gutter-sm m-4" style="background-color: lightblue">
+  <div class="row q-col-gutter-sm p-4 bg-primary-1">
     <div class="col-lg-8 col-md-8 col-xs-12 col-sm-12">
-      <q-card class="card-bg-blue text-white no-shadow" bordered v-if="user">
-        <q-btn color="lightblue" label="返回主页" router-link to="/chat" />
-        <q-card-section class="text-h6">
-          <div class="text-h6">更新页面</div>
-          <div class="text-subtitle2">补充信息 帮助我们更好地为您服务！</div>
-        </q-card-section>
+      <q-card class="bg-primary-2 no-shadow" bordered v-if="user">
+        <q-banner rounded class="text-center bg-primary-3">
+          <span class="text-h5"> 更新您的信息</span>
+        </q-banner>
+
         <q-card-section class="q-pa-sm">
           <q-list class="row">
             <q-item class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
               <q-item-section side>
                 <q-btn round @click="uploadState = !uploadState" title="点击上传新头像">
-                  <q-avatar size="200px" class="shadow-2">
-                    <!-- <img v-if="user.avatar_url.length > 0" :src="imgPrefix + user.avatar_url" /> -->
-                    <!-- <img v-else src="/default-user.png" /> -->
-                    <img src="/default-user.png" />
+                  <q-avatar size="100px" class="shadow-2">
+                    <img :src="userStore.avatar" />
                   </q-avatar>
                 </q-btn>
               </q-item-section>
@@ -32,22 +29,22 @@
 
             <q-item class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
               <q-item-section>
-                <q-input dark color="white" dense v-model="user.username" label="您的用户名" readonly />
+                <q-input filled stack dense v-model="user.username" label="您的用户名" readonly />
               </q-item-section>
             </q-item>
             <q-item class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
               <q-item-section>
-                <q-input dark color="blue" dense v-model="user.email" label="您的邮箱" />
+                <q-input filled stack dense v-model="user.email" label="您的邮箱" />
               </q-item-section>
             </q-item>
             <q-item class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
               <q-item-section>
-                <q-input dark color="blue" dense v-model="user.phone" label="您的号码" />
+                <q-input filled stack dense v-model="user.phone" label="您的号码" />
               </q-item-section>
             </q-item>
             <q-item class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
               <q-item-section>
-                <q-input dark color="blue" dense v-model="user.name" label="您的昵称" />
+                <q-input filled stack dense v-model="user.name" label="您的昵称" />
               </q-item-section>
             </q-item>
             <q-item class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
@@ -57,11 +54,9 @@
               <q-item-section>
                 <q-input
                   type="password"
-                  dark
                   dense
-                  outlined
-                  color="white"
-                  round
+                  filled
+                  stack
                   v-model="password_dict.current_password"
                   label="当前密码"
                 />
@@ -70,12 +65,54 @@
           </q-list>
         </q-card-section>
         <q-card-actions align="right">
-          <q-btn class="text-capitalize bg-info text-white" @click="update">更新您的信息</q-btn>
+          <q-btn color="primary" @click="update">更新您的信息</q-btn>
+        </q-card-actions>
+      </q-card>
+
+      <q-card class="bg-primary-2 no-shadow" bordered>
+        <q-card-section class="text-h6 q-pa-sm">
+          <div class="text-h6">更改密码</div>
+        </q-card-section>
+        <q-card-section class="q-pa-sm row">
+          <q-item class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+            <q-item-section> 新密码 </q-item-section>
+          </q-item>
+          <q-item class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
+            <q-item-section>
+              <q-input
+                type="password"
+                dense
+                filled
+                color="blue"
+                stack
+                v-model="password_dict.new_password"
+                label="新密码"
+              />
+            </q-item-section>
+          </q-item>
+          <q-item class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+            <q-item-section> 确认新密码 </q-item-section>
+          </q-item>
+          <q-item class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
+            <q-item-section>
+              <q-input
+                type="password"
+                filled
+                dense
+                stack
+                v-model="password_dict.confirm_new_password"
+                label="确认新密码"
+              />
+            </q-item-section>
+          </q-item>
+        </q-card-section>
+        <q-card-actions align="right">
+          <q-btn color="primary" @click="updatePassword">更改密码</q-btn>
         </q-card-actions>
       </q-card>
     </div>
     <div class="col-lg-4 col-md-4 col-xs-12 col-sm-12">
-      <q-card class="card-bg-rose text-black no-shadow" bordered>
+      <q-card class="bg-primary-2 no-shadow" bordered>
         <q-card-section class="text-center bg-transparent">
           <q-avatar size="100px" class="shadow-10">
             <img
@@ -92,60 +129,16 @@
         </q-card-section>
       </q-card>
     </div>
-
-    <div class="col-lg-8 col-md-8 col-xs-12 col-sm-12">
-      <q-card class="card-bg-blue text-white no-shadow" bordered>
-        <q-card-section class="text-h6 q-pa-sm">
-          <div class="text-h6">更改密码</div>
-        </q-card-section>
-        <q-card-section class="q-pa-sm row">
-          <q-item class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
-            <q-item-section> 新密码 </q-item-section>
-          </q-item>
-          <q-item class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
-            <q-item-section>
-              <q-input
-                type="password"
-                dark
-                dense
-                outlined
-                color="black"
-                round
-                v-model="password_dict.new_password"
-                label="新密码"
-              />
-            </q-item-section>
-          </q-item>
-          <q-item class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
-            <q-item-section> 确认新密码 </q-item-section>
-          </q-item>
-          <q-item class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
-            <q-item-section>
-              <q-input
-                type="password"
-                dark
-                dense
-                outlined
-                round
-                color="black"
-                v-model="password_dict.confirm_new_password"
-                label="确认新密码"
-              />
-            </q-item-section>
-          </q-item>
-        </q-card-section>
-        <q-card-actions align="right">
-          <q-btn class="text-capitalize bg-info text-white" @click="updatePassword">更改密码</q-btn>
-        </q-card-actions>
-      </q-card>
-    </div>
   </div>
   <!-- </q-page> -->
 </template>
 
 <script setup lang="ts">
-import { User, getUser, updateUserMe, updateUserMeAvatar } from "@/api/user";
+import { User, updateUserMe, updateUserMeAvatar } from "@/api/user";
+import { useUserStore } from "@/store/user";
 import Message from "@/utils/message";
+
+const userStore = useUserStore();
 
 const user = ref<User>();
 const password_dict = reactive({
@@ -154,18 +147,12 @@ const password_dict = reactive({
   confirm_new_password: "",
 });
 
-const imgPrefix = import.meta.env.VITE_APP_BASE_API + "/";
 const uploadState = ref(false);
 
 onMounted(async () => {
-  try {
-    user.value = await getUser();
-  } catch (e) {
-    console.log("get user_details error");
-  }
-
-  // hotTopics.value = await getTopics();
+  user.value = await userStore.fetch();
 });
+
 async function update(user_details: any) {
   try {
     Message.info("提交更新信息");
@@ -197,7 +184,7 @@ async function updatePassword(user_details: any) {
   }
 }
 
-async function uploadAvatar(files: File[]) {
+async function uploadAvatar(files: readonly File[]) {
   const file = files[0];
   if (file) {
     user.value = await updateUserMeAvatar(file);
@@ -206,14 +193,8 @@ async function uploadAvatar(files: File[]) {
   } else {
     Message.warning("你没有选择文件！");
   }
+  return { url: "" };
 }
 </script>
 
-<style scoped>
-.card-bg-blue {
-  background-color: lightblue;
-}
-.card-bg-rose {
-  background-color: #d5b2b6;
-}
-</style>
+<style scoped></style>

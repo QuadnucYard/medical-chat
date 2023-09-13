@@ -2,28 +2,27 @@
   <div class="sidebar">
     <q-banner rounded :class="$q.dark.isActive ? 'bg-grey-9' : 'bg-grey-2'" class="h-42">
       <template v-slot:avatar>
-        <img src="/2.png" style="width: 120px; height: 72px" />
+        <img src="/img/hospital-logo.webp" style="height: 50px" />
       </template>
-
-      CatTalk
     </q-banner>
     <q-list bordered separator>
       <q-item
-        v-for="(session, index) in sessions"
-        :key="index"
+        v-for="session in sessions"
+        :key="session.id"
         :class="{ 'q-item-selected': selectedId === session.id }"
         clickable
         v-ripple
         @click="selectSession(session.id)"
       >
         <q-item-section avatar>
-          <q-avatar color="primary" text-color="white" rounded class="small-avatar">
-            <q-icon name="headset_mic" />
+          <q-avatar color="primary-5" text-color="white" rounded class="small-avatar">
+            <q-icon :name="isUserMe(session.user_id) ? 'headset_mic' : 'earbuds'" />
           </q-avatar>
         </q-item-section>
 
         <q-item-section>
-          <q-item-label>{{ session.title }}</q-item-label>
+          <q-item-label v-if="session.title">{{ session.title }}</q-item-label>
+          <q-item-label v-else>新的聊天</q-item-label>
         </q-item-section>
         <q-item-section side>
           <q-btn flat round push icon="delete" size="sm" class="q-ml-xs" @click.stop="deleteIt(session.id)" />
@@ -39,15 +38,6 @@
         </q-item-section>
       </q-item>
 
-      <q-item clickable v-ripple @click="chatSearchDialogRef?.show()">
-        <q-item-section avatar>
-          <q-icon color="primary" name="search" />
-        </q-item-section>
-        <q-item-section>
-          <q-item-label> 查询对话 </q-item-label>
-        </q-item-section>
-      </q-item>
-
       <q-item clickable v-ripple @click="complainDialogRef?.show()">
         <q-item-section avatar>
           <q-icon color="primary" name="send" />
@@ -58,7 +48,6 @@
       </q-item>
     </q-list>
     <q-space />
-    <chat-search-dialog ref="chatSearchDialogRef" />
     <complain-dialog ref="complainDialogRef" />
     <q-space />
 
@@ -72,17 +61,21 @@
 import { ChatSession, addSession, deleteSession, getMySessions } from "@/api/chat";
 import emitter from "@/utils/bus";
 import { Dialog } from "quasar";
-import ChatSearchDialog from "@/components/chat/ChatSearchDialog.vue";
 import ComplainDialog from "@/components/chat/ComplainDialog.vue";
+import { useUserStore } from "@/store/user";
 
 const $router = useRouter();
 const $route = useRoute();
+const userStore = useUserStore();
 
 const sessions = ref<ChatSession[]>([]);
 const selectedId = ref<int | undefined>(undefined);
 
-const chatSearchDialogRef = ref<InstanceType<typeof ChatSearchDialog>>();
 const complainDialogRef = ref<InstanceType<typeof ComplainDialog>>();
+
+const isUserMe = (user_id: int) => {
+  return user_id === userStore.user?.id;
+};
 
 onMounted(async () => {
   try {
@@ -90,7 +83,6 @@ onMounted(async () => {
   } catch (e) {
     console.log("Not logged in");
   }
-  // hotTopics.value = await getTopics();
 });
 
 function selectSession(sessionId: int) {
@@ -101,7 +93,7 @@ function selectSession(sessionId: int) {
 
 async function add() {
   try {
-    const response = await addSession("123");
+    const response = await addSession("");
     sessions.value = await getMySessions();
     selectSession(response.id);
   } catch (error) {
@@ -147,7 +139,8 @@ async function showDeleteConfirmation() {
   });
 }
 function toGroup() {
-  window.location.href = "https://jq.qq.com/?_wv=1027&k=43b8mqv";
+  window.location.href =
+    "http://qm.qq.com/cgi-bin/qm/qr?_wv=1027&k=hAp4a2qh6WwF2GFgK8ZZuBYHYSEZKCm3&authKey=UPNvIpsPZm%2FnH7VA%2BNWk8jk8XESHeJP11f%2FBiAF%2FVD%2BPS0gcaYV7ne5L1PHhf10V&noverify=0&group_code=871493533";
 }
 emitter.on("session-title-changed", ({ id, title }) => {
   const session = sessions.value.find((t) => t.id == id);

@@ -7,7 +7,9 @@
       dense
       placeholder="在此输入消息..."
       @keyup.enter="sendMessage"
-      class="fixed bottom-0 w-1/2 my-custom-input"
+      class="fixed bottom-0"
+      bg-color="grey-4"
+      style="width: calc(100% - 700px)"
     >
       <template v-slot:append>
         <q-btn round dense flat icon="send" @click="sendMessage" />
@@ -30,12 +32,13 @@ const inputMessage = reactive({
 
 async function sendMessage() {
   if (inputMessage.question.trim() === "") return;
-  const response = await sendQuestion(props.session.id, {
+  const payload = {
     question: inputMessage.question.trim(),
     hint: "",
-  });
+  }
   inputMessage.question = "";
   inputMessage.hint = "";
+  const response = await sendQuestion(props.session.id, payload);
   emit("message-sent", response);
 }
 
@@ -47,8 +50,4 @@ function manualSend(question: string) {
 defineExpose({ manualSend });
 </script>
 
-<style scoped>
-.my-custom-input {
-  background-color: #add8e6;
-}
-</style>
+<style scoped></style>
