@@ -1,21 +1,21 @@
 <template>
   <admin-page>
     <div class="row">
-      <div class="col-4 q-pa-sm">
+      <div class="col-4">
         <admin-section-card style="height: 400px">
           <div class="text-h6 text-center">词语</div>
           <q-separator />
           <word-cloud :data="stats.word" :mask-image="image3" />
         </admin-section-card>
       </div>
-      <div class="col-4 q-pa-sm">
+      <div class="col-4">
         <admin-section-card style="height: 400px">
           <div class="text-h6 text-center">意图</div>
           <q-separator />
           <word-cloud :data="stats.intent" :mask-image="image2" />
         </admin-section-card>
       </div>
-      <div class="col-4 q-pa-sm">
+      <div class="col-4">
         <admin-section-card style="height: 400px">
           <div class="text-h6 text-center">实体</div>
           <q-separator />

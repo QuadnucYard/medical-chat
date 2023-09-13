@@ -5,13 +5,14 @@
 <script lang="ts" setup>
 import VChart from "vue-echarts";
 import * as echarts from "echarts/core";
+import { TitleComponent, TitleComponentOption } from "echarts/components";
 import { GaugeChart, GaugeSeriesOption } from "echarts/charts";
 import { CanvasRenderer } from "echarts/renderers";
 import { FeedbackStats } from "@/api/feedback";
 
-echarts.use([GaugeChart, CanvasRenderer]);
+echarts.use([TitleComponent, GaugeChart, CanvasRenderer]);
 
-type EChartsOption = echarts.ComposeOption<GaugeSeriesOption>;
+type EChartsOption = echarts.ComposeOption<TitleComponentOption | GaugeSeriesOption>;
 
 const props = defineProps<{ data: FeedbackStats }>();
 
@@ -39,6 +40,7 @@ const gaugeData = [
 ];
 
 const option: EChartsOption = {
+  title: { text: "聊天反馈率统计图" },
   series: [
     {
       type: "gauge",

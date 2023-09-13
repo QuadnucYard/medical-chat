@@ -6,6 +6,7 @@
 import type { BarSeriesOption } from "echarts/charts";
 import { BarChart } from "echarts/charts";
 import type {
+  TitleComponentOption,
   DatasetComponentOption,
   GridComponentOption,
   LegendComponentOption,
@@ -13,6 +14,7 @@ import type {
   TooltipComponentOption,
 } from "echarts/components";
 import {
+  TitleComponent,
   DatasetComponent,
   GridComponent,
   LegendComponent,
@@ -25,9 +27,19 @@ import { CanvasRenderer } from "echarts/renderers";
 import VChart from "vue-echarts";
 import type { ComplaintStats } from "@/api/complaint";
 
-use([TooltipComponent, ToolboxComponent, DatasetComponent, LegendComponent, GridComponent, BarChart, CanvasRenderer]);
+use([
+  TitleComponent,
+  TooltipComponent,
+  ToolboxComponent,
+  DatasetComponent,
+  LegendComponent,
+  GridComponent,
+  BarChart,
+  CanvasRenderer,
+]);
 
 type EChartsOption = ComposeOption<
+  | TitleComponentOption
   | TooltipComponentOption
   | ToolboxComponentOption
   | DatasetComponentOption
@@ -41,6 +53,7 @@ const props = defineProps<{ data: ComplaintStats }>();
 const chartRef = ref<InstanceType<typeof VChart>>();
 
 const option: EChartsOption = {
+  title: { text: "投诉统计图" },
   tooltip: {
     trigger: "axis",
     axisPointer: {
