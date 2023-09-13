@@ -12,7 +12,7 @@
           flat
           round
           push
-          :color="msg.own_feedback?.mark_like ? 'primary' : 'dark'"
+          :color="msg.own_feedback?.mark_like ? 'primary' : 'grey'"
           icon="thumb_up"
           @click="like(msg)"
         />
@@ -20,7 +20,7 @@
           flat
           round
           push
-          :color="msg.own_feedback?.mark_dislike ? 'primary' : 'dark'"
+          :color="msg.own_feedback?.mark_dislike ? 'primary' : 'grey'"
           icon="thumb_down"
           @click="dislike(msg)"
         />
@@ -28,7 +28,7 @@
           flat
           round
           push
-          :color="msg.own_feedback?.content.length ? 'primary' : 'dark'"
+          :color="msg.own_feedback?.content.length ? 'primary' : 'grey'"
           icon="textsms"
           @click="comment(msg)"
         />
@@ -69,7 +69,7 @@ function htmlEscape(text: string) {
 
 const messageContent = (msg: ChatMessage) =>
   msg.content
-  .replace(/<a>(.*)<\/a>/, `<a href="https://zh.wikipedia.org/wiki/$1">$1</a>`)
+    .replace(/<a>(.*)<\/a>/, `<a href="https://zh.wikipedia.org/wiki/$1">$1</a>`)
     .split(/<br>|\n/)
     .map((s) => `<p>${s}</p>`)
     .join("");
@@ -115,12 +115,12 @@ function getMessageName(message: ChatMessage): string {
 
 .icon-wrapper {
   position: absolute;
-  left: 10px;
-  bottom: -30px; /* 调整图标与消息之间的水平间距 */
+  left: 100%;
+  bottom: 0;
+  display: flex;
+  align-items: center;
   opacity: 0; /* 初始时将图标隐藏 */
   transition: opacity 0.3s ease; /* 添加平滑过渡效果 */
-  display: flex; /* 将图标容器设置为弹性布局 */
-  align-items: center; /* 垂直居中对齐图标 */
   > .icon {
     margin-right: 10px; /* 调整thumb-up图标与thumb-down图标之间的间距 */
   }
