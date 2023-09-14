@@ -1,4 +1,4 @@
-import path from "path";
+import * as path from "path";
 
 import { quasar, transformAssetUrls } from "@quasar/vite-plugin";
 import vue from "@vitejs/plugin-vue";
@@ -72,7 +72,7 @@ export default ({ mode }: ConfigEnv) =>
         "/api": {
           target: loadEnv(mode, process.cwd()).VITE_APP_BASE_API,
           changeOrigin: true,
-          rewrite: path => path.replace(/^\/api/, ""),
+          // rewrite: path => path.replace(/^\/api/, ""),
         },
       },
     },
@@ -85,7 +85,9 @@ export default ({ mode }: ConfigEnv) =>
           manualChunks(id) {
             if (id.includes("node_modules")) {
               const a = id.toString().split("node_modules/");
-              return a[a.length - 1].split("/")[0];
+              return a.at(-1)?.split("/")[0];
+            } else if (id.includes("/")) {
+              return "index";
             }
           },
         },

@@ -1,19 +1,22 @@
-import axios from "./request";
+import api from "./request";
 
-export async function visit(
-  username: string
-): Promise<{ access_token: string; token_type: string; encrypt_salt: string }> {
-  return (await axios.postForm("/auth/visit", { username })).data;
+export interface AccessToken {
+  access_token: string;
+  token_type: string;
 }
 
-export async function login(username: string, password: string): Promise<any> {
-  return (await axios.postForm("/auth/login", { username, password })).data;
+export async function register(username: string, password: string) {
+  return (await api.postForm("/auth/register", { username, password })).data;
 }
 
-export async function getUser(): Promise<any> {
-  return (await axios.get("/user/me")).data;
+export async function login(username: string, password: string) {
+  return (await api.postForm<AccessToken>("/auth/login", { username, password })).data;
 }
 
-export async function logout(): Promise<void> {
-  await axios.post("/auth/logout");
+export async function logout() {
+  return (await api.post("/auth/logout")).data;
+}
+
+export async function auth(admin?: boolean, perm?: string) {
+  return (await api.post("/auth", { admin, perm })).data;
 }

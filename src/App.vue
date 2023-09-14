@@ -12,9 +12,6 @@
   //text-align: center;
   //color: #2c3e50;
   //margin-top: 60px;
-  background-image: url("/bg.jpg");
-  background-size: cover;
-  background-repeat: no-repeat;
   width: 100vw;
   height: 100vh;
 }

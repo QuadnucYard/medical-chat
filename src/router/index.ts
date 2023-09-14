@@ -1,40 +1,44 @@
-import { createRouter, createWebHistory, RouteRecordRaw, Router } from "vue-router";
-import axios from "@/api/request";
 import { useUserStore } from "@/store/user";
-
-const routes: Array<RouteRecordRaw> = [
-  {
-    path: "/",
-    name: "index",
-    component: () => import("@/views/index.vue"),
-    meta: { keepalive: false },
-  },
-  {
-    path: "/auth/login",
-    name: "login",
-    component: () => import("@/views/login.vue"),
-    meta: { keepalive: false },
-  },
-];
+import { RouteRecordRaw, Router, createRouter, createWebHistory } from "vue-router";
+import routes from "./routes";
+import { auth } from "@/api/login";
+import { AxiosError } from "axios";
+import { accessShare } from "@/api/share";
 
 const router: Router = createRouter({
   history: createWebHistory(import.meta.env.VITE_BASE_URL),
   routes,
 });
 
-router.beforeEach((to, from, next) => {
-  console.log("beforeEach", to.meta.requireAuth);
-  if (to.meta.requireAuth) {
+router.beforeEach(async (to, from, next) => {
+  console.log("beforeEach", from, to, to.meta);
+  if (to.path === "/") {
+    next("chat");
+    return;
+  }
+  if (to.name === "share") {
+    try {
+      const share = await accessShare(to.params.id as string);
+      next({ name: "chat" });
+    } catch (e) {
+      next({ name: "404" });
+    }
+    return;
+  }
+  if (to.meta.requireAuth || to.path.startsWith("/admin")) {
     const userStore = useUserStore();
     if (userStore.user) {
-      axios
-        .get("/auth")
-        .then(resp => {
-          if (resp) next();
-        })
-        .catch(err => {
-          next({ name: "login", query: { redirect: to.fullPath } });
-        });
+      try {
+        await auth(to.path.startsWith("/admin"), to.meta.perm as any);
+        next();
+      } catch (e) {
+        const err = e as AxiosError;
+        if (err.response?.status == 400) {
+          next({ name: "404" }); // Pretend that the page is not existent
+        } else {
+          next({ name: "login", query: { redirect: to.fullPath } }); // Need login
+        }
+      }
     } else {
       next({ name: "login", query: { redirect: to.fullPath } });
     }
@@ -45,8 +49,12 @@ router.beforeEach((to, from, next) => {
 
 export default router;
 
-export const createDefaultRouter: (routes: Array<RouteRecordRaw>) => Router = routes =>
+export const createDefaultRouter: (routes: Array<RouteRecordRaw>) => Router = (routes) =>
   createRouter({
     history: createWebHistory(),
     routes,
   });
+
+export function redirectLogin() {
+  router.push({ name: "login", query: { redirect: router.currentRoute.value.fullPath } });
+}
