@@ -56,8 +56,6 @@
   </div>
 </template>
 <script setup lang="ts">
-import { login } from "@/api/login";
-import { getUserMe } from "@/api/user";
 import Message from "@/utils/message";
 import { useUserStore } from "@/store/user";
 
@@ -71,16 +69,8 @@ async function onSubmit() {
   const userStore = useUserStore();
   try {
     Message.info("提交登录信息");
-    // 获取token
-    const { access_token, token_type } = await login(form.username, form.password);
-    console.log("登录成功", access_token, token_type);
-    const token = `${token_type} ${access_token}`;
-    userStore.login({ token }); // 存token
-    // 获取用户
-    const user = await getUserMe();
-    console.log("获取用户", user);
-    userStore.login({ token, user });
-    Message.success(`登录成功！`);
+    await userStore.login(form.username, form.password);
+    Message.success("登录成功！");
 
     if ($route.query.redirect) {
       $router.replace($route.query.redirect as string);
