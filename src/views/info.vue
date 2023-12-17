@@ -129,7 +129,7 @@
 <script setup lang="ts">
 import { updateUserMe, updateUserMeAvatar } from "@/api/user";
 import type { User } from "@/interfaces";
-import { useUserStore } from "@/store/user";
+import { useUserStore } from "@/stores/user";
 import Message from "@/utils/message";
 
 const userStore = useUserStore();

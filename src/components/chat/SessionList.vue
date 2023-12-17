@@ -63,7 +63,7 @@ import { Dialog } from "quasar";
 import { addSession, deleteSession, getMySessions } from "@/api/chat";
 import ComplainDialog from "@/components/chat/ComplainDialog.vue";
 import type { ChatSession } from "@/interfaces";
-import { useUserStore } from "@/store/user";
+import { useUserStore } from "@/stores/user";
 import emitter from "@/utils/bus";
 
 const $router = useRouter();

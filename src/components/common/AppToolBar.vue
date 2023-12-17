@@ -47,7 +47,7 @@
 
 <script lang="ts" setup>
 import { logout } from "@/api/login";
-import { useUserStore } from "@/store/user";
+import { useUserStore } from "@/stores/user";
 import { toLogin } from "@/utils/router-utils";
 
 const $router = useRouter();

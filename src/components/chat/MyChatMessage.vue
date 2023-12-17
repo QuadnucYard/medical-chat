@@ -42,7 +42,7 @@
 import { addFeedback } from "@/api/chat";
 import { MessageType } from "@/enums";
 import type { ChatFeedback, ChatMessage } from "@/interfaces";
-import { useUserStore } from "@/store/user";
+import { useUserStore } from "@/stores/user";
 import { formatDate } from "@/utils/date-utils";
 import Message from "@/utils/message";
 

@@ -11,7 +11,7 @@ import VueCookies from "vue-cookies";
 
 import App from "./App.vue";
 import router from "./router";
-import pinia from "./store";
+import pinia from "./stores";
 import "./styles/app.sass";
 import "./styles/index.scss";
 import "./styles/theme.scss";

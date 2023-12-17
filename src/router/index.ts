@@ -3,7 +3,7 @@ import { RouteRecordRaw, Router, createRouter, createWebHistory } from "vue-rout
 
 import { auth } from "@/api/login";
 import { accessShare } from "@/api/share";
-import { useUserStore } from "@/store/user";
+import { useUserStore } from "@/stores/user";
 
 import routes from "./routes";
 
