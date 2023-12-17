@@ -53,17 +53,18 @@
 </template>
 
 <script setup lang="ts">
+import { date } from "quasar";
+
 import { ChatMessage, ChatSession, MessageType, getSessionDetails, updateTitle } from "@/api/chat";
-import MyChatMessage from "@/components/chat/MyChatMessage.vue";
-import RecommendList from "@/components/chat/RecommendList.vue";
 import ChatHeader from "@/components/chat/ChatHeader.vue";
 import ChatInput from "@/components/chat/ChatInput.vue";
-import ComplainDialog from "@/components/chat/ComplainDialog.vue";
 import ChatNoteDialog from "@/components/chat/ChatNoteDialog.vue";
 import ChatNoteList from "@/components/chat/ChatNoteList.vue";
-import { formatDate } from "@/utils/date-utils";
+import ComplainDialog from "@/components/chat/ComplainDialog.vue";
+import MyChatMessage from "@/components/chat/MyChatMessage.vue";
+import RecommendList from "@/components/chat/RecommendList.vue";
 import emitter from "@/utils/bus";
-import { date } from "quasar";
+import { formatDate } from "@/utils/date-utils";
 
 const sessionId = ref<int | undefined>(undefined);
 const session = ref<ChatSession | undefined>(undefined);
@@ -108,7 +109,7 @@ async function onSessionChanged(newValue: int) {
     if (diff != 0) return diff;
     return a.id - b.id;
   });
-  session.value = resp
+  session.value = resp;
   loading.value = false;
 }
 

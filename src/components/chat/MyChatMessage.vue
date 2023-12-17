@@ -39,11 +39,11 @@
 </template>
 
 <script setup lang="ts">
-import { ChatMessage, ChatFeedback, MessageType } from "@/api/chat";
+import { ChatFeedback, ChatMessage, MessageType } from "@/api/chat";
 import { addFeedback } from "@/api/chat";
-import Message from "@/utils/message";
-import { formatDate } from "@/utils/date-utils";
 import { useUserStore } from "@/store/user";
+import { formatDate } from "@/utils/date-utils";
+import Message from "@/utils/message";
 
 const props = defineProps<{ messages: ChatMessage[] }>();
 

@@ -1,6 +1,6 @@
 import { Page, Pagination, castPagination } from "./page";
-import { Role } from "./role";
 import api from "./request";
+import { Role } from "./role";
 
 export interface User {
   id: int;

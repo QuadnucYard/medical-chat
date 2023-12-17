@@ -1,9 +1,11 @@
-import { useUserStore } from "@/store/user";
-import { RouteRecordRaw, Router, createRouter, createWebHistory } from "vue-router";
-import routes from "./routes";
-import { auth } from "@/api/login";
 import { AxiosError } from "axios";
+import { RouteRecordRaw, Router, createRouter, createWebHistory } from "vue-router";
+
+import { auth } from "@/api/login";
 import { accessShare } from "@/api/share";
+import { useUserStore } from "@/store/user";
+
+import routes from "./routes";
 
 const router: Router = createRouter({
   history: createWebHistory(import.meta.env.VITE_BASE_URL),

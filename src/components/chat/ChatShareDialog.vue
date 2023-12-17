@@ -51,10 +51,11 @@
 </template>
 
 <script setup lang="ts">
-import { ChatSession } from "@/api/chat";
-import Message from "@/utils/message";
-import { createShare, deleteShare } from "@/api/share";
 import useClipboard from "vue-clipboard3";
+
+import { ChatSession } from "@/api/chat";
+import { createShare, deleteShare } from "@/api/share";
+import Message from "@/utils/message";
 
 const { toClipboard } = useClipboard();
 

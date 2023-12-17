@@ -43,6 +43,7 @@
 
 <script setup lang="ts">
 import { ComplaintStats, getComplaintStats } from "@/api/complaint";
+
 import ComplaintChart from "./components/ComplaintChart.vue";
 import ComplaintTable from "./components/ComplaintTable.vue";
 

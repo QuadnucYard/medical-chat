@@ -45,10 +45,10 @@
                   <q-item-label v-if="col.name == 'category'">
                     <q-badge>{{ col.value }}</q-badge>
                   </q-item-label>
-                  <q-item-label v-if="col.name=='content'" >
+                  <q-item-label v-if="col.name == 'content'">
                     <detail-view :text="props.row.content" :limit="30" />
                   </q-item-label>
-                  <q-item-label v-else >{{ col.value }}</q-item-label>
+                  <q-item-label v-else>{{ col.value }}</q-item-label>
                 </q-item-section>
               </q-item>
             </template>
@@ -64,6 +64,8 @@
 </template>
 
 <script setup lang="ts">
+import { QTable } from "quasar";
+
 import { Complaint, getAllComplaints, resolveComplaint } from "@/api/complaint";
 import { Pagination } from "@/api/page";
 import { TablePagination } from "@/typing/quasar";
@@ -71,7 +73,6 @@ import { formatDate } from "@/utils/date-utils";
 import Message from "@/utils/message";
 import { addSSP, makeRequester } from "@/utils/paginating";
 import { columnDefaults } from "@/utils/table-utils";
-import { QTable } from "quasar";
 
 const $q = useQuasar();
 

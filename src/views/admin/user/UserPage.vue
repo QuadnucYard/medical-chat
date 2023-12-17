@@ -46,6 +46,7 @@
 
 <script setup lang="ts">
 import { UserStats, getUserStats } from "@/api/user";
+
 import UserTable from "./components/UserTable.vue";
 
 const stats = ref<UserStats>();

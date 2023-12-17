@@ -58,11 +58,12 @@
 </template>
 
 <script setup lang="ts">
-import { ChatSession, addSession, deleteSession, getMySessions } from "@/api/chat";
-import emitter from "@/utils/bus";
 import { Dialog } from "quasar";
+
+import { ChatSession, addSession, deleteSession, getMySessions } from "@/api/chat";
 import ComplainDialog from "@/components/chat/ComplainDialog.vue";
 import { useUserStore } from "@/store/user";
+import emitter from "@/utils/bus";
 
 const $router = useRouter();
 const $route = useRoute();

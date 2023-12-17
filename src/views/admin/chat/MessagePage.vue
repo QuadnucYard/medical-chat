@@ -85,6 +85,7 @@
 
 <script setup lang="ts">
 import { FeedbackStats, getFeedbackStats } from "@/api/feedback";
+
 import FeedbackChart from "./components/FeedbackChart.vue";
 import FeedbackGauge from "./components/FeedbackGauge.vue";
 import FeedbackTable from "./components/FeedbackTable.vue";

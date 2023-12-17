@@ -28,11 +28,10 @@
 
 <script setup lang="ts">
 import MyChatMessageVue from "@/components/chat/MyChatMessage.vue";
-
-import UIConfig from "@/components/common/UIConfig.vue";
-import AppToolBar from "@/components/common/AppToolBar.vue";
-import SessionList from "@/components/chat/SessionList.vue";
 import MyChatMessage from "@/components/chat/MyChatMessage.vue";
+import SessionList from "@/components/chat/SessionList.vue";
+import AppToolBar from "@/components/common/AppToolBar.vue";
+import UIConfig from "@/components/common/UIConfig.vue";
 
 const leftDrawerOpen = ref(false);
 const rightDrawerOpen = ref(false);

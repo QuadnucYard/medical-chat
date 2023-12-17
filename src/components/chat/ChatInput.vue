@@ -35,7 +35,7 @@ async function sendMessage() {
   const payload = {
     question: inputMessage.question.trim(),
     hint: "",
-  }
+  };
   inputMessage.question = "";
   inputMessage.hint = "";
   const response = await sendQuestion(props.session.id, payload);

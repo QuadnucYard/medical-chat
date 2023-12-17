@@ -57,8 +57,9 @@
 </template>
 
 <script setup lang="ts">
-import { register } from "@/api/login";
 import { Notify } from "quasar";
+
+import { register } from "@/api/login";
 
 const $router = useRouter();
 const $route = useRoute();

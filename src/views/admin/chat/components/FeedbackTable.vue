@@ -32,6 +32,8 @@
 </template>
 
 <script setup lang="ts">
+import { QTable } from "quasar";
+
 import { ChatFeedbackDetailed, getAllFeedbacks } from "@/api/chat";
 import { User, updateUser } from "@/api/user";
 import { TablePagination } from "@/typing/quasar";
@@ -39,7 +41,6 @@ import { formatDate } from "@/utils/date-utils";
 import Message from "@/utils/message";
 import { addSSP, makeRequester } from "@/utils/paginating";
 import { columnDefaults } from "@/utils/table-utils";
-import { QTable } from "quasar";
 
 const columns = columnDefaults(
   [

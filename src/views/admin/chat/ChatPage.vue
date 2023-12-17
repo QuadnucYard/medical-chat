@@ -53,6 +53,7 @@
 
 <script setup lang="ts">
 import { ChatStats, getChatStats } from "@/api/chat";
+
 import ChatChart from "./components/ChatChart.vue";
 import ChatTable from "./components/ChatTable.vue";
 

@@ -56,8 +56,8 @@
   </div>
 </template>
 <script setup lang="ts">
-import Message from "@/utils/message";
 import { useUserStore } from "@/store/user";
+import Message from "@/utils/message";
 
 const $router = useRouter();
 const $route = useRoute();

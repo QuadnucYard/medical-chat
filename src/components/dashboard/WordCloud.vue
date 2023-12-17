@@ -3,13 +3,13 @@
 </template>
 
 <script setup lang="ts">
+import "echarts-wordcloud";
+import { GridComponent, ToolboxComponent, TooltipComponent } from "echarts/components";
+import type { GridComponentOption, ToolboxComponentOption, TooltipComponentOption } from "echarts/components";
 import * as echarts from "echarts/core";
-import { ToolboxComponent, TooltipComponent, GridComponent } from "echarts/components";
-import type { ToolboxComponentOption, TooltipComponentOption, GridComponentOption } from "echarts/components";
 import { UniversalTransition } from "echarts/features";
 import { CanvasRenderer } from "echarts/renderers";
 import VChart from "vue-echarts";
-import "echarts-wordcloud";
 
 echarts.use([ToolboxComponent, TooltipComponent, GridComponent, CanvasRenderer, UniversalTransition]);
 

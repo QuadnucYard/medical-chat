@@ -52,14 +52,7 @@
             </q-item>
             <q-item class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
               <q-item-section>
-                <q-input
-                  type="password"
-                  dense
-                  filled
-                  stack
-                  v-model="password_dict.current_password"
-                  label="当前密码"
-                />
+                <q-input type="password" dense filled stack v-model="password_dict.current_password" label="当前密码" />
               </q-item-section>
             </q-item>
           </q-list>

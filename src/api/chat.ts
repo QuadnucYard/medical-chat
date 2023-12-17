@@ -1,7 +1,7 @@
-import api from "./request";
-import { UserPartial } from "./user";
 import { Page, Pagination, castPagination } from "./page";
+import api from "./request";
 import { SharedLink } from "./share";
+import { UserPartial } from "./user";
 
 export enum MessageType {
   Question = 0,
