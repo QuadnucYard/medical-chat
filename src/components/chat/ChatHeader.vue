@@ -40,8 +40,9 @@
 </template>
 
 <script setup lang="ts">
-import { ChatSession, updateTitle } from "@/api/chat";
+import { updateTitle } from "@/api/chat";
 import ChatShareDialog from "@/components/chat/ChatShareDialog.vue";
+import type { ChatSession } from "@/interfaces";
 import emitter from "@/utils/bus";
 import { formatDate } from "@/utils/date-utils";
 

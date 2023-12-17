@@ -66,9 +66,9 @@
 <script setup lang="ts">
 import { QTable } from "quasar";
 
-import { Complaint, getAllComplaints, resolveComplaint } from "@/api/complaint";
-import { Pagination } from "@/api/page";
-import { TablePagination } from "@/typing/quasar";
+import { getAllComplaints, resolveComplaint } from "@/api/complaint";
+import type { Complaint, Pagination } from "@/interfaces";
+import { TablePagination } from "@/types/quasar";
 import { formatDate } from "@/utils/date-utils";
 import Message from "@/utils/message";
 import { addSSP, makeRequester } from "@/utils/paginating";

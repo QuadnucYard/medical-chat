@@ -44,8 +44,9 @@
 <script setup lang="ts">
 import { QTable } from "quasar";
 
-import { ChatSession, deleteSession, getAllSessions } from "@/api/chat";
-import { TablePagination } from "@/typing/quasar";
+import { deleteSession, getAllSessions } from "@/api/chat";
+import type { ChatSession } from "@/interfaces";
+import { TablePagination } from "@/types/quasar";
 import { formatDate, formatNow } from "@/utils/date-utils";
 import Message from "@/utils/message";
 import { addSSP, makeRequester } from "@/utils/paginating";

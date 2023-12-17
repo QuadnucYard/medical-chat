@@ -62,8 +62,9 @@
 <script setup lang="ts">
 import { QTable } from "quasar";
 
-import { User, getUsers, updateUser } from "@/api/user";
-import { TablePagination } from "@/typing/quasar";
+import { getUsers, updateUser } from "@/api/user";
+import type { User } from "@/interfaces";
+import { TablePagination } from "@/types/quasar";
 import { formatDate } from "@/utils/date-utils";
 import Message from "@/utils/message";
 import { addSSP, makeRequester } from "@/utils/paginating";

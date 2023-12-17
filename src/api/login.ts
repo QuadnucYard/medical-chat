@@ -1,9 +1,6 @@
-import api from "./request";
+import type { AccessToken } from "@/interfaces";
 
-export interface AccessToken {
-  access_token: string;
-  token_type: string;
-}
+import api from "./request";
 
 export async function register(username: string, password: string) {
   return (await api.postForm("/auth/register", { username, password })).data;

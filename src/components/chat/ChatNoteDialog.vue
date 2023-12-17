@@ -18,7 +18,8 @@
 </template>
 
 <script setup lang="ts">
-import { ChatSession, addNote } from "@/api/chat";
+import { addNote } from "@/api/chat";
+import type { ChatSession } from "@/interfaces";
 import Message from "@/utils/message";
 
 const props = defineProps<{ session: ChatSession }>();

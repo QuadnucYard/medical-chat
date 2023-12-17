@@ -60,8 +60,9 @@
 <script setup lang="ts">
 import { Dialog } from "quasar";
 
-import { ChatSession, addSession, deleteSession, getMySessions } from "@/api/chat";
+import { addSession, deleteSession, getMySessions } from "@/api/chat";
 import ComplainDialog from "@/components/chat/ComplainDialog.vue";
+import type { ChatSession } from "@/interfaces";
 import { useUserStore } from "@/store/user";
 import emitter from "@/utils/bus";
 

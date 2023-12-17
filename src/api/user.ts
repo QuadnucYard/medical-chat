@@ -1,30 +1,7 @@
-import { Page, Pagination, castPagination } from "./page";
+import type { Page, Pagination, User, UserStats } from "@/interfaces";
+import { castPagination } from "@/utils/paginating";
+
 import api from "./request";
-import { Role } from "./role";
-
-export interface User {
-  id: int;
-  username: string;
-  email: string;
-  phone: string;
-  name: string;
-  avatar_url: string;
-  create_time: any;
-  login_time: any;
-  update_time: any;
-  is_superuser: boolean;
-  valid: boolean;
-  role: Role;
-}
-
-export type UserPartial = Pick<User, "id" | "username" | "avatar_url">;
-
-export type UserStats = {
-  total: int;
-  register_today: int;
-  login_today: int;
-  active_today: int;
-};
 
 export async function getUserMe() {
   return (await api.get<User>("/users/me")).data;

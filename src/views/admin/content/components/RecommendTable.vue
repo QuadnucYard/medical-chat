@@ -87,15 +87,14 @@
 <script setup lang="ts">
 import { QTable } from "quasar";
 
-import { Pagination } from "@/api/page";
 import {
-  RecommendationMore,
   createRecommendation,
   getAllRecommendations,
   recoverRecommendation,
   removeRecommendation,
 } from "@/api/recommend";
-import { TablePagination } from "@/typing/quasar";
+import type { Pagination, RecommendationMore } from "@/interfaces";
+import { TablePagination } from "@/types/quasar";
 import { formatDate } from "@/utils/date-utils";
 import Message from "@/utils/message";
 import { addSSP, makeRequester } from "@/utils/paginating";

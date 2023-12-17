@@ -1,27 +1,7 @@
-import { Page, Pagination, castPagination } from "./page";
+import type { Complaint, ComplaintStats, Page, Pagination } from "@/interfaces";
+import { castPagination } from "@/utils/paginating";
+
 import api from "./request";
-import { UserPartial } from "./user";
-
-export interface Complaint {
-  category: string;
-  content: string;
-  create_time: string;
-  resolve_time?: string;
-  id: int;
-  user_id: int;
-  admin_id?: int;
-  user: UserPartial;
-  admin?: UserPartial;
-  reply?: string;
-}
-
-export type ComplaintStats = {
-  total: int;
-  total_today: int;
-  resolved: int;
-  resolved_today: int;
-  by_date: { date: string; creation: int; resolution: int }[];
-};
 
 export async function postComplaint(category: string, content: string) {
   return (await api.post<Complaint>("/complaints/", { category, content })).data;

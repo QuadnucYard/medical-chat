@@ -25,10 +25,11 @@
 </template>
 
 <script setup lang="ts">
-import { QuestionStats, getQuestionStats } from "@/api/question";
+import { getQuestionStats } from "@/api/question";
 import imageMask1 from "@/assets/img/cloud1.base64?raw";
 import imageMask2 from "@/assets/img/cloud3.base64?raw";
 import imageMask3 from "@/assets/img/cloud3.base64?raw";
+import type { QuestionStats } from "@/interfaces";
 
 const stats = ref<QuestionStats>({ word: {}, intent: {}, entity: {} });
 

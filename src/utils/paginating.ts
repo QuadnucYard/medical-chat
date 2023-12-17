@@ -1,8 +1,8 @@
 import { QTable } from "quasar";
 import { Ref } from "vue";
 
-import { Page, Pagination } from "@/api/page";
-import { TablePagination, TableRequestProps } from "@/typing/quasar";
+import type { Page, PageParams, Pagination } from "@/interfaces";
+import { TablePagination, TableRequestProps } from "@/types/quasar";
 
 export function addSSP(tableRef: Ref<QTable | undefined>) {
   return () => tableRef.value!.requestServerInteraction();
@@ -38,5 +38,14 @@ export function makeRequester<T>(
       descending: prop.pagination.descending,
     };
     scope.loading.value = false;
+  };
+}
+
+export function castPagination(page: Pagination): PageParams {
+  return {
+    page: page.page,
+    size: page.rowsPerPage,
+    sort_by: page.sortBy,
+    desc: page.descending,
   };
 }

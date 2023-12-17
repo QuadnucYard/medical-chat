@@ -53,8 +53,8 @@
 <script setup lang="ts">
 import useClipboard from "vue-clipboard3";
 
-import { ChatSession } from "@/api/chat";
 import { createShare, deleteShare } from "@/api/share";
+import type { ChatSession } from "@/interfaces";
 import Message from "@/utils/message";
 
 const { toClipboard } = useClipboard();

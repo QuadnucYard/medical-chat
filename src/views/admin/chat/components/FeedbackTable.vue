@@ -34,9 +34,10 @@
 <script setup lang="ts">
 import { QTable } from "quasar";
 
-import { ChatFeedbackDetailed, getAllFeedbacks } from "@/api/chat";
-import { User, updateUser } from "@/api/user";
-import { TablePagination } from "@/typing/quasar";
+import { getAllFeedbacks } from "@/api/chat";
+import { updateUser } from "@/api/user";
+import type { ChatFeedbackDetailed, User } from "@/interfaces";
+import { TablePagination } from "@/types/quasar";
 import { formatDate } from "@/utils/date-utils";
 import Message from "@/utils/message";
 import { addSSP, makeRequester } from "@/utils/paginating";

@@ -19,7 +19,8 @@
 </template>
 
 <script setup lang="ts">
-import { ChatMessage, ChatSession, sendQuestion } from "@/api/chat";
+import { sendQuestion } from "@/api/chat";
+import type { ChatMessage, ChatSession } from "@/interfaces";
 
 const props = defineProps<{ session: ChatSession }>();
 

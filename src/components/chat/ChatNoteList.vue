@@ -24,7 +24,7 @@
 </template>
 
 <script setup lang="ts">
-import { ChatMessage } from "@/api/chat";
+import type { ChatMessage } from "@/interfaces";
 
 const visible = ref(false);
 

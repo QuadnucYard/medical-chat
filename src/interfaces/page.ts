@@ -14,15 +14,13 @@ export interface Page<T> {
 export interface Pagination {
   sortBy: string;
   descending: boolean;
-  page: number;
-  rowsPerPage: number;
+  page: int;
+  rowsPerPage: int;
 }
 
-export function castPagination(page: Pagination) {
-  return {
-    page: page.page,
-    size: page.rowsPerPage,
-    sort_by: page.sortBy,
-    desc: page.descending,
-  };
+export interface PageParams {
+  page: int;
+  size: int;
+  sort_by: string;
+  desc: boolean;
 }

@@ -39,8 +39,9 @@
 </template>
 
 <script setup lang="ts">
-import { ChatFeedback, ChatMessage, MessageType } from "@/api/chat";
 import { addFeedback } from "@/api/chat";
+import { MessageType } from "@/enums";
+import type { ChatFeedback, ChatMessage } from "@/interfaces";
 import { useUserStore } from "@/store/user";
 import { formatDate } from "@/utils/date-utils";
 import Message from "@/utils/message";

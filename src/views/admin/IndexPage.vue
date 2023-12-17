@@ -21,9 +21,10 @@
 </template>
 
 <script setup lang="ts">
-import { ChatStats, getChatStats } from "@/api/chat";
-import { ComplaintStats, getComplaintStats } from "@/api/complaint";
-import { FeedbackStats, getFeedbackStats } from "@/api/feedback";
+import { getChatStats } from "@/api/chat";
+import { getComplaintStats } from "@/api/complaint";
+import { getFeedbackStats } from "@/api/feedback";
+import type { ChatStats, ComplaintStats, FeedbackStats } from "@/interfaces";
 
 import ChatChart from "./chat/components/ChatChart.vue";
 import FeedbackChart from "./chat/components/FeedbackChart.vue";

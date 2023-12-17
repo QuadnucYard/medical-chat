@@ -55,7 +55,7 @@
 <script setup lang="ts">
 import { date } from "quasar";
 
-import { ChatMessage, ChatSession, MessageType, getSessionDetails, updateTitle } from "@/api/chat";
+import { getSessionDetails, updateTitle } from "@/api/chat";
 import ChatHeader from "@/components/chat/ChatHeader.vue";
 import ChatInput from "@/components/chat/ChatInput.vue";
 import ChatNoteDialog from "@/components/chat/ChatNoteDialog.vue";
@@ -63,6 +63,8 @@ import ChatNoteList from "@/components/chat/ChatNoteList.vue";
 import ComplainDialog from "@/components/chat/ComplainDialog.vue";
 import MyChatMessage from "@/components/chat/MyChatMessage.vue";
 import RecommendList from "@/components/chat/RecommendList.vue";
+import { MessageType } from "@/enums";
+import type { ChatMessage, ChatSession } from "@/interfaces";
 import emitter from "@/utils/bus";
 import { formatDate } from "@/utils/date-utils";
 

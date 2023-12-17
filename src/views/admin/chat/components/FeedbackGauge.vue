@@ -9,7 +9,7 @@ import * as echarts from "echarts/core";
 import { CanvasRenderer } from "echarts/renderers";
 import VChart from "vue-echarts";
 
-import { FeedbackStats } from "@/api/feedback";
+import type { FeedbackStats } from "@/interfaces";
 
 echarts.use([TitleComponent, GaugeChart, CanvasRenderer]);
 

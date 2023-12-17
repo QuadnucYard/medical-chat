@@ -26,7 +26,8 @@
 </template>
 
 <script setup lang="ts">
-import { Recommendation, getRecommendations } from "@/api/recommend";
+import { getRecommendations } from "@/api/recommend";
+import type { Recommendation } from "@/interfaces";
 import { formatDateToDay } from "@/utils/date-utils";
 
 const recommends = ref<Recommendation[]>([]);

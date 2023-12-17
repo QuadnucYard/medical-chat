@@ -1,7 +1,8 @@
 import type { VueCookies } from "vue-cookies";
 
 import { login as loginApi } from "@/api/login";
-import { User, getUserMe } from "@/api/user";
+import { getUserMe } from "@/api/user";
+import type { User } from "@/interfaces";
 
 export const useUserStore = defineStore("user", () => {
   const $cookies = inject<VueCookies>("$cookies")!;

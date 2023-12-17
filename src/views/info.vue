@@ -127,7 +127,8 @@
 </template>
 
 <script setup lang="ts">
-import { User, updateUserMe, updateUserMeAvatar } from "@/api/user";
+import { updateUserMe, updateUserMeAvatar } from "@/api/user";
+import type { User } from "@/interfaces";
 import { useUserStore } from "@/store/user";
 import Message from "@/utils/message";
 

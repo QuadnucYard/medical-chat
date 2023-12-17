@@ -23,7 +23,7 @@ import { UniversalTransition } from "echarts/features";
 import { CanvasRenderer } from "echarts/renderers";
 import VChart from "vue-echarts";
 
-import type { FeedbackStats } from "@/api/feedback";
+import type { FeedbackStats } from "@/interfaces";
 
 echarts.use([
   TitleComponent,

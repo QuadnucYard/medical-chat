@@ -1,19 +1,7 @@
-import { Page, Pagination, castPagination } from "./page";
+import type { Page, Pagination, Recommendation, RecommendationMore } from "@/interfaces";
+import { castPagination } from "@/utils/paginating";
+
 import api from "./request";
-import { UserPartial } from "./user";
-
-export interface Recommendation {
-  id: int;
-  title: string;
-  content: string;
-  add_time: string;
-}
-
-export interface RecommendationMore extends Recommendation {
-  remove_time: string;
-  creator: UserPartial;
-  remover: UserPartial;
-}
 
 export async function getRecommendations() {
   return (await api.get<Recommendation[]>("/recommends/")).data;
