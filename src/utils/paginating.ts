@@ -40,12 +40,3 @@ export function makeRequester<T>(
     scope.loading.value = false;
   };
 }
-
-export function castPagination(page: Pagination): PageParams {
-  return {
-    page: page.page,
-    size: page.rowsPerPage,
-    sort_by: page.sortBy,
-    desc: page.descending,
-  };
-}

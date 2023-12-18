@@ -1,7 +1,7 @@
 import type { QuestionStats } from "@/interfaces";
 
-import api from "./request";
+import api from "./api";
 
 export async function getQuestionStats() {
-  return (await api.get<QuestionStats>("/questions/stat")).data;
+  return await api.get<QuestionStats>("/questions/stat");
 }

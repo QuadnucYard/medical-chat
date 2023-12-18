@@ -1,21 +1,19 @@
-import type { Complaint, ComplaintStats, Page, Pagination } from "@/interfaces";
-import { castPagination } from "@/utils/paginating";
+import type { Complaint, ComplaintStats, Pagination } from "@/interfaces";
 
-import api from "./request";
+import api from "./api";
 
 export async function postComplaint(category: string, content: string) {
-  return (await api.post<Complaint>("/complaints/", { category, content })).data;
+  return await api.post<Complaint>("/complaints/", { category, content });
 }
 
 export async function getAllComplaints(page: Pagination, resolved: boolean | null) {
-  const params = castPagination(page);
-  return (await api.get<Page<Complaint>>("/complaints/", { params: { ...params, resolved } })).data;
+  return await api.getPage<Complaint>("/complaints/", page, { resolved });
 }
 
 export async function resolveComplaint(id: int, reply: string) {
-  return (await api.post<Complaint>(`/complaints/${id}`, { reply })).data;
+  return await api.post<Complaint>(`/complaints/${id}`, { reply });
 }
 
 export async function getComplaintStats() {
-  return (await api.get<ComplaintStats>("/complaints/stat")).data;
+  return await api.get<ComplaintStats>("/complaints/stat");
 }

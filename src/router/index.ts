@@ -56,7 +56,3 @@ export const createDefaultRouter: (routes: Array<RouteRecordRaw>) => Router = (r
     history: createWebHistory(),
     routes,
   });
-
-export function redirectLogin() {
-  router.push({ name: "login", query: { redirect: router.currentRoute.value.fullPath } });
-}

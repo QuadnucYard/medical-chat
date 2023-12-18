@@ -1,41 +1,39 @@
-import type { ChatMessage, ChatQuestion, ChatSession, ChatStats, NoteCreate, Page, Pagination } from "@/interfaces";
-import { castPagination } from "@/utils/paginating";
+import type { ChatMessage, ChatQuestion, ChatSession, ChatStats, NoteCreate, Pagination } from "@/interfaces";
 
-import api from "./request";
+import api from "./api";
 
 export async function getMySessions() {
-  return (await api.get<ChatSession[]>("/chat/me")).data;
+  return await api.get<ChatSession[]>("/chat/me");
 }
 
 export async function deleteSession(chat_id: int) {
-  return (await api.delete(`/chat/${chat_id}`)).data;
+  return await api.delete<ChatSession>(`/chat/${chat_id}`);
 }
 
 export async function addSession(title: string) {
-  return (await api.post<ChatSession>("/chat/", { title })).data;
+  return await api.post<ChatSession>("/chat/", { title });
 }
 
 export async function getSessionDetails(chat_id: int) {
-  return (await api.get<ChatSession>(`/chat/${chat_id}`)).data;
+  return await api.get<ChatSession>(`/chat/${chat_id}`);
 }
 
 export async function sendQuestion(chat_id: int, question_data: ChatQuestion) {
-  return (await api.post<ChatMessage[]>(`/chat/${chat_id}`, question_data)).data;
+  return await api.post<ChatMessage[]>(`/chat/${chat_id}`, question_data);
 }
 
 export async function getAllSessions(page: Pagination) {
-  const params = castPagination(page);
-  return (await api.get<Page<ChatSession>>("/chat/", { params })).data;
+  return await api.getPage<ChatSession>("/chat/", page);
 }
 
 export async function updateTitle(chat_id: int, new_title: string) {
-  return (await api.put<ChatSession>(`/chat/${chat_id}`, { title: new_title })).data;
+  return await api.put<ChatSession>(`/chat/${chat_id}`, { title: new_title });
 }
 
 export async function addNote(chat_id: int, note: NoteCreate) {
-  return (await api.post<ChatMessage>(`/chat/${chat_id}/note`, note)).data;
+  return await api.post<ChatMessage>(`/chat/${chat_id}/note`, note);
 }
 
 export async function getChatStats() {
-  return (await api.get<ChatStats>("/chat/stat")).data;
+  return await api.get<ChatStats>("/chat/stat");
 }

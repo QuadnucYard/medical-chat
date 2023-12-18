@@ -1,24 +1,15 @@
-import type {
-  ChatFeedback,
-  ChatFeedbackDetailed,
-  ChatFeedbackUpdate,
-  FeedbackStats,
-  Page,
-  Pagination,
-} from "@/interfaces";
-import { castPagination } from "@/utils/paginating";
+import type { ChatFeedback, ChatFeedbackDetailed, ChatFeedbackUpdate, FeedbackStats, Pagination } from "@/interfaces";
 
-import api from "./request";
+import api from "./api";
 
 export async function addFeedback(feedback_data: ChatFeedbackUpdate) {
-  return (await api.put<ChatFeedback>("/feedbacks/", feedback_data)).data;
+  return await api.put<ChatFeedback>("/feedbacks/", feedback_data);
 }
 
 export async function getAllFeedbacks(page: Pagination) {
-  const params = castPagination(page);
-  return (await api.get<Page<ChatFeedbackDetailed>>("/feedbacks/", { params })).data;
+  return await api.getPage<ChatFeedbackDetailed>("/feedbacks/", page);
 }
 
 export async function getFeedbackStats() {
-  return (await api.get<FeedbackStats>("/feedbacks/stat")).data;
+  return await api.get<FeedbackStats>("/feedbacks/stat");
 }

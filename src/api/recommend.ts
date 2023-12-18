@@ -1,25 +1,23 @@
-import type { Page, Pagination, Recommendation, RecommendationMore } from "@/interfaces";
-import { castPagination } from "@/utils/paginating";
+import type { Pagination, Recommendation, RecommendationMore } from "@/interfaces";
 
-import api from "./request";
+import api from "./api";
 
 export async function getRecommendations() {
-  return (await api.get<Recommendation[]>("/recommends/")).data;
+  return await api.get<Recommendation[]>("/recommends/");
 }
 
 export async function getAllRecommendations(page: Pagination, active?: boolean) {
-  const params = { ...castPagination(page), active };
-  return (await api.get<Page<RecommendationMore>>("/recommends/all", { params })).data;
+  return await api.getPage<RecommendationMore>("/recommends/all", page, { active });
 }
 
 export async function createRecommendation(title: string, content: string) {
-  return (await api.post<RecommendationMore>("/recommends/", { title, content })).data;
+  return await api.post<RecommendationMore>("/recommends/", { title, content });
 }
 
 export async function removeRecommendation(id: int) {
-  return (await api.delete<RecommendationMore>(`/recommends/${id}`)).data;
+  return await api.delete<RecommendationMore>(`/recommends/${id}`);
 }
 
 export async function recoverRecommendation(id: int) {
-  return (await api.put<RecommendationMore>(`/recommends/${id}`)).data;
+  return await api.put<RecommendationMore>(`/recommends/${id}`);
 }
