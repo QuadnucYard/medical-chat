@@ -1,10 +1,10 @@
-import type { Page, Pagination, SharedLink } from "@/interfaces";
+import type { Page, Pagination, SharedLink, SharedLinkCreate } from "@/interfaces";
 import { castPagination } from "@/utils/paginating";
 
 import api from "./request";
 
-export async function createShare(share_data: { chat_id: int; expire_days: int; max_uses: int; readonly: boolean }) {
-  return (await api.post<SharedLink>("/share/", share_data)).data;
+export async function createShare(payload: SharedLinkCreate) {
+  return (await api.post<SharedLink>("/share/", payload)).data;
 }
 
 export async function deleteShare(id: string) {

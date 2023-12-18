@@ -34,9 +34,8 @@
 <script setup lang="ts">
 import { QTable } from "quasar";
 
-import { getAllFeedbacks } from "@/api/chat";
-import { updateUser } from "@/api/user";
-import type { ChatFeedbackDetailed, User } from "@/interfaces";
+import { getAllFeedbacks } from "@/api/feedback";
+import type { ChatFeedbackDetailed } from "@/interfaces";
 import { TablePagination } from "@/types/quasar";
 import { formatDate } from "@/utils/date-utils";
 import Message from "@/utils/message";
@@ -81,11 +80,11 @@ onMounted(addSSP(tableRef));
 const onRequest = makeRequester({ rows, pagination, loading }, getAllFeedbacks);
 
 /*TODO*/
-async function onUpdateEdit(user: User) {
+/* async function onUpdateEdit(user: User) {
   const res = await updateUser(user.id, user);
   Object.assign(user, res);
   Message.success("成功编辑用户信息");
-}
+} */
 </script>
 
 <style scoped></style>

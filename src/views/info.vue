@@ -127,14 +127,12 @@
 </template>
 
 <script setup lang="ts">
-import { updateUserMe, updateUserMeAvatar } from "@/api/user";
-import type { User } from "@/interfaces";
 import { useUserStore } from "@/stores/user";
 import Message from "@/utils/message";
 
 const userStore = useUserStore();
+const { user } = storeToRefs(userStore);
 
-const user = ref<User>();
 const password_dict = reactive({
   current_password: "",
   new_password: "",
@@ -143,45 +141,28 @@ const password_dict = reactive({
 
 const uploadState = ref(false);
 
-onMounted(async () => {
-  user.value = await userStore.fetch();
-});
-
 async function update(user_details: any) {
   try {
     Message.info("提交更新信息");
-    user_details.value = await updateUserMe({
+    user_details.value = await userStore.updateMe({
       email: user_details.email,
       phone: user_details.phone,
       name: user_details.name,
-      password: "root",
-      password2: "root",
     });
     Message.success(`更新成功！`);
   } catch (e) {
     console.log("update error");
   }
 }
+
 async function updatePassword(user_details: any) {
-  try {
-    Message.info("提交更新信息");
-    user_details.value = await updateUserMe({
-      email: user_details.email,
-      phone: user_details.phone,
-      name: user_details.name,
-      password: "root",
-      password2: "root",
-    });
-    Message.success(`更新成功！`);
-  } catch (e) {
-    console.log("update error");
-  }
+  // TODO
 }
 
 async function uploadAvatar(files: readonly File[]) {
   const file = files[0];
   if (file) {
-    user.value = await updateUserMeAvatar(file);
+    await userStore.updateMyAvatar(file);
     Message.success("成功更新头像！");
     uploadState.value = false;
   } else {

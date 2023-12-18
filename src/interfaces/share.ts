@@ -7,3 +7,10 @@ export interface SharedLink {
   valid: boolean;
   id: string;
 }
+
+export interface SharedLinkCreate {
+  chat_id: int;
+  expire_days: int;
+  max_uses: int;
+  readonly: boolean;
+}

@@ -2,7 +2,12 @@
   <q-list bordered separator>
     <q-item-label header>推荐话题</q-item-label>
     <q-separator />
-    <q-item v-for="recommend in recommends" :key="recommend.id" clickable @click="sendRecommend(recommend.title)">
+    <q-item
+      v-for="recommend in recommendStore.recommends"
+      :key="recommend.id"
+      clickable
+      @click="sendRecommend(recommend.title)"
+    >
       <q-item-section avatar>
         <q-btn flat round icon="whatshot" color="red" />
       </q-item-section>
@@ -21,24 +26,16 @@
         <q-item-label caption>{{ formatDateToDay(recommend.add_time) }}</q-item-label>
       </q-item-section>
     </q-item>
-    <!-- <chat-input-dialog ref="chatInputRef" /> -->
   </q-list>
 </template>
 
 <script setup lang="ts">
-import { getRecommendations } from "@/api/recommend";
-import type { Recommendation } from "@/interfaces";
+import { useRecommendStore } from "@/stores/recommend";
 import { formatDateToDay } from "@/utils/date-utils";
 
-const recommends = ref<Recommendation[]>([]);
-
-// const props = defineProps<{}>();
+const recommendStore = useRecommendStore();
 
 const emit = defineEmits<{ send: [string] }>();
-
-onMounted(async () => {
-  recommends.value = await getRecommendations();
-});
 
 function sendRecommend(title: string) {
   emit("send", title);

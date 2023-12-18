@@ -17,6 +17,8 @@ export interface User {
 
 export type UserPartial = Pick<User, "id" | "username" | "avatar_url">;
 
+export type UserUpdate = Pick<User, "email" | "phone" | "name">;
+
 export type UserStats = {
   total: int;
   register_today: int;

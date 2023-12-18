@@ -55,3 +55,8 @@ export type ChatStats = {
   total_messages_yesterday: int;
   by_date: { date: string; total_chats: int; total_messages: int; questions: int; answers: int; notes: int }[];
 };
+
+export interface NoteCreate {
+  content: string;
+  remark: string;
+}

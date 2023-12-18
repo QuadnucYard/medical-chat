@@ -24,6 +24,10 @@ export async function updateUserMeAvatar(user_avatar: File) {
   return (await api.postForm<User>("/users/me/avatar", { file: user_avatar })).data;
 }
 
+export async function updateUserMePassword() {
+  return (await api.postForm<User>("/users/me/pwd")).data;
+}
+
 export async function getUserStats() {
   return (await api.get<UserStats>("/users/stat")).data;
 }

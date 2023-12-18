@@ -55,7 +55,7 @@
 <script setup lang="ts">
 import { date } from "quasar";
 
-import { getSessionDetails, updateTitle } from "@/api/chat";
+import { getSessionDetails } from "@/api/chat";
 import ChatHeader from "@/components/chat/ChatHeader.vue";
 import ChatInput from "@/components/chat/ChatInput.vue";
 import ChatNoteDialog from "@/components/chat/ChatNoteDialog.vue";
@@ -65,6 +65,7 @@ import MyChatMessage from "@/components/chat/MyChatMessage.vue";
 import RecommendList from "@/components/chat/RecommendList.vue";
 import { MessageType } from "@/enums";
 import type { ChatMessage, ChatSession } from "@/interfaces";
+import { useChatStore } from "@/stores/chat";
 import emitter from "@/utils/bus";
 import { formatDate } from "@/utils/date-utils";
 
@@ -74,6 +75,8 @@ const session = ref<ChatSession | undefined>(undefined);
 const inputRef = ref<InstanceType<typeof ChatInput>>();
 const complainDialogRef = ref<InstanceType<typeof ComplainDialog>>();
 const noteDialogRef = ref<InstanceType<typeof ChatNoteDialog>>();
+
+const chatStore = useChatStore();
 
 const drawerRight = ref(true);
 const fabLeft = ref(true);
@@ -115,11 +118,11 @@ async function onSessionChanged(newValue: int) {
   loading.value = false;
 }
 
-function sendMessage(messages: ChatMessage[]) {
+async function sendMessage(messages: ChatMessage[]) {
   session.value?.messages?.push(...messages);
   if (session.value?.title === "") {
     const default_title = messages[0].content.substring(0, 10);
-    updateTitle(session.value.id, default_title);
+    await chatStore.updateTitle(session.value, default_title);
   }
   nextTick(() => {
     dialogContainerRef.value!.scrollTop = dialogContainerRef.value!.scrollHeight;
