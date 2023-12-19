@@ -6,7 +6,7 @@ const config = {
   tabWidth: 2,
   printWidth: 120,
   trailingComma: "es5",
-  importOrder: ["<THIRD_PARTY_MODULES>", "@/(.*)", "^[./]"],
+  importOrder: ["\\.vue$", "<THIRD_PARTY_MODULES>", "@/(.*)", "^[./]"],
   importOrderSeparation: true,
   importOrderSortSpecifiers: true,
   plugins: ["@trivago/prettier-plugin-sort-imports"],

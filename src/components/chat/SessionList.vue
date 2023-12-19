@@ -58,9 +58,10 @@
 </template>
 
 <script setup lang="ts">
+import ComplainDialog from "./ComplainDialog.vue";
+
 import { Dialog } from "quasar";
 
-import ComplainDialog from "@/components/chat/ComplainDialog.vue";
 import { useChatStore } from "@/stores/chat";
 import { useUserStore } from "@/stores/user";
 import emitter from "@/utils/bus";

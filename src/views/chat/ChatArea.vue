@@ -53,16 +53,17 @@
 </template>
 
 <script setup lang="ts">
+import ChatHeader from "./components/ChatHeader.vue";
+import ChatInput from "./components/ChatInput.vue";
+import ChatNoteDialog from "./components/ChatNoteDialog.vue";
+import ChatNoteList from "./components/ChatNoteList.vue";
+import MyChatMessage from "./components/MyChatMessage.vue";
+import RecommendList from "./components/RecommendList.vue";
+import ComplainDialog from "@/components/chat/ComplainDialog.vue";
+
 import { date } from "quasar";
 
 import { getSessionDetails } from "@/api/chat";
-import ChatHeader from "@/components/chat/ChatHeader.vue";
-import ChatInput from "@/components/chat/ChatInput.vue";
-import ChatNoteDialog from "@/components/chat/ChatNoteDialog.vue";
-import ChatNoteList from "@/components/chat/ChatNoteList.vue";
-import ComplainDialog from "@/components/chat/ComplainDialog.vue";
-import MyChatMessage from "@/components/chat/MyChatMessage.vue";
-import RecommendList from "@/components/chat/RecommendList.vue";
 import { MessageType } from "@/enums";
 import type { ChatMessage, ChatSession } from "@/interfaces";
 import { useChatStore } from "@/stores/chat";

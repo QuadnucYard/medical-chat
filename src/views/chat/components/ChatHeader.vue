@@ -40,7 +40,8 @@
 </template>
 
 <script setup lang="ts">
-import ChatShareDialog from "@/components/chat/ChatShareDialog.vue";
+import ChatShareDialog from "./ChatShareDialog.vue";
+
 import type { ChatSession } from "@/interfaces";
 import { useChatStore } from "@/stores/chat";
 import emitter from "@/utils/bus";
