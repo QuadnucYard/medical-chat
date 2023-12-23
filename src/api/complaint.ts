@@ -1,9 +1,9 @@
-import type { Complaint, ComplaintStats, Pagination } from "@/interfaces";
+import type { Complaint, ComplaintCreate, ComplaintStats, Pagination } from "@/interfaces";
 
 import api from "./api";
 
-export async function postComplaint(category: string, content: string) {
-  return await api.post<Complaint>("/complaints/", { category, content });
+export async function postComplaint(complaintCreate: ComplaintCreate) {
+  return await api.post<Complaint>("/complaints/", complaintCreate);
 }
 
 export async function getAllComplaints(page: Pagination, resolved: boolean | null) {

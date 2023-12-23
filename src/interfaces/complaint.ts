@@ -13,6 +13,11 @@ export interface Complaint {
   reply?: string;
 }
 
+export interface ComplaintCreate {
+  category: string;
+  content: string;
+}
+
 export type ComplaintStats = {
   total: int;
   total_today: int;
