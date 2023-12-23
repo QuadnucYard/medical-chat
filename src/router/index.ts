@@ -14,10 +14,6 @@ const router: Router = createRouter({
 
 router.beforeEach(async (to, from, next) => {
   console.log("beforeEach", from, to, to.meta);
-  if (to.path === "/") {
-    next("chat");
-    return;
-  }
   if (to.name === "share") {
     try {
       const share = await accessShare(to.params.id as string);
@@ -29,7 +25,7 @@ router.beforeEach(async (to, from, next) => {
   }
   if (to.meta.requireAuth || to.path.startsWith("/admin")) {
     const userStore = useUserStore();
-    if (userStore.user) {
+    if (userStore.token) {
       try {
         await auth(to.path.startsWith("/admin"), to.meta.perm as any);
         next();

@@ -41,7 +41,7 @@ service.interceptors.response.use(
       return response.data;
     }
   },
-  (error: AxiosError<any>) => {
+  async (error: AxiosError<any>) => {
     console.error(error);
     const code = error.response?.status;
     if (error.toString().includes("Error: timeout")) {
@@ -52,9 +52,8 @@ service.interceptors.response.use(
       Message.error(error.response?.data.detail ?? error.message);
     } else if (code === 401) {
       const userStore = useUserStore();
-      userStore.logout();
-      // location.reload();
       Message.error(error.message);
+      await userStore.logout();
     } else if (code === 403) {
       redirectLogin();
       Message.error(error.response?.data.detail);

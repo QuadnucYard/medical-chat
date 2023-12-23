@@ -10,7 +10,7 @@ export const useUserStore = defineStore("user", () => {
   const token = ref<string | undefined>($cookies.get("token"));
 
   const avatar = computed(() =>
-    user.value && user?.value.avatar_url.length > 0
+    user.value && user.value?.avatar_url?.length > 0
       ? import.meta.env.VITE_APP_BASE_API + "/" + user.value.avatar_url
       : "/img/default-user.png"
   );
