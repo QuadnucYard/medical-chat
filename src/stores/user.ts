@@ -1,7 +1,7 @@
 import * as apiL from "@/api/login";
 import * as api from "@/api/user";
 import { useCookies } from "@/hooks/cookies";
-import type { User, UserUpdate } from "@/interfaces";
+import type { PasswordUpdate, User, UserUpdate } from "@/interfaces";
 
 export const useUserStore = defineStore("user", () => {
   const $cookies = useCookies();
@@ -46,15 +46,16 @@ export const useUserStore = defineStore("user", () => {
 
   const updateMe = async (userUpdate: UserUpdate) => {
     user.value = await api.updateUserMe(userUpdate);
+    $cookies.set("user", user.value);
   };
 
   const updateMyAvatar = async (avatar: File) => {
     user.value = await api.updateUserMeAvatar(avatar);
   };
 
-  /* const updateMyPassword = async () => {
-    
-  } */
+  const updateMyPassword = async (passwordUpdate: PasswordUpdate) => {
+    await apiL.changePassword(passwordUpdate);
+  };
 
   const hasPerm = (name?: string) => {
     return name === undefined || user.value?.role.perms.find((t) => t.name === name) !== undefined;
@@ -64,5 +65,20 @@ export const useUserStore = defineStore("user", () => {
     return user_id === user.value?.id;
   };
 
-  return { user, token, avatar, register, login, logout, fetch, updateMe, updateMyAvatar, hasPerm, isUserMe };
+  fetch();
+
+  return {
+    user,
+    token,
+    avatar,
+    register,
+    login,
+    logout,
+    fetch,
+    updateMe,
+    updateMyAvatar,
+    updateMyPassword,
+    hasPerm,
+    isUserMe,
+  };
 });

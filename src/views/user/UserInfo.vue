@@ -34,74 +34,86 @@
             </q-item>
             <q-item class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
               <q-item-section>
-                <q-input filled stack dense v-model="user.email" label="您的邮箱" />
+                <q-input filled stack dense v-model="userInfo.email" label="您的邮箱" :readonly="!editing" />
               </q-item-section>
             </q-item>
             <q-item class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
               <q-item-section>
-                <q-input filled stack dense v-model="user.phone" label="您的号码" />
+                <q-input filled stack dense v-model="userInfo.phone" label="您的号码" :readonly="!editing" />
               </q-item-section>
             </q-item>
             <q-item class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
               <q-item-section>
-                <q-input filled stack dense v-model="user.name" label="您的昵称" />
-              </q-item-section>
-            </q-item>
-            <q-item class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
-              <q-item-section> 当前密码 </q-item-section>
-            </q-item>
-            <q-item class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
-              <q-item-section>
-                <q-input type="password" dense filled stack v-model="password_dict.current_password" label="当前密码" />
+                <q-input filled stack dense v-model="userInfo.name" label="您的昵称" :readonly="!editing" />
               </q-item-section>
             </q-item>
           </q-list>
         </q-card-section>
         <q-card-actions align="right">
-          <q-btn color="primary" @click="update">更新您的信息</q-btn>
+          <template v-if="editing">
+            <q-btn color="primary" @click="endEditing">确认</q-btn>
+            <q-btn @click="cancelEditing">取消</q-btn>
+          </template>
+          <template v-else>
+            <q-btn color="primary" @click="editing = true">更新信息</q-btn>
+          </template>
         </q-card-actions>
       </q-card>
 
       <q-card class="bg-primary-2 no-shadow" bordered>
-        <q-card-section class="text-h6 q-pa-sm">
-          <div class="text-h6">更改密码</div>
-        </q-card-section>
-        <q-card-section class="q-pa-sm row">
-          <q-item class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
-            <q-item-section> 新密码 </q-item-section>
-          </q-item>
-          <q-item class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
-            <q-item-section>
-              <q-input
-                type="password"
-                dense
-                filled
-                color="blue"
-                stack
-                v-model="password_dict.new_password"
-                label="新密码"
-              />
-            </q-item-section>
-          </q-item>
-          <q-item class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
-            <q-item-section> 确认新密码 </q-item-section>
-          </q-item>
-          <q-item class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
-            <q-item-section>
-              <q-input
-                type="password"
-                filled
-                dense
-                stack
-                v-model="password_dict.confirm_new_password"
-                label="确认新密码"
-              />
-            </q-item-section>
-          </q-item>
-        </q-card-section>
-        <q-card-actions align="right">
-          <q-btn color="primary" @click="updatePassword">更改密码</q-btn>
-        </q-card-actions>
+        <q-form @submit="updatePassword">
+          <q-card-section class="text-h6 q-pa-sm">
+            <div class="text-h6">更改密码</div>
+          </q-card-section>
+          <q-card-section class="q-pa-sm row">
+            <q-item class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+              <q-item-section> 当前密码 </q-item-section>
+            </q-item>
+            <q-item class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
+              <q-item-section>
+                <q-input type="password" dense filled stack v-model="passwordForm.old_password" label="当前密码" />
+              </q-item-section>
+            </q-item>
+            <q-item class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+              <q-item-section> 新密码 </q-item-section>
+            </q-item>
+            <q-item class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
+              <q-item-section>
+                <q-input
+                  type="password"
+                  dense
+                  filled
+                  color="blue"
+                  stack
+                  v-model="passwordForm.new_password"
+                  label="新密码"
+                />
+              </q-item-section>
+            </q-item>
+            <q-item class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+              <q-item-section> 确认新密码 </q-item-section>
+            </q-item>
+            <q-item class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
+              <q-item-section>
+                <q-input
+                  type="password"
+                  filled
+                  dense
+                  stack
+                  v-model="passwordForm.confirm_password"
+                  label="确认新密码"
+                  :rules="[
+                    (val) => passwordForm.new_password.length === 0 || val?.length > 0 || '请输入密码',
+                    (val) => val === passwordForm.new_password || '密码不一致！',
+                  ]"
+                />
+              </q-item-section>
+            </q-item>
+          </q-card-section>
+          <q-card-actions align="right">
+            <q-btn color="primary" type="submit">更改密码</q-btn>
+          </q-card-actions>
+        </q-form>
       </q-card>
     </div>
     <div class="col-lg-4 col-md-4 col-xs-12 col-sm-12">
@@ -133,30 +145,38 @@ import Message from "@/utils/message";
 const userStore = useUserStore();
 const { user } = storeToRefs(userStore);
 
-const password_dict = reactive({
-  current_password: "",
+const editing = ref(false);
+
+const userInfo = reactive({
+  email: user.value?.email || "",
+  phone: user.value?.phone || "",
+  name: user.value?.name || "",
+});
+
+const passwordForm = reactive({
+  old_password: "",
   new_password: "",
-  confirm_new_password: "",
+  confirm_password: "",
 });
 
 const uploadState = ref(false);
 
-async function update(user_details: any) {
-  try {
-    Message.info("提交更新信息");
-    user_details.value = await userStore.updateMe({
-      email: user_details.email,
-      phone: user_details.phone,
-      name: user_details.name,
-    });
-    Message.success(`更新成功！`);
-  } catch (e) {
-    console.log("update error");
-  }
+function cancelEditing() {
+  editing.value = false;
+  userInfo.email = user.value?.email || "";
+  userInfo.phone = user.value?.phone || "";
+  userInfo.name = user.value?.name || "";
 }
 
-async function updatePassword(user_details: any) {
-  // TODO
+async function endEditing() {
+  await userStore.updateMe(userInfo);
+  Message.success("更新成功！");
+  cancelEditing();
+}
+
+async function updatePassword() {
+  await userStore.updateMyPassword(passwordForm);
+  Message.success("成功更改密码！");
 }
 
 async function uploadAvatar(files: readonly File[]) {

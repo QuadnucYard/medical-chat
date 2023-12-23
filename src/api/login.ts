@@ -1,4 +1,4 @@
-import type { AccessToken, User } from "@/interfaces";
+import type { AccessToken, PasswordUpdate, User } from "@/interfaces";
 
 import api from "./api";
 
@@ -16,4 +16,8 @@ export async function logout() {
 
 export async function auth(admin?: boolean, perm?: string) {
   await api.post("/auth", { admin, perm });
+}
+
+export async function changePassword(passwordUpdate: PasswordUpdate) {
+  await api.postForm("/auth/password-change", passwordUpdate);
 }
