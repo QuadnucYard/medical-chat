@@ -3,9 +3,7 @@ import { RouteRecordRaw } from "vue-router";
 const routes: RouteRecordRaw[] = [
   {
     path: "/",
-    name: "index",
-    component: () => import("@/layouts/MainLayout.vue"),
-    meta: { keepalive: false },
+    redirect: "/chat",
   },
   {
     path: "/auth",
@@ -31,7 +29,7 @@ const routes: RouteRecordRaw[] = [
     path: "/chat",
     name: "chat-main",
     component: () => import("@/layouts/MainLayout.vue"),
-    meta: { keepalive: false },
+    meta: { keepalive: false, requireAuth: true },
     children: [
       {
         path: "",
@@ -41,14 +39,12 @@ const routes: RouteRecordRaw[] = [
       {
         path: "/user/info",
         name: "user-info",
-        component: () => import("@/views/info.vue"),
-        meta: { keepalive: false, requireAuth: true },
+        component: () => import("@/views/user/UserInfo.vue"),
       },
       {
         path: "/site/info",
         name: "site-info",
-        component: () => import("@/views/siteinfo.vue"),
-        meta: { keepalive: false, requireAuth: true },
+        component: () => import("@/views/about/SiteInfo.vue"),
       },
     ],
   },

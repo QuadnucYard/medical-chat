@@ -30,8 +30,8 @@
 </template>
 
 <script lang="ts" setup>
-import { appMenu } from "@/store/app-store";
-import { useUserStore } from "@/store/user";
+import { appMenu } from "@/stores/app-store";
+import { useUserStore } from "@/stores/user";
 
 const menus = appMenu().menus;
 const userStore = useUserStore();

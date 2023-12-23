@@ -49,9 +49,8 @@
 </template>
 
 <script lang="ts" setup>
-import { logout } from "@/api/login";
-import { appMenu } from "@/store/app-store";
-import { useUserStore } from "@/store/user";
+import { appMenu } from "@/stores/app-store";
+import { useUserStore } from "@/stores/user";
 
 const $router = useRouter();
 const $route = useRoute();
@@ -83,11 +82,7 @@ const showUserInfo = () => {
 };
 
 async function onLogout() {
-  console.log("logout");
-  await logout();
-  userStore.logout();
+  await userStore.logout();
   $router.push({ name: "login" });
 }
-
-onMounted(userStore.fetch);
 </script>

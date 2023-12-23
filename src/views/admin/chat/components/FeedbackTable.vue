@@ -32,14 +32,15 @@
 </template>
 
 <script setup lang="ts">
-import { ChatFeedbackDetailed, getAllFeedbacks } from "@/api/chat";
-import { User, updateUser } from "@/api/user";
-import { TablePagination } from "@/typing/quasar";
+import { QTable } from "quasar";
+
+import { getAllFeedbacks } from "@/api/feedback";
+import type { ChatFeedbackDetailed } from "@/interfaces";
+import { TablePagination } from "@/types/quasar";
 import { formatDate } from "@/utils/date-utils";
 import Message from "@/utils/message";
 import { addSSP, makeRequester } from "@/utils/paginating";
 import { columnDefaults } from "@/utils/table-utils";
-import { QTable } from "quasar";
 
 const columns = columnDefaults(
   [
@@ -79,11 +80,11 @@ onMounted(addSSP(tableRef));
 const onRequest = makeRequester({ rows, pagination, loading }, getAllFeedbacks);
 
 /*TODO*/
-async function onUpdateEdit(user: User) {
+/* async function onUpdateEdit(user: User) {
   const res = await updateUser(user.id, user);
   Object.assign(user, res);
   Message.success("成功编辑用户信息");
-}
+} */
 </script>
 
 <style scoped></style>

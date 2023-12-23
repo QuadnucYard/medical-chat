@@ -4,29 +4,11 @@
       <q-card-section>
         <div class="text-h6" style="display: flex; align-items: center">
           <span style="flex: 1">您的反馈</span>
-          <q-btn-dropdown color="primary" :label="complain_type" style="margin-left: auto">
+          <q-btn-dropdown color="primary" :label="reportDetail.type" style="margin-left: auto">
             <q-list>
-              <q-item clickable v-close-popup @click="onItemClick('信息不准确')">
+              <q-item v-for="item in reasons" clickable v-close-popup @click="onItemClick(item)">
                 <q-item-section>
-                  <q-item-label>信息不准确</q-item-label>
-                </q-item-section>
-              </q-item>
-
-              <q-item clickable v-close-popup @click="onItemClick('信息不完整')">
-                <q-item-section>
-                  <q-item-label>信息不完整</q-item-label>
-                </q-item-section>
-              </q-item>
-
-              <q-item clickable v-close-popup @click="onItemClick('响应时间长')">
-                <q-item-section>
-                  <q-item-label>响应时间长</q-item-label>
-                </q-item-section>
-              </q-item>
-
-              <q-item clickable v-close-popup @click="onItemClick('其他问题')">
-                <q-item-section>
-                  <q-item-label>其他问题</q-item-label>
+                  <q-item-label>{{ item }}</q-item-label>
                 </q-item-section>
               </q-item>
             </q-list>
@@ -38,7 +20,7 @@
         <q-input
           type="textarea"
           style="min-height=600px"
-          v-model="report_detail.content"
+          v-model="reportDetail.content"
           filled
           color="white"
           @keyup.enter="visible = false"
@@ -57,32 +39,33 @@
 import { postComplaint } from "@/api/complaint";
 import Message from "@/utils/message";
 
+const reasons = ["信息不准确", "信息不完整", "响应时间长", "其他问题"];
+
 const visible = ref(false);
 
-let complain_type = ref("");
-let report_detail = ref({
+const reportDetail = reactive({
+  type: "",
   content: "",
   category: "",
 });
 
 function onItemClick(type: string) {
-  complain_type.value = type;
+  reportDetail.type = type;
 }
 
 async function addComplain() {
-  if (report_detail.value.content) {
-    try {
-      const response = await postComplaint(complain_type.value, report_detail.value.content);
-      Message.success("您的反馈是我们前进的动力");
-      complain_type.value = "";
-      report_detail.value.category = "";
-      report_detail.value.content = "";
-    } catch (error) {
-      Message.error("发送反馈信息失败");
-      console.error("Failed to add complain:", error);
-    }
-  } else {
+  if (!reportDetail.content) {
     Message.warning("请输入完整反馈信息哦");
+    return;
+  }
+  try {
+    const response = await postComplaint(reportDetail);
+    Message.success("您的反馈是我们前进的动力");
+    reportDetail.type = "";
+    reportDetail.category = "";
+    reportDetail.content = "";
+  } catch (error) {
+    Message.error("发送反馈信息失败");
   }
 }
 

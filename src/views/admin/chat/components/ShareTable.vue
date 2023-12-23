@@ -64,15 +64,16 @@
 </template>
 
 <script setup lang="ts">
-import { ChatSession, deleteSession, getAllSessions } from "@/api/chat";
-import { SharedLink, getAllShares, updateShare } from "@/api/share";
-import { TablePagination } from "@/typing/quasar";
+import { QTable } from "quasar";
+import { date } from "quasar";
+
+import { getAllShares, updateShare } from "@/api/share";
+import type { SharedLink } from "@/interfaces";
+import { TablePagination } from "@/types/quasar";
 import { formatDate, formatNow } from "@/utils/date-utils";
 import Message from "@/utils/message";
 import { addSSP, makeRequester } from "@/utils/paginating";
 import { columnDefaults } from "@/utils/table-utils";
-import { QTable } from "quasar";
-import { date } from "quasar";
 
 const columns = columnDefaults(
   [

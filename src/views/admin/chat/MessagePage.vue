@@ -84,7 +84,9 @@
 </template>
 
 <script setup lang="ts">
-import { FeedbackStats, getFeedbackStats } from "@/api/feedback";
+import { getFeedbackStats } from "@/api/feedback";
+import type { FeedbackStats } from "@/interfaces";
+
 import FeedbackChart from "./components/FeedbackChart.vue";
 import FeedbackGauge from "./components/FeedbackGauge.vue";
 import FeedbackTable from "./components/FeedbackTable.vue";

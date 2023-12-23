@@ -42,7 +42,9 @@
 </template>
 
 <script setup lang="ts">
-import { ComplaintStats, getComplaintStats } from "@/api/complaint";
+import { getComplaintStats } from "@/api/complaint";
+import type { ComplaintStats } from "@/interfaces";
+
 import ComplaintChart from "./components/ComplaintChart.vue";
 import ComplaintTable from "./components/ComplaintTable.vue";
 

@@ -3,12 +3,13 @@
 </template>
 
 <script lang="ts" setup>
-import VChart from "vue-echarts";
-import * as echarts from "echarts/core";
-import { TitleComponent, TitleComponentOption } from "echarts/components";
 import { GaugeChart, GaugeSeriesOption } from "echarts/charts";
+import { TitleComponent, TitleComponentOption } from "echarts/components";
+import * as echarts from "echarts/core";
 import { CanvasRenderer } from "echarts/renderers";
-import { FeedbackStats } from "@/api/feedback";
+import VChart from "vue-echarts";
+
+import type { FeedbackStats } from "@/interfaces";
 
 echarts.use([TitleComponent, GaugeChart, CanvasRenderer]);
 

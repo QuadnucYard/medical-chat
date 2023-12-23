@@ -6,7 +6,7 @@
       counter:dense="dense"
       class="title"
       input-class="input-large"
-      @blur="update_title(session.id, session.title)"
+      @blur="updateTitle(session.id, session.title)"
       style="font-size: 28px"
       placeholder="新的聊天"
     >
@@ -40,20 +40,22 @@
 </template>
 
 <script setup lang="ts">
-import { ChatSession, updateTitle } from "@/api/chat";
-import ChatShareDialog from "@/components/chat/ChatShareDialog.vue";
+import ChatShareDialog from "./ChatShareDialog.vue";
+
+import type { ChatSession } from "@/interfaces";
+import { useChatStore } from "@/stores/chat";
 import emitter from "@/utils/bus";
 import { formatDate } from "@/utils/date-utils";
 
 const props = defineProps<{ session: ChatSession }>();
 const chatShareDialogRef = ref<InstanceType<typeof ChatShareDialog>>();
 
-async function update_title(chat_id: int, title: string) {
+const chatStore = useChatStore();
+
+async function updateTitle(chat_id: int, title: string) {
   if (title !== "") {
+    await chatStore.updateTitle(props.session, title);
     emitter.emit("session-title-changed", { id: chat_id, title });
-    const titleWithoutTags = title.replace(/<a>|<\/a>/gi, "");
-    const response = await updateTitle(chat_id, titleWithoutTags);
-    Object.assign(props.session, response);
   }
 }
 </script>

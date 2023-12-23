@@ -60,13 +60,15 @@
 </template>
 
 <script setup lang="ts">
-import { User, getUsers, updateUser } from "@/api/user";
-import { TablePagination } from "@/typing/quasar";
+import { QTable } from "quasar";
+
+import { getUsers, updateUser } from "@/api/user";
+import type { User } from "@/interfaces";
+import { TablePagination } from "@/types/quasar";
 import { formatDate } from "@/utils/date-utils";
 import Message from "@/utils/message";
 import { addSSP, makeRequester } from "@/utils/paginating";
 import { columnDefaults } from "@/utils/table-utils";
-import { QTable } from "quasar";
 
 const columns = columnDefaults(
   [

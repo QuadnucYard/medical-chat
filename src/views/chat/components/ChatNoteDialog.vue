@@ -11,38 +11,41 @@
 
       <q-card-actions align="right" class="text-primary">
         <q-btn flat label="取消" v-close-popup />
-        <q-btn flat label="确认" v-close-popup @click="addBookNote(session.id)" />
+        <q-btn flat label="确认" v-close-popup @click="addBookNote" />
       </q-card-actions>
     </q-card>
   </q-dialog>
 </template>
 
 <script setup lang="ts">
-import { ChatSession, addNote } from "@/api/chat";
+import type { ChatSession } from "@/interfaces";
+import { useChatStore } from "@/stores/chat";
 import Message from "@/utils/message";
 
 const props = defineProps<{ session: ChatSession }>();
 
+const chatStore = useChatStore();
+
 const visible = ref(false);
 
-const noteDetail = ref({
+const noteDetail = reactive({
   content: "",
   remark: "",
 });
 
-async function addBookNote(session_id: int) {
-  if (noteDetail.value.content) {
-    try {
-      const response = await addNote(session_id, noteDetail.value.content, "123");
-      Message.success("添加笔记成功");
-      noteDetail.value.content = "";
-      noteDetail.value.remark = "";
-    } catch (error) {
-      Message.error("添加笔记失败");
-      console.error("Failed to add note:", error);
-    }
-  } else {
+async function addBookNote() {
+  if (!noteDetail.content.trim()) {
     Message.warning("请添加笔记信息哦");
+    return;
+  }
+  try {
+    await chatStore.addNote(props.session, noteDetail);
+    Message.success("添加笔记成功");
+    noteDetail.content = "";
+    noteDetail.remark = "";
+  } catch (error) {
+    Message.error("添加笔记失败");
+    console.error("Failed to add note:", error);
   }
 }
 

@@ -19,9 +19,12 @@
 </template>
 
 <script setup lang="ts">
-import { ChatMessage, ChatSession, sendQuestion } from "@/api/chat";
+import type { ChatMessage, ChatSession } from "@/interfaces";
+import { useChatStore } from "@/stores/chat";
 
 const props = defineProps<{ session: ChatSession }>();
+
+const chatStore = useChatStore();
 
 const emit = defineEmits<{ "message-sent": [ChatMessage[]] }>();
 
@@ -32,13 +35,12 @@ const inputMessage = reactive({
 
 async function sendMessage() {
   if (inputMessage.question.trim() === "") return;
-  const payload = {
+  const response = await chatStore.sendQuestion(props.session, {
     question: inputMessage.question.trim(),
     hint: "",
-  }
+  });
   inputMessage.question = "";
   inputMessage.hint = "";
-  const response = await sendQuestion(props.session.id, payload);
   emit("message-sent", response);
 }
 

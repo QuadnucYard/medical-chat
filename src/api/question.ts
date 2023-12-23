@@ -1,13 +1,7 @@
-import api from "./request";
+import type { QuestionStats } from "@/interfaces";
 
-type Counter = { [key: string]: int };
-
-export type QuestionStats = {
-  word: Counter;
-  intent: Counter;
-  entity: Counter;
-};
+import api from "./api";
 
 export async function getQuestionStats() {
-  return (await api.get<QuestionStats>("/questions/stat")).data;
+  return await api.get<QuestionStats>("/questions/stat");
 }

@@ -22,16 +22,16 @@
       </template>
       <template #top-right>
         <q-btn-toggle
-        v-model="activeFilter"
-        push
-        :toggle-color="resToggleColor"
-        :options="[
-          { label: '活跃', value: true, icon: 'recommend' },
-          { label: '禁用', value: false, icon: 'block' },
-          { label: '全部', value: undefined, icon: 'list' },
-        ]"
-        @update:model-value="onToggleChanged"
-      />
+          v-model="activeFilter"
+          push
+          :toggle-color="resToggleColor"
+          :options="[
+            { label: '活跃', value: true, icon: 'recommend' },
+            { label: '禁用', value: false, icon: 'block' },
+            { label: '全部', value: undefined, icon: 'list' },
+          ]"
+          @update:model-value="onToggleChanged"
+        />
       </template>
       <template v-slot:item="props">
         <div class="q-pa-xs col-xs-12 col-sm-6 col-md-4 col-lg-3 grid-style-transition">
@@ -46,7 +46,7 @@
                     <q-item-label v-if="col.name == 'content'">
                       <detail-view :text="props.row.content" :limit="30" />
                     </q-item-label>
-                    <q-item-label v-else >{{ col.value }}</q-item-label>
+                    <q-item-label v-else>{{ col.value }}</q-item-label>
                   </q-item-section>
                 </q-item>
               </template>
@@ -85,20 +85,20 @@
 </template>
 
 <script setup lang="ts">
-import { Pagination } from "@/api/page";
+import { QTable } from "quasar";
+
 import {
-  RecommendationMore,
   createRecommendation,
   getAllRecommendations,
   recoverRecommendation,
   removeRecommendation,
 } from "@/api/recommend";
-import { TablePagination } from "@/typing/quasar";
+import type { Pagination, RecommendationMore } from "@/interfaces";
+import { TablePagination } from "@/types/quasar";
 import { formatDate } from "@/utils/date-utils";
 import Message from "@/utils/message";
 import { addSSP, makeRequester } from "@/utils/paginating";
 import { columnDefaults } from "@/utils/table-utils";
-import { QTable } from "quasar";
 
 // 点击添加按钮，对话框增加
 

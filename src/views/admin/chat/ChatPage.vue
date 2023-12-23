@@ -52,7 +52,9 @@
 </template>
 
 <script setup lang="ts">
-import { ChatStats, getChatStats } from "@/api/chat";
+import { getChatStats } from "@/api/chat";
+import type { ChatStats } from "@/interfaces";
+
 import ChatChart from "./components/ChatChart.vue";
 import ChatTable from "./components/ChatTable.vue";
 

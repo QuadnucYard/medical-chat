@@ -3,26 +3,27 @@
 </template>
 
 <script setup lang="ts">
-import * as echarts from "echarts/core";
+import { BarChart, BarSeriesOption, LineChart, LineSeriesOption } from "echarts/charts";
 import {
-  TitleComponent,
-  TitleComponentOption,
   DatasetComponent,
   DatasetComponentOption,
-  ToolboxComponent,
-  ToolboxComponentOption,
-  TooltipComponent,
-  TooltipComponentOption,
   GridComponent,
   GridComponentOption,
   LegendComponent,
   LegendComponentOption,
+  TitleComponent,
+  TitleComponentOption,
+  ToolboxComponent,
+  ToolboxComponentOption,
+  TooltipComponent,
+  TooltipComponentOption,
 } from "echarts/components";
-import { LineChart, LineSeriesOption, BarChart, BarSeriesOption } from "echarts/charts";
+import * as echarts from "echarts/core";
 import { UniversalTransition } from "echarts/features";
 import { CanvasRenderer } from "echarts/renderers";
 import VChart from "vue-echarts";
-import type { FeedbackStats } from "@/api/feedback";
+
+import type { FeedbackStats } from "@/interfaces";
 
 echarts.use([
   TitleComponent,

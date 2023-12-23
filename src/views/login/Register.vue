@@ -57,38 +57,23 @@
 </template>
 
 <script setup lang="ts">
-import { register } from "@/api/login";
-import { Notify } from "quasar";
+import { useUserStore } from "@/stores/user";
+import Message from "@/utils/message";
 
 const $router = useRouter();
 const $route = useRoute();
 
+const userStore = useUserStore();
+
 const form = reactive({ username: "", password: "", mail: "", phone: "" });
 let tab = ref("one");
 
-const usernameRules = [(val: string) => val?.length > 0 || "请输入用户名"];
-const passwordRules = [(val: string) => val?.length > 0 || "请输入密码"];
-// const mailRules = [(val: string) => val?.length > 0 || "请输入您的邮箱"];
-
 async function onSubmit1() {
-  try {
-    Notify.create({ type: "info", message: "提交注册信息" });
-    const response = await register(form.username, form.password);
-    const userData = response;
-    if (!userData) {
-      Notify.create({ type: "negative", message: "注册失败" });
-      return;
-    }
-
-    Notify.create({
-      type: "positive",
-      message: `注册成功！`,
-    });
-
-    $router.replace({ name: "login", query: $route.query });
-  } catch (error) {
-    console.log("注册失败", error);
-  }
+  Message.info("提交注册信息");
+  await userStore.register(form.username, form.password);
+  Message.success("注册成功！");
+  toLogin();
+  $router.replace({ name: "login", query: $route.query });
 }
 function onReset() {
   form.username = "";

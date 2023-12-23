@@ -1,22 +1,19 @@
-import { AppFullscreen, Dialog, Notify, Quasar } from "quasar";
-import { createApp } from "vue";
-import App from "./App.vue";
-import router from "./router";
-import pinia from "./store";
-import VueCookies from "vue-cookies";
-
+import "@quasar/extras/material-icons-outlined/material-icons-outlined.css";
 // Import icon libraries
 import "@quasar/extras/material-icons/material-icons.css";
-import "@quasar/extras/material-icons-outlined/material-icons-outlined.css";
-
-// Import Quasar css
-import "quasar/src/css/index.sass";
-
 // Import Popoto css
 import "popoto/dist/popoto.min.css";
+import { AppFullscreen, Dialog, Notify, Quasar } from "quasar";
+// Import Quasar css
+import "quasar/src/css/index.sass";
+import { createApp } from "vue";
+import VueCookies from "vue-cookies";
 
-import "./styles/index.scss";
+import App from "./App.vue";
+import router from "./router";
+import pinia from "./stores";
 import "./styles/app.sass";
+import "./styles/index.scss";
 import "./styles/theme.scss";
 
 const app = createApp(App);

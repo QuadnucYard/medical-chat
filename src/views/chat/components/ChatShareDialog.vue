@@ -11,7 +11,7 @@
           <div class="col-6 q-pa-md">
             <q-select
               v-model="form.expire_days"
-              :options="expire_time_options"
+              :options="['1', '3', '7', '10', '30']"
               label="有效天数"
               dense
               :disable="hasLink"
@@ -20,7 +20,7 @@
           <div class="col-6 q-pa-md">
             <q-select
               v-model="form.max_uses"
-              :options="max_uses_options"
+              :options="['1', '3', '7', '10', '无限']"
               label="最多使用次数"
               dense
               :disable="hasLink"
@@ -51,10 +51,11 @@
 </template>
 
 <script setup lang="ts">
-import { ChatSession } from "@/api/chat";
-import Message from "@/utils/message";
-import { createShare, deleteShare } from "@/api/share";
 import useClipboard from "vue-clipboard3";
+
+import { createShare, deleteShare } from "@/api/share";
+import type { ChatSession } from "@/interfaces";
+import Message from "@/utils/message";
 
 const { toClipboard } = useClipboard();
 
@@ -63,8 +64,6 @@ const props = defineProps<{ session: ChatSession }>();
 const copyBtnRef = ref();
 
 const visible = ref(false);
-const expire_time_options = ["1", "3", "7", "10", "30"];
-const max_uses_options = ["1", "3", "7", "10", "无限"];
 let readonly_model = ref("只可读");
 
 const form = ref({

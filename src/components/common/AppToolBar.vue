@@ -46,8 +46,7 @@
 </template>
 
 <script lang="ts" setup>
-import { logout } from "@/api/login";
-import { useUserStore } from "@/store/user";
+import { useUserStore } from "@/stores/user";
 import { toLogin } from "@/utils/router-utils";
 
 const $router = useRouter();
@@ -57,8 +56,6 @@ const emit = defineEmits<{
   "switch-left": [];
   "switch-right": [];
 }>();
-
-const loggedIn = computed(() => Boolean(userStore.user));
 
 const toAdmin = () => {
   $router.push({ name: "admin" });
@@ -73,11 +70,7 @@ const showSiteInfo = () => {
 };
 
 async function onLogout() {
-  console.log("logout");
-  await logout();
-  userStore.logout();
+  await userStore.logout();
   $router.push({ name: "login" });
 }
-
-onMounted(userStore.fetch);
 </script>

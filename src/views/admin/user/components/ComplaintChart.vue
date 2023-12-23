@@ -6,18 +6,18 @@
 import type { BarSeriesOption } from "echarts/charts";
 import { BarChart } from "echarts/charts";
 import type {
-  TitleComponentOption,
   DatasetComponentOption,
   GridComponentOption,
   LegendComponentOption,
+  TitleComponentOption,
   ToolboxComponentOption,
   TooltipComponentOption,
 } from "echarts/components";
 import {
-  TitleComponent,
   DatasetComponent,
   GridComponent,
   LegendComponent,
+  TitleComponent,
   ToolboxComponent,
   TooltipComponent,
 } from "echarts/components";
@@ -25,7 +25,8 @@ import type { ComposeOption } from "echarts/core";
 import { use } from "echarts/core";
 import { CanvasRenderer } from "echarts/renderers";
 import VChart from "vue-echarts";
-import type { ComplaintStats } from "@/api/complaint";
+
+import type { ComplaintStats } from "@/interfaces";
 
 use([
   TitleComponent,

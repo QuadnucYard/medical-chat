@@ -9,7 +9,7 @@
 
       <q-card-section>
         <q-list bordered separator v-if="notes">
-          <q-item v-for="msg in notes" :key="msg.id" >
+          <q-item v-for="msg in notes" :key="msg.id">
             <q-item-section>{{ msg.content }}</q-item-section>
           </q-item>
         </q-list>
@@ -24,13 +24,15 @@
 </template>
 
 <script setup lang="ts">
-import { ChatMessage } from "@/api/chat";
+import type { ChatMessage } from "@/interfaces";
 
 const visible = ref(false);
 
 const props = defineProps<{ notes?: ChatMessage[] }>();
 
-function show() { visible.value = true; }
+function show() {
+  visible.value = true;
+}
 
 defineExpose({ show });
 </script>

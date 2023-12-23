@@ -4,14 +4,7 @@
       <admin-tool-bar @switch-right="toggleRightDrawer" @switch-left="toggleLeftDrawer" />
     </q-header>
 
-    <q-drawer
-      class="shadow-0"
-      v-model="leftDrawerOpen"
-      show-if-above
-      bordered
-      :width="200"
-      id="left-menu"
-    >
+    <q-drawer class="shadow-0" v-model="leftDrawerOpen" show-if-above bordered :width="200" id="left-menu">
       <admin-left-menu />
     </q-drawer>
 
