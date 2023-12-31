@@ -21,16 +21,16 @@
 </template>
 
 <script setup lang="ts">
-import { getChatStats } from "@/api/chat";
-import { getComplaintStats } from "@/api/complaint";
-import { getFeedbackStats } from "@/api/feedback";
-import type { ChatStats, ComplaintStats, FeedbackStats } from "@/interfaces";
-
 import ChatChart from "./chat/components/ChatChart.vue";
 import FeedbackChart from "./chat/components/FeedbackChart.vue";
 import FeedbackGauge from "./chat/components/FeedbackGauge.vue";
 import QuestionWordclouds from "./content/components/QuestionWordclouds.vue";
 import ComplaintChart from "./user/components/ComplaintChart.vue";
+
+import { getChatStats } from "@/api/chat";
+import { getComplaintStats } from "@/api/complaint";
+import { getFeedbackStats } from "@/api/feedback";
+import type { ChatStats, ComplaintStats, FeedbackStats } from "@/interfaces";
 
 const chatStats = ref<ChatStats>();
 const feedbackStats = ref<FeedbackStats>();

@@ -52,11 +52,11 @@
 </template>
 
 <script setup lang="ts">
-import { getChatStats } from "@/api/chat";
-import type { ChatStats } from "@/interfaces";
-
 import ChatChart from "./components/ChatChart.vue";
 import ChatTable from "./components/ChatTable.vue";
+
+import { getChatStats } from "@/api/chat";
+import type { ChatStats } from "@/interfaces";
 
 const stats = ref<ChatStats>();
 

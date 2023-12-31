@@ -42,11 +42,11 @@
 </template>
 
 <script setup lang="ts">
-import { getComplaintStats } from "@/api/complaint";
-import type { ComplaintStats } from "@/interfaces";
-
 import ComplaintChart from "./components/ComplaintChart.vue";
 import ComplaintTable from "./components/ComplaintTable.vue";
+
+import { getComplaintStats } from "@/api/complaint";
+import type { ComplaintStats } from "@/interfaces";
 
 const stats = ref<ComplaintStats>();
 

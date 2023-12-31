@@ -84,12 +84,12 @@
 </template>
 
 <script setup lang="ts">
-import { getFeedbackStats } from "@/api/feedback";
-import type { FeedbackStats } from "@/interfaces";
-
 import FeedbackChart from "./components/FeedbackChart.vue";
 import FeedbackGauge from "./components/FeedbackGauge.vue";
 import FeedbackTable from "./components/FeedbackTable.vue";
+
+import { getFeedbackStats } from "@/api/feedback";
+import type { FeedbackStats } from "@/interfaces";
 
 const stats = ref<FeedbackStats>();
 

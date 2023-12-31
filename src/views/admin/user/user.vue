@@ -45,10 +45,10 @@
 </template>
 
 <script setup lang="ts">
+import UserTable from "./components/UserTable.vue";
+
 import { getUserStats } from "@/api/user";
 import type { UserStats } from "@/interfaces";
-
-import UserTable from "./components/UserTable.vue";
 
 const stats = ref<UserStats>();
 
