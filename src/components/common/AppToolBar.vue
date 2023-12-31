@@ -58,7 +58,7 @@ const emit = defineEmits<{
 }>();
 
 const toAdmin = () => {
-  $router.push({ name: "admin" });
+  $router.push({ name: "admin-index" });
 };
 
 const showUserInfo = () => {

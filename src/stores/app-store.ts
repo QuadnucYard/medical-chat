@@ -10,7 +10,7 @@ export const appMenu = defineStore("menus", () => {
     {
       icon: "addchart",
       label: "数据统计",
-      children: [{ label: "业务总览", page: "index", icon: "dashboard" }],
+      children: [{ label: "业务总览", page: "admin-index", icon: "dashboard" }],
     },
     {
       icon: "forum",

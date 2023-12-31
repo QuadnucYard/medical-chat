@@ -7,7 +7,6 @@ const routes: RouteRecordRaw[] = [
   },
   {
     path: "/auth",
-    name: "auth",
     component: () => import("@/views/login/LoginPage.vue"),
     meta: { keepalive: false },
     children: [
@@ -27,9 +26,8 @@ const routes: RouteRecordRaw[] = [
   },
   {
     path: "/chat",
-    name: "chat-main",
     component: () => import("@/layouts/MainLayout.vue"),
-    meta: { keepalive: false, requireAuth: true },
+    meta: { keepalive: false, requiresAuth: true },
     children: [
       {
         path: "",
@@ -50,13 +48,12 @@ const routes: RouteRecordRaw[] = [
   },
   {
     path: "/admin",
-    name: "admin",
     component: () => import("@/layouts/AdminLayout.vue"),
-    meta: { keepalive: false },
+    meta: { keepalive: false, requiresAuth: true },
     children: [
       {
-        path: "index",
-        name: "index",
+        path: "",
+        name: "admin-index",
         component: () => import("@/views/admin/IndexPage.vue"),
       },
       {

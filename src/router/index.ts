@@ -1,5 +1,6 @@
 import { AxiosError } from "axios";
-import { RouteRecordRaw, Router, createRouter, createWebHistory } from "vue-router";
+import type { RouteRecordRaw, Router } from "vue-router";
+import { createRouter, createWebHistory } from "vue-router";
 
 import { auth } from "@/api/login";
 import { accessShare } from "@/api/share";
@@ -23,7 +24,7 @@ router.beforeEach(async (to, from, next) => {
     }
     return;
   }
-  if (to.meta.requireAuth || to.path.startsWith("/admin")) {
+  if (to.meta.requiresAuth) {
     const userStore = useUserStore();
     if (userStore.token) {
       try {
